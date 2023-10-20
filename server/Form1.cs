@@ -1,3 +1,4 @@
+using server;
 using System.Drawing.Drawing2D;
 
 namespace reversi
@@ -15,6 +16,7 @@ namespace reversi
         public Form1()
         {
             InitializeComponent();
+            Yama yama = new Yama();
         }
 
         private void button1_Click(object sender, EventArgs e)
