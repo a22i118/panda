@@ -11,8 +11,8 @@ namespace server
         public enum Type
         {
             Manzu,
-            Souzu,
             Pinzu,
+            Souzu,
             Zihai,
         }
 
@@ -28,13 +28,13 @@ namespace server
             Num8,
             Num9,
             
-            Ton=0,
+            Ton,
             Nan,
             Sha,
             Pei,
-            Hak,
-            Hat,
-            Thu,
+            Haku,
+            Hatu,
+            Thun,
         }
 
         Type type_;
