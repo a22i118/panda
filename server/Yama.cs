@@ -36,11 +36,14 @@ namespace server
 
                 }
             }
+            // シャッフルする
             Shuffle();
             
         }
 
-
+        /// <summary>
+        /// シャッフルする関数
+        /// </summary>
         public void Shuffle ()
         {
             for(int i=list.Count -1;i>0;i--) {
@@ -51,6 +54,5 @@ namespace server
                 list[x] = a;
             }
         }
-
     }
 }
