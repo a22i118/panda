@@ -8,5 +8,21 @@ namespace server
 {
     internal class Tehai
     {
+        List<Hai> list = new List<Hai>();
+
+        public Tehai()
+        {
+
+        }
+            
+        
+        public void Add(Hai hai)
+        {
+            list.Add(hai);
+        }
+
+        public void Sort() {
+            list.Sort((a,b) => (int)a.Name- (int)b.Name);
+        }
     }
 }

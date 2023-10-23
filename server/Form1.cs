@@ -7,6 +7,7 @@ namespace reversi
     {
         const int rows = 4;
         const int columns = 4;
+        const int players = 4;
 
         const int YNum = rows;
         const int XNum = columns;
@@ -17,6 +18,33 @@ namespace reversi
         {
             InitializeComponent();
             Yama yama = new Yama();
+            //Tehai tehai = new Tehai();
+            Tehai[] tehais = new Tehai[players];
+
+            for(int i=0; i<players; i++)
+            {
+                tehais[i]= new Tehai();
+            }
+
+            //四人に配る
+            for(int  i=0; i<players; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    tehais[i].Add(yama.List[0]);
+                    yama.List.RemoveAt(0);
+                }
+            }
+            //手配のソート
+            for(int i = 0; i<players; i++)
+            {
+                tehais[i].Sort();
+            }
+            
+
+            
+            //tehai.Add(yama.List[0]);
+            //yama.List.RemoveAt(0);
         }
 
         private void button1_Click(object sender, EventArgs e)

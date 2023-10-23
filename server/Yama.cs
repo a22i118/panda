@@ -9,6 +9,7 @@ namespace server
     internal class Yama
     {
         List<Hai> list = new List<Hai>();
+        public List<Hai> List { get { return list; } }
         public Yama() {
             //list.Add(new Hai(Hai.Type.Pinzu,Hai.Number.Num1));
 
@@ -26,7 +27,7 @@ namespace server
                     }
                     else
                     {
-                        for (int j = 9; j < 16; j++)
+                        for (int j = 0; j < 7; j++)
                         {
 
                             list.Add(new Hai((Hai.Type)i, (Hai.Number)j));
@@ -38,7 +39,6 @@ namespace server
             }
             // シャッフルする
             Shuffle();
-            
         }
 
         /// <summary>
