@@ -20,10 +20,12 @@ namespace reversi
             Yama yama = new Yama();
             //Tehai tehai = new Tehai();
             Tehai[] tehais = new Tehai[players];
+            Kawa[] kawas = new Kawa[players];
 
             for(int i=0; i<players; i++)
             {
                 tehais[i]= new Tehai();
+                kawas[i]= new Kawa();
             }
 
             //四人に配る
@@ -35,16 +37,14 @@ namespace reversi
                     yama.List.RemoveAt(0);
                 }
             }
-            //手配のソート
+            //手牌のソート
             for(int i = 0; i<players; i++)
             {
                 tehais[i].Sort();
             }
-            
-
-            
             //tehai.Add(yama.List[0]);
             //yama.List.RemoveAt(0);
+
         }
 
         private void button1_Click(object sender, EventArgs e)

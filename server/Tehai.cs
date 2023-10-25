@@ -10,10 +10,7 @@ namespace server
     {
         List<Hai> list = new List<Hai>();
 
-        public Tehai()
-        {
-
-        }
+        public Tehai(){ }
             
         
         public void Add(Hai hai)
