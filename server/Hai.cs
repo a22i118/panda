@@ -8,7 +8,7 @@ namespace server
 {
     internal class Hai
     {
-        public enum Type
+        public enum eType
         {
             Manzu,
             Pinzu,
@@ -16,7 +16,7 @@ namespace server
             Zihai,
         }
 
-        public enum Number
+        public enum eNumber
         {
             Num1,
             Num2,
@@ -78,10 +78,10 @@ namespace server
             Thun,
         }
 
-        Type type_;
-        Number num_;
+        eType type_;
+        eNumber num_;
 
-        public Hai(Type type,Number num)
+        public Hai(eType type,eNumber num)
         {
             this.type_ = type;
             this.num_ = num;
@@ -90,6 +90,16 @@ namespace server
         public eName Name
         {
             get { return (eName)((int)type_ * 9 + (int)num_); }
+        }
+
+        public eType Type
+        {
+            get { return type_; }
+        }
+
+        public eNumber Number
+        {
+            get { return num_; }
         }
     }
 }

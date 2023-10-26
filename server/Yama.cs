@@ -21,7 +21,7 @@ namespace server
                         for (int j = 0; j < 9; j++)
                         {
 
-                            list.Add(new Hai((Hai.Type)i, (Hai.Number)j));
+                            list.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
 
                         }
                     }
@@ -30,7 +30,7 @@ namespace server
                         for (int j = 0; j < 7; j++)
                         {
 
-                            list.Add(new Hai((Hai.Type)i, (Hai.Number)j));
+                            list.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
 
                         }
                     }
