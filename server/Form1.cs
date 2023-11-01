@@ -57,8 +57,8 @@ namespace reversi
             hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
             hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
             
-            CheckTehai checkTehai = new CheckTehai(hais);
-//            checkTehai.Check(hais);
+            AtariList ataritehai = new AtariList(hais);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
