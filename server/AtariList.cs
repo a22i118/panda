@@ -10,32 +10,44 @@ namespace server
     {
         private List<Toitsu> toitsu =new List<Toitsu>();
         private List<Kotsu> kotsus =new List<Kotsu>();
-        private List<Hai> hais;
+        //private List<Hai> hais;
+        private CheckTehai checkTehai = new checkTehai(Tehai tehai);
+        //private CheckTehai checkTehai = new checkTehai(CheckTehai checkTehai);
 
-        public AtariList(List<Hai> hais) {
-            this.hais = new List<Hai>(hais);
+        public AtariList(Tehai tehai) {
+            this.checkTehai = new CheckTehai(tehai);
 
-            check(this.hais,false);
+            check(this.checkTehai,false);
 
         }
 
-        private void check(List<Hai> hais,bool isToitsu)
+        private void check(CheckTehai checkTehai, bool isToitsu)
         {
-            
+            CheckTehai tmp = checkTehai.AddToitsu(isToitsu);
 
-            if(!isToitsu && hais.Count>=2&&   hais[0].Name == hais[1].Name){
+            if (tmp != null)
+            {
+                check(tmp, true);
+            }
+
+#if false
+            if (!isToitsu && hais.Count>=2&&   hais[0].Name == hais[1].Name){
                 toitsu.Add(new Toitsu(hais[0], hais[1]));
 
-                List<Hai> tmp=new List<Hai>(hais);
+                //List<Hai> tmp=new List<Hai>(hais);
+                CheckTehai tmp = new CheckTehai (checkTehai);
                 tmp.Remove(hais[0]);
                 tmp.Remove(hais[1]);
 
                 check(tmp,true);
             }
+#endif
+ 
             if(hais.Count>=3 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name)
             {
                 kotsus.Add(new Kotsu(hais[0], hais[1], hais[2]));
-                List<Hai> tmp = new List<Hai>(hais);
+                //List<Hai> tmp = new List<Hai>(hais);
+                CheckTehai tmp = new CheckTehai (checkTehai);
                 tmp.Remove(hais[0]);
                 tmp.Remove(hais[1]);
                 tmp.Remove(hais[2]);
@@ -52,7 +64,8 @@ namespace server
                 int idx2 = hais.FindIndex(a => a.Type == type && a.Number == number + 2);
                 if(idx1 >=0 &&  idx2 >=0)
                 {
-                    List<Hai> tmp = new List<Hai>(hais);
+                    //List<Hai> tmp = new List<Hai>(hais);
+                    CheckTehai tmp = new CheckTehai (checkTehai);
                     tmp.Remove(hais[idx2]);
                     tmp.Remove(hais[idx1]);
                     tmp.Remove(hais[0]);
