@@ -8,26 +8,45 @@ namespace server
 {
     internal class AtariList
     {
-        private List<Toitsu> toitsu =new List<Toitsu>();
-        private List<Kotsu> kotsus =new List<Kotsu>();
+        private List<Toitsu> toitsu = new List<Toitsu>();
+        private List<Kotsu> kotsu = new List<Kotsu>();
         //private List<Hai> hais;
-        private CheckTehai checkTehai = new checkTehai(Tehai tehai);
-        //private CheckTehai checkTehai = new checkTehai(CheckTehai checkTehai);
-
+        private CheckTehai checkTehai;
+        
         public AtariList(Tehai tehai) {
             this.checkTehai = new CheckTehai(tehai);
 
-            check(this.checkTehai,false);
+            check(this.checkTehai, false);
 
         }
 
         private void check(CheckTehai checkTehai, bool isToitsu)
         {
-            CheckTehai tmp = checkTehai.AddToitsu(isToitsu);
-
-            if (tmp != null)
             {
-                check(tmp, true);
+                CheckTehai tmp = checkTehai.AddToitsu(isToitsu);
+
+                if (tmp != null)
+                {
+                    check(tmp, true);
+                }
+            }
+
+            {
+                CheckTehai tmp = checkTehai.AddKotsu();
+
+                if (tmp != null)
+                {
+                    check(tmp, isToitsu);
+                }
+            }
+
+            {
+                CheckTehai tmp = checkTehai.AddShuntsu();
+
+                if (tmp != null)
+                {
+                    check(tmp, isToitsu);
+                }
             }
 
 #if false
@@ -42,7 +61,7 @@ namespace server
                 check(tmp,true);
             }
 #endif
- 
+#if false
             if(hais.Count>=3 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name)
             {
                 kotsus.Add(new Kotsu(hais[0], hais[1], hais[2]));
@@ -54,7 +73,8 @@ namespace server
 
                 check(tmp,isToitsu);
             }
-
+#endif
+#if false
             if (hais.Count >= 3)
             {
                 Hai.eType type = hais[0].Type;
@@ -73,8 +93,9 @@ namespace server
                     check(tmp,isToitsu);
                 }
             }
+#endif
+
 
         }
-
     }
 }

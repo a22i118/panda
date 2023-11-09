@@ -12,8 +12,9 @@ namespace server
         private List<Kotsu> kotsu = new List<Kotsu>();
         private List<Shuntsu> shuntsu = new List<Shuntsu>();
         private List<Hai> hais;
-        public CheckTehai(Tehai tehai) {
-            this.hais = new List<Hai> (tehai.List);
+        public CheckTehai(Tehai tehai)
+        {
+            this.hais = new List<Hai>(tehai.List);
         }
 
         public CheckTehai(CheckTehai checkTehai)
@@ -37,7 +38,7 @@ namespace server
             return null;
         }
 
-        public CheckTehai AddKostu(bool isKostu)
+        public CheckTehai AddKotsu()
         {
             if (hais.Count >= 3 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name)
             {
@@ -47,10 +48,34 @@ namespace server
                 tmp.hais.RemoveAt(2);
                 tmp.hais.RemoveAt(1);
                 tmp.hais.RemoveAt(0);
-                
-                
 
+                return tmp;
             }
+
+            return null;
+        }
+
+        public CheckTehai AddShuntsu()
+        {
+            if (hais.Count >= 3)
+            {
+                Hai.eType type = hais[0].Type;
+                Hai.eNumber number = hais[0].Number;
+
+                int idx1 = hais.FindIndex(a => a.Type == type && a.Number == number + 1);
+                int idx2 = hais.FindIndex(a => a.Type == type && a.Number == number + 2);
+                if (idx1 >= 0 && idx2 >= 0)
+                {
+                    CheckTehai tmp = new CheckTehai(this);
+                    
+                    tmp.hais.Remove(hais[idx2]);
+                    tmp.hais.Remove(hais[idx1]);
+                    tmp.hais.Remove(hais[0]);
+
+                    return tmp;
+                }
+            }
+            return null;
         }
     }
 }
