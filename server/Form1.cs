@@ -47,21 +47,29 @@ namespace reversi
 
             //tehai.Add(yama.List[0]);
             //yama.List.RemoveAt(0);
-            List<Hai> hais = new List<Hai>();
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            List<Hai> tehai = new List<Hai>();
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
 
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
 
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            hais.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
 
-            //AtariList ataritehai = new AtariList(tehai);
-            CheckTehai cecktehai = new CheckTehai(tehai);
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num3));
+
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+
+
+            AtariList ataritehai = new AtariList(tehai);
+            
 
         }
 
