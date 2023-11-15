@@ -47,7 +47,7 @@ namespace reversi
 
             //tehai.Add(yama.List[0]);
             //yama.List.RemoveAt(0);
-            List<Hai> tehai = new List<Hai>();
+            Tehai tehai = new Tehai();
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
@@ -68,7 +68,7 @@ namespace reversi
             tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
 
 
-            AtariList ataritehai = new AtariList(tehai);
+            AtariList atariList = new AtariList(tehai);
             
 
         }
