@@ -12,6 +12,7 @@ namespace server
         private List<Kotsu> kotsu = new List<Kotsu>();
         //private List<Hai> hais;
         private CheckTehai checkTehai;
+
         
         public AtariList(Tehai tehai) {
             this.checkTehai = new CheckTehai(tehai);

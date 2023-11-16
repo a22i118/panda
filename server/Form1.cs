@@ -60,12 +60,12 @@ namespace reversi
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
 
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num3));
 
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
 
 
             AtariList atariList = new AtariList(tehai);
