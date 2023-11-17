@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 
 namespace server
 {
@@ -49,6 +50,13 @@ namespace server
                     check(tmp, isToitsu);
                 }
             }
+
+            //それぞれのtmpで空になったらToitsu、Kotsu、Shuntsuを連結させてYakuhanteiリストにコピー
+            
+        }
+
+
+
 
 #if false
             if (!isToitsu && hais.Count>=2&&   hais[0].Name == hais[1].Name){
@@ -97,6 +105,6 @@ namespace server
 #endif
 
 
-        }
+        
     }
 }
