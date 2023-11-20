@@ -8,17 +8,29 @@ namespace server
 {
     internal class CheckTehai
     {
-        private List<Toitsu> toitsu = new List<Toitsu>();
-        private List<Kotsu> kotsu = new List<Kotsu>();
-        private List<Shuntsu> shuntsu = new List<Shuntsu>();
+        private List<Toitsu> toitsu;
+        private List<Kotsu> kotsu;
+        private List<Shuntsu> shuntsu;
         private List<Hai> hais;
+
+        public bool IsAgari()
+        {
+            return hais.Count == 0;
+        }
+
         public CheckTehai(Tehai tehai)
         {
+            this.toitsu = new List<Toitsu>();
+            this.kotsu = new List<Kotsu>();
+            this.shuntsu = new List<Shuntsu>();
             this.hais = new List<Hai>(tehai.List);
         }
 
         public CheckTehai(CheckTehai checkTehai)
         {
+            this.toitsu = new List<Toitsu>(checkTehai.toitsu);
+            this.kotsu = new List<Kotsu>(checkTehai.kotsu);
+            this.shuntsu = new List<Shuntsu>(checkTehai.shuntsu);
             this.hais = new List<Hai>(checkTehai.hais);
         }
 
@@ -67,7 +79,8 @@ namespace server
                 if (idx1 >= 0 && idx2 >= 0)
                 {
                     CheckTehai tmp = new CheckTehai(this);
-                    
+
+                    tmp.shuntsu.Add(new Shuntsu(tmp.hais[0], tmp.hais[idx1], tmp.hais[idx2]));
                     tmp.hais.Remove(hais[idx2]);
                     tmp.hais.Remove(hais[idx1]);
                     tmp.hais.Remove(hais[0]);

@@ -13,7 +13,7 @@ namespace server
         private List<Kotsu> kotsu = new List<Kotsu>();
         //private List<Hai> hais;
         private CheckTehai checkTehai;
-
+        private List<CheckTehai> checktehais = new List<CheckTehai>();
         
         public AtariList(Tehai tehai) {
             this.checkTehai = new CheckTehai(tehai);
@@ -24,6 +24,7 @@ namespace server
 
         private void check(CheckTehai checkTehai, bool isToitsu)
         {
+
             {
                 CheckTehai tmp = checkTehai.AddToitsu(isToitsu);
 
@@ -50,8 +51,15 @@ namespace server
                     check(tmp, isToitsu);
                 }
             }
+            
 
-            //それぞれのtmpで空になったらToitsu、Kotsu、Shuntsuを連結させてYakuhanteiリストにコピー
+            if (checkTehai.IsAgari())
+            {
+                checktehais.Add(checkTehai);
+            }
+            
+            
+
             
         }
 
