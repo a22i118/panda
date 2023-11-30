@@ -16,7 +16,34 @@ namespace reversi
 
         public Form1()
         {
+            GamaManager gamaManager = new GamaManager();
             InitializeComponent();
+            
+
+
+            Tehai tehai = new Tehai();
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num2));
+            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num3));
+
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+
+            AtariList atariList = new AtariList(tehai);
+
+#if false
             Yama yama = new Yama();
             //Tehai tehai = new Tehai();
             Tehai[] tehais = new Tehai[players];
@@ -48,26 +75,6 @@ namespace reversi
             //tehai.Add(yama.List[0]);
             //yama.List.RemoveAt(0);
             Tehai tehai = new Tehai();
-#if false
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num3));
-
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
-#endif 
 
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
             tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
@@ -88,8 +95,8 @@ namespace reversi
             tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
             tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
 
-            AtariList atariList = new AtariList(tehai);
-            
+#endif
+
 
         }
 
