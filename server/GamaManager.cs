@@ -17,10 +17,7 @@ namespace server
         public GamaManager()
         { 
             Init();
-            for(int i = 0;i< 136; i++)
-            {
-                Exec();
-            }
+           
         }
 
         public void Init()
@@ -47,7 +44,10 @@ namespace server
                 tehais[i].Sort();
             }
         }
-        public void Exec() { }
+        public void Exec()
+        { 
+            
+        }
 
     }
 }
