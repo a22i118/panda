@@ -1,5 +1,6 @@
 using server;
 using System.Drawing.Drawing2D;
+using static server.Hai;
 
 namespace reversi
 {
@@ -110,6 +111,19 @@ namespace reversi
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
+
+
+            Hai hai1 = new Hai(eType.Manzu, eNumber.Num1);
+            Hai hai2 = new Hai(eType.Zihai, eNumber.Thun);
+            Hai hai3 = new Hai(eType.Zihai, eNumber.Pei);
+
+            hai1.Draw(g);
+            hai2.SetPos(48, 0);
+            hai2.Draw(g);
+
+            hai3.SetPos(96, 8);
+            hai3.SetRot(90);
+            hai3.Draw(g);
 
             PictureBox pb = (PictureBox)sender;
 

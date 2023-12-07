@@ -27,8 +27,8 @@ namespace server
             Num7,
             Num8,
             Num9,
-            
-            Ton=0,
+
+            Ton = 0,
             Nan,
             Sha,
             Pei,
@@ -40,10 +40,10 @@ namespace server
         public enum eName
         {
             Manzu1,
-            Manzu2, 
+            Manzu2,
             Manzu3,
             Manzu4,
-            Manzu5, 
+            Manzu5,
             Manzu6,
             Manzu7,
             Manzu8,
@@ -81,10 +81,75 @@ namespace server
         eType type_;
         eNumber num_;
 
-        public Hai(eType type,eNumber num)
+        static Int32 width = 48;
+        static Int32 height = 64;
+
+        private Int32 rot = 0;
+
+        private Bitmap bmp;
+        Rectangle bmpRect;
+
+        Point[] points = {
+            new Point(0, 0),
+            new Point(width, 0),
+            new Point(0, height)
+        };
+
+        public Hai(eType type, eNumber num)
         {
             this.type_ = type;
             this.num_ = num;
+
+            if (type_ == eType.Manzu)
+            {
+                bmp = Properties.Resources.hai_manzu;
+            }
+            else if (type_ == eType.Pinzu)
+            {
+                bmp = Properties.Resources.hai_pinzu;
+            }
+            else if (type_ == eType.Souzu)
+            {
+                bmp = Properties.Resources.hai_souzu;
+            }
+            else if (num == eNumber.Ton ||
+                num == eNumber.Nan ||
+                num == eNumber.Sha ||
+                num == eNumber.Pei)
+            {
+                bmp = Properties.Resources.hai_sufon;
+            }
+            else
+            {
+                bmp = Properties.Resources.hai_sangen;
+            }
+
+            {
+                int top = 0;
+                int div = 9;
+
+                if (type_ == eType.Zihai)
+                {
+                    if (num_ == eNumber.Ton ||
+                        num_ == eNumber.Nan ||
+                        num_ == eNumber.Sha ||
+                        num_ == eNumber.Pei)
+                    {
+                        div = 4;
+                    }
+                    else
+                    {
+                        top = 4;
+                        div = 3;
+                    }
+
+                }
+
+                int w = bmp.Width / div;
+                int h = bmp.Height;
+
+                bmpRect = new Rectangle(((int)num - top) * w, 0, w, h);
+            }
         }
 
         public eName Name
@@ -100,6 +165,33 @@ namespace server
         public eNumber Number
         {
             get { return num_; }
+        }
+
+        static float DegToRad(Int32 deg)
+        {
+            return MathF.PI * deg / 180.0f;
+        }
+
+        public void SetPos(Int32 x, Int32 y)
+        {
+            var sc = MathF.SinCos(DegToRad(rot));
+            points[0].X = x;
+            points[0].Y = y;
+            points[1].X = x + (Int32)(width * sc.Cos);
+            points[1].Y = y + (Int32)(width * sc.Sin);
+            points[2].X = x + (Int32)(height * sc.Sin);
+            points[2].Y = y + (Int32)(height * sc.Cos);
+        }
+
+        public void SetRot(Int32 rot)
+        {
+            this.rot = rot;
+            SetPos(points[0].X, points[0].Y);
+        }
+
+        public void Draw(Graphics g)
+        {
+            g.DrawImage(bmp, points, bmpRect, GraphicsUnit.Pixel);
         }
     }
 }
