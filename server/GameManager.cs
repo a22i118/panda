@@ -7,14 +7,14 @@ using static reversi.Reversi;
 
 namespace server
 {
-    internal class GamaManager
+    internal class GameManager
     {
         const int players = 4;
 
         Yama yama = new Yama();
         Tehai[] tehais = new Tehai[players];
 
-        public GamaManager()
+        public GameManager()
         { 
             Init();
            
@@ -48,6 +48,10 @@ namespace server
         { 
             
         }
-
+        
+        public void Draw(Graphics g)
+        {
+            tehais[0].Draw(g);
+        }
     }
 }

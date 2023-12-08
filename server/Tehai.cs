@@ -21,5 +21,15 @@ namespace server
         public void Sort() {
             list_.Sort((a,b) => (int)a.Name- (int)b.Name);
         }
+        
+        public void Draw(Graphics g)
+        {
+            for (int i = 0; i < list_.Count; i++)
+            {
+                list_[i].SetPos(i * 48, 0);
+                list_[i].Draw(g);
+            }
+        }
+
     }
 }
