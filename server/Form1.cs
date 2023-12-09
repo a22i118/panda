@@ -17,9 +17,9 @@ namespace reversi
         GameManager gameManager = new GameManager();
         public Form1()
         {
-            
+
             InitializeComponent();
-            
+
 
 
             Tehai tehai = new Tehai();
@@ -227,11 +227,28 @@ namespace reversi
             }
 
             pb.Invalidate();
+
+            // 説明（読んで理解したら消すこと）
+
+            // pictureBoxの幅size.Width、高さsize.Heightで取得できる
+            // クリックの位置は(e.X, e.Y)
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
             pictureBox1.Invalidate();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // 説明（読んで理解したら消すこと）
+
+            // ツールボックスからtimerをformにDrag&Dropして追加する
+            // timerのプロパティからTickイベントをクリックするとこの関数が作られる
+            // Intervalを指定することで指定したミリ秒ごとにこのイベントが呼び出される
+            // Interval=100(100/1000秒)
+
+            // ここでgameManagerのExecを呼び出す
         }
     }
 }
