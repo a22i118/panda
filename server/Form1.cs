@@ -232,6 +232,7 @@ namespace reversi
 
             // pictureBoxの幅size.Width、高さsize.Heightで取得できる
             // クリックの位置は(e.X, e.Y)
+            gameManager.ClickCheck(e.X, e.Y);
         }
 
         private void Form1_Resize(object sender, EventArgs e)

@@ -193,5 +193,10 @@ namespace server
         {
             g.DrawImage(bmp, points, bmpRect, GraphicsUnit.Pixel);
         }
+
+        public bool IsClick(int x, int y)
+        {
+            return false;
+        }
     }
 }

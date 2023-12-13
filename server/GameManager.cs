@@ -13,6 +13,7 @@ namespace server
 
         Yama yama = new Yama();
         Tehai[] tehais = new Tehai[players];
+        Kawa[] kawas = new Kawa[players];
 
         public GameManager()
         { 
@@ -45,13 +46,34 @@ namespace server
             }
         }
         public void Exec()
-        { 
-            
+        {
+
         }
+        public void ClickCheck(int x,int y)
+        {
+            for (int i = 0; i < players; i++)
+            {
+                tehais[i].Click(x,y);
+                //kawas[i].Add(del.List);
+#if false
+                if (tehais[].Count == 13)
+                {
+                    tehais[i].Add(yama.List[0]);
+                    yama.List.RemoveAt(0);
+                }
+#endif                
+            }
+        }
+
+
         
         public void Draw(Graphics g)
         {
-            tehais[0].Draw(g);
+            for (int i = 0;i < players;i++)
+            {
+                tehais[i].Draw(g, i);
+                //kawas[i].Draw(g,i);
+            }
         }
     }
 }
