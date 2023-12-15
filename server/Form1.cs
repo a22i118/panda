@@ -114,6 +114,7 @@ namespace reversi
 
 
             gameManager.Draw(g);
+            return;
 #if false
             Hai hai1 = new Hai(eType.Manzu, eNumber.Num1);
             Hai hai2 = new Hai(eType.Zihai, eNumber.Thun);
@@ -250,6 +251,8 @@ namespace reversi
             // Interval=100(100/1000•b)
 
             // ‚±‚±‚ÅgameManager‚ÌExec‚ğŒÄ‚Ño‚·
+            gameManager.Exec();
+            pictureBox1.Invalidate();
         }
     }
 }

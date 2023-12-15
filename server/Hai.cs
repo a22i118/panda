@@ -196,7 +196,23 @@ namespace server
 
         public bool IsClick(int x, int y)
         {
-            return false;
+            int xmin = int.MaxValue;
+            int xmax = int.MinValue;
+            int ymin = int.MaxValue;
+            int ymax = int.MinValue;
+
+            foreach (var point in points)
+            {
+                xmin = Math.Min(xmin, point.X);
+                xmax = Math.Max(xmax, point.X);
+                ymin = Math.Min(ymin, point.Y);
+                ymax = Math.Max(ymax, point.Y);
+            }
+
+
+            return (xmin <= x && x <= xmax) && (ymin <= y && y <= ymax);
+
+//            return false;
         }
     }
 }

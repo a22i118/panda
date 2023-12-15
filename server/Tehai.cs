@@ -31,8 +31,8 @@ namespace server
                 list_[i].Draw(g);
             }
         }
-
-        public void Click(int x,int y) 
+        public void Click(int x, int y)
+//        public void Click(int x,int y,Kawa kawa,int players) 
         {
             List<Hai> del = new List<Hai>();
 
@@ -42,14 +42,23 @@ namespace server
                 if (hai.IsClick(x, y))
                 {
                     del.Add(hai);
+
                 }
             }
 
 
             foreach (Hai hai in del)
             {
-                
+//                list_.Add(kawa.List[players]);
                 list_.Remove(hai);
+            }
+        }
+        public void Tsumo(Yama yama)
+        {
+            if (list_.Count == 13)
+            {
+                list_.Add(yama.List[0]);
+                yama.List.RemoveAt(0);
             }
         }
     }
