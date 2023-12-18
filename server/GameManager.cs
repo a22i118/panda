@@ -22,6 +22,8 @@ namespace server
         {
             Tsumo,
             wait,
+
+
         }
         eMode mode_;
 
@@ -36,6 +38,7 @@ namespace server
             for (int i = 0; i < players; i++)
             {
                 tehais[i] = new Tehai();
+                kawas[i] = new Kawa();
 
             }
 
@@ -60,6 +63,13 @@ namespace server
             if(mode_ == eMode.Tsumo)
             {
                 tehais[turn_].Tsumo(yama);
+                AtariList atariList = new AtariList(tehais[turn_]);
+
+                if (atariList.IsAtari())
+                {
+                    Console.WriteLine("アタリ");
+                }
+
                 mode_ = eMode.wait;
             }
             else
@@ -94,8 +104,10 @@ namespace server
 #else
             if (tehais[turn_].List.Count >= 14)
             {
-                tehais[turn_].Click(x, y);
+                
+                tehais[turn_].Click(x, y, kawas[turn_]);
                 tehais[turn_].Sort();
+                
             }
 
 #endif
@@ -110,7 +122,7 @@ namespace server
                 tehais[i].Draw(g, i);
                 //if (kawas[i] != null)
                 //{
-                //    kawas[i].Draw(g, i);
+                    kawas[i].Draw(g, i);
                 //}
             }
         }

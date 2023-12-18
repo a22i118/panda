@@ -22,27 +22,27 @@ namespace reversi
 
 
 
-            Tehai tehai = new Tehai();
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            //Tehai tehai = new Tehai();
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num1));
 
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num2));
 
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
-            tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
+            //tehai.Add(new Hai(Hai.eType.Manzu, Hai.eNumber.Num3));
 
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num2));
-            tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num3));
+            //tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num1));
+            //tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num2));
+            //tehai.Add(new Hai(Hai.eType.Pinzu, Hai.eNumber.Num3));
 
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
-            tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+            //tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
+            //tehai.Add(new Hai(Hai.eType.Souzu, Hai.eNumber.Num1));
 
-            AtariList atariList = new AtariList(tehai);
+            //AtariList atariList = new AtariList(tehai);
 
 #if false
             Yama yama = new Yama();

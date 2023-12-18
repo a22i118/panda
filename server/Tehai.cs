@@ -31,25 +31,23 @@ namespace server
                 list_[i].Draw(g);
             }
         }
-        public void Click(int x, int y)
+        public void Click(int x, int y, Kawa kawas)
 //        public void Click(int x,int y,Kawa kawa,int players) 
         {
             List<Hai> del = new List<Hai>();
 
-
-            foreach (Hai hai in list_)
+            for (int i = 0; i < list_.Count; i++)
             {
-                if (hai.IsClick(x, y))
+                if (list_[i].IsClick(x, y))
                 {
-                    del.Add(hai);
+                    kawas.Add(list_[i]);
+                    del.Add(list_[i]);
 
                 }
             }
 
-
             foreach (Hai hai in del)
             {
-//                list_.Add(kawa.List[players]);
                 list_.Remove(hai);
             }
         }

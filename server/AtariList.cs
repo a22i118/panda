@@ -22,6 +22,11 @@ namespace server
 
         }
 
+    public bool IsAtari()
+        {
+            return checktehais.Count > 0;
+        }
+
         private void check(CheckTehai checkTehai, bool isToitsu)
         {
 
