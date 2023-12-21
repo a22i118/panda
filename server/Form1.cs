@@ -252,6 +252,11 @@ namespace reversi
 
             // ‚±‚±‚ÅgameManager‚ÌExec‚ğŒÄ‚Ño‚·
             gameManager.Exec();
+            if (gameManager.Agari)
+            {
+                textBox1.Text = "ƒAƒ^ƒŠ";
+            }
+            
             pictureBox1.Invalidate();
         }
     }

@@ -16,13 +16,14 @@ namespace server
         Tehai[] tehais = new Tehai[players];
         Kawa[] kawas = new Kawa[players];
         List<Hai> list_ = new List<Hai>();
+        public bool Agari = false;
         
         public List<Hai> List { get { return list_; } }
         public enum eMode
         {
             Tsumo,
-            wait,
-
+            Wait,
+            Agari,
 
         }
         eMode mode_;
@@ -67,10 +68,11 @@ namespace server
 
                 if (atariList.IsAtari())
                 {
-                    Console.WriteLine("アタリ");
+                    Agari = true;
+                    //Console.WriteLine("アタリ");
                 }
 
-                mode_ = eMode.wait;
+                mode_ = eMode.Wait;
             }
             else
             {

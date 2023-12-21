@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace server
             this.kotsu = new List<Kotsu>();
             this.shuntsu = new List<Shuntsu>();
             this.hais = new List<Hai>(tehai.List);
+            this.hais.Sort((a, b) => (int)a.Name - (int)b.Name);
         }
 
         public CheckTehai(CheckTehai checkTehai)

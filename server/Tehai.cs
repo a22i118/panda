@@ -32,7 +32,6 @@ namespace server
             }
         }
         public void Click(int x, int y, Kawa kawas)
-//        public void Click(int x,int y,Kawa kawa,int players) 
         {
             List<Hai> del = new List<Hai>();
 

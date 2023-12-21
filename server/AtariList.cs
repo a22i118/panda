@@ -17,7 +17,6 @@ namespace server
         
         public AtariList(Tehai tehai) {
             this.checkTehai = new CheckTehai(tehai);
-
             check(this.checkTehai, false);
 
         }
