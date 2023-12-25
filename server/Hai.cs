@@ -210,7 +210,7 @@ namespace server
             }
 
 
-            return (xmin <= x && x <= xmax) && (ymin <= y && y <= ymax);
+            return (xmin < x && x < xmax) && (ymin < y && y < ymax);
 
 //            return false;
         }

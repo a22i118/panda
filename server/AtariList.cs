@@ -20,8 +20,14 @@ namespace server
             check(this.checkTehai, false);
 
         }
+        public AtariList(Tehai tehai,Hai hai)
+        {
+            this.checkTehai = new CheckTehai(tehai,hai);
+            check(this.checkTehai, false);
 
-    public bool IsAtari()
+        }
+
+        public bool IsAtari()
         {
             return checktehais.Count > 0;
         }

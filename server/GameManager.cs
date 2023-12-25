@@ -16,15 +16,14 @@ namespace server
         Tehai[] tehais = new Tehai[players];
         Kawa[] kawas = new Kawa[players];
         List<Hai> list_ = new List<Hai>();
-        public bool Agari = false;
+        public bool Atari = false;
+        public bool Ron = false;
         
         public List<Hai> List { get { return list_; } }
         public enum eMode
         {
             Tsumo,
             Wait,
-            Agari,
-
         }
         eMode mode_;
 
@@ -68,7 +67,7 @@ namespace server
 
                 if (atariList.IsAtari())
                 {
-                    Agari = true;
+                    Atari = true;
                     //Console.WriteLine("アタリ");
                 }
 
@@ -84,35 +83,33 @@ namespace server
             }
 
 
-
-
-            //foreach (var tehai in tehais)
-            //{
-            //    tehai.Tsumo(yama);
-            //}
-
-
         }
         public void ClickCheck(int x,int y)
         {
-#if false
-            for (int i = 0; i < players; i++)
-            {
-                //tehais[i].click(x, y, kawas[i], i);
-                tehais[i].Click(x, y);
-                tehais[i].Sort();
-            }
-
-#else
             if (tehais[turn_].List.Count >= 14)
             {
-                
-                tehais[turn_].Click(x, y, kawas[turn_]);
-                tehais[turn_].Sort();
-                
-            }
+                Hai del = tehais[turn_].Click(x, y, kawas[turn_]);
+                if (del != null)
+                {
+                    tehais[turn_].Sort();
+                    for (int i = 0; i < players; i++)
+                    {
+                        if (i == turn_)
+                        {
+                            continue;
+                        }
 
-#endif
+                        AtariList atariList = new AtariList(tehais[i], del);
+                        if (atariList.IsAtari())
+                        {
+                            Ron = true;
+
+                        }
+                    }
+                }
+                
+
+            }
         }
 
 
@@ -122,10 +119,7 @@ namespace server
             for (int i = 0;i < players;i++)
             {
                 tehais[i].Draw(g, i);
-                //if (kawas[i] != null)
-                //{
-                    kawas[i].Draw(g, i);
-                //}
+                kawas[i].Draw(g, i);
             }
         }
     }

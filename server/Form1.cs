@@ -252,9 +252,13 @@ namespace reversi
 
             // ここでgameManagerのExecを呼び出す
             gameManager.Exec();
-            if (gameManager.Agari)
+            if (gameManager.Atari)
             {
-                textBox1.Text = "アタリ";
+                textBox1.Text = "ツモ";
+            }
+            else if(gameManager.Ron)
+            {
+                textBox1.Text = "ロン";
             }
             
             pictureBox1.Invalidate();

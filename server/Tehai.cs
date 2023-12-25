@@ -31,24 +31,34 @@ namespace server
                 list_[i].Draw(g);
             }
         }
-        public void Click(int x, int y, Kawa kawas)
+        public Hai Click(int x, int y, Kawa kawas)
         {
-            List<Hai> del = new List<Hai>();
+            Hai del = null;
 
             for (int i = 0; i < list_.Count; i++)
             {
                 if (list_[i].IsClick(x, y))
                 {
+
                     kawas.Add(list_[i]);
-                    del.Add(list_[i]);
+                    
+                    del = list_[i];
+                    break;
 
                 }
             }
 
-            foreach (Hai hai in del)
+            if(del != null)
             {
-                list_.Remove(hai);
+                list_.Remove(del);
+
             }
+
+            return del;
+            //foreach (Hai hai in del)
+            //{
+            //    list_.Remove(hai);
+            //}
         }
         public void Tsumo(Yama yama)
         {
@@ -57,6 +67,11 @@ namespace server
                 list_.Add(yama.List[0]);
                 yama.List.RemoveAt(0);
             }
+        }
+
+        public void Ron()
+        {
+            List<Hai> thro = new List<Hai>();
         }
     }
 }
