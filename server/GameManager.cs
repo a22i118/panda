@@ -15,6 +15,7 @@ namespace server
         Yama yama = new Yama();
         Tehai[] tehais = new Tehai[players];
         Kawa[] kawas = new Kawa[players];
+        WanPai wanPai = new WanPai();
         List<Hai> list_ = new List<Hai>();
         public bool Atari = false;
         public bool Ron = false;
@@ -40,6 +41,13 @@ namespace server
                 tehais[i] = new Tehai();
                 kawas[i] = new Kawa();
 
+            }
+
+            //王牌
+            for (int i = 0; i < 14; i++)
+            {
+                wanPai.Add(yama.List[0]);
+                yama.List.RemoveAt(0);
             }
 
             //四人に配る
@@ -107,8 +115,6 @@ namespace server
                         }
                     }
                 }
-                
-
             }
         }
 

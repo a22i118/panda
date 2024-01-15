@@ -69,9 +69,17 @@ namespace server
             }
         }
 
-        public void Ron()
+        //public void Ron()
+        //{
+        //    List<Hai> thro = new List<Hai>();
+        //}
+
+        public void MinKan()
         {
-            List<Hai> thro = new List<Hai>();
+            if (IsKotsu)
+            {
+
+            }
         }
     }
 }

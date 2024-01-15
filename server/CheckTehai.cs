@@ -12,6 +12,11 @@ namespace server
         private List<Toitsu> toitsu;
         private List<Kotsu> kotsu;
         private List<Shuntsu> shuntsu;
+
+        private List<Kan> kan;
+        private List<Pon> pon;
+        private List<Chi> chi;
+
         private List<Hai> hais;
 
         public bool IsAgari()
