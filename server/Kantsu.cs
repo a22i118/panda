@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    internal class Kan
+    internal class Kantsu
     {
         private Hai[] hais = new Hai[4];
-        public Kan(Hai hai0, Hai hai1, Hai hai2, Hai hai3)
+        public Kantsu(Hai hai0, Hai hai1, Hai hai2, Hai hai3)
         {
             hais[0] = hai0;
             hais[1] = hai1;

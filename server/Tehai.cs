@@ -74,7 +74,7 @@ namespace server
         //    List<Hai> thro = new List<Hai>();
         //}
 
-        public void MinKan()
+        public void MinKan(Hai del)
         {
             if (IsKotsu)
             {
