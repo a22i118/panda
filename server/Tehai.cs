@@ -9,8 +9,10 @@ namespace server
 {
     internal class Tehai
     {
+        const int players = 4;
         List<Hai> list_ = new List<Hai>();
         public List<Hai> List { get { return list_; } }
+        private List<Pon> pon = new List<Pon>();
         public Tehai(){ }
             
         
@@ -74,12 +76,34 @@ namespace server
         //    List<Hai> thro = new List<Hai>();
         //}
 
-        public void MinKan(Hai del)
+        //public void MinKan(Hai del)
+        //{
+        //    if (IsKotsu)
+        //    {
+
+        //    }
+        //}
+
+        public void Pon(int turn_, Hai del)
         {
-            if (IsKotsu)
+            if(list_.Count(item => item == del) >= 2)
             {
+                for(int i = 0; i < list_.Count; ++i)
+                {
+                    if (list_[i] == del)
+                    {
+                        list_.RemoveAt(i);
+                    }
+                }
+
+                pon.Add(new Pon(del,del,del);
+
+
 
             }
+                
+            
+            
         }
     }
 }
