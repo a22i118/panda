@@ -88,18 +88,18 @@ namespace server
         {
             if(list_.Count(item => item == del) >= 2)
             {
-                for(int i = 0; i < list_.Count; ++i)
+                //int Poncnt = 0;
+                for (int i = 0; i < list_.Count; ++i)
                 {
-                    if (list_[i] == del)
-                    {
-                        list_.RemoveAt(i);
-                    }
+                    Add(new Pon(hais[0], hais[1], hais[2]));
+                    //if (list_[i] == del && Poncnt <= 1)
+                    //{
+                    //    list_.RemoveAt(i);
+                    //    Poncnt++;
+                    //}
                 }
 
-                pon.Add(new Pon(del,del,del);
-
-
-
+                //Pon(del,del,del);
             }
                 
             
