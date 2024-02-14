@@ -13,6 +13,7 @@ namespace server
         List<Hai> list_ = new List<Hai>();
         public List<Hai> List { get { return list_; } }
         private List<Pon> pon = new List<Pon>();
+        private List<Hai> hais;
         public Tehai(){ }
             
         
@@ -101,9 +102,19 @@ namespace server
 
                 //Pon(del,del,del);
             }
-                
-            
-            
+
+            //if (hais.Count >= 3 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name)
+            //{
+            //    CheckTehai tmp = new CheckTehai(this);
+
+            //    tmp.kotsu.Add(new Kotsu(tmp.hais[0], tmp.hais[1], tmp.hais[2]));
+            //    tmp.hais.RemoveAt(2);
+            //    tmp.hais.RemoveAt(1);
+            //    tmp.hais.RemoveAt(0);
+
+            //}
+
+
         }
     }
 }
