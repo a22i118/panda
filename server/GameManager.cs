@@ -16,11 +16,12 @@ namespace server
         Tehai[] tehais = new Tehai[players];
         Kawa[] kawas = new Kawa[players];
         WanPai wanPai = new WanPai();
-        List<Hai> list_ = new List<Hai>();
+        //List<Hai> list_ = new List<Hai>();
+        ActionCommand[] _actionCommand = new ActionCommand[players];
         public bool Atari = false;
         public bool Ron = false;
-        
-        public List<Hai> List { get { return list_; } }
+
+        //public List<Hai> List { get { return list_; } }
         public enum eMode
         {
             Tsumo,
@@ -29,9 +30,9 @@ namespace server
         eMode mode_;
 
         public GameManager()
-        { 
+        {
             Init();
-           
+
         }
 
         public void Init()
@@ -40,7 +41,7 @@ namespace server
             {
                 tehais[i] = new Tehai();
                 kawas[i] = new Kawa();
-
+                _actionCommand[i] = new ActionCommand(300, i * 200 + 74, 64, 32);
             }
 
             //王牌
@@ -68,8 +69,17 @@ namespace server
         }
         public void Exec()
         {
-            if(mode_ == eMode.Tsumo)
+            if (mode_ == eMode.Tsumo)
             {
+                // コマンド入力を待っている間はツモらない
+                foreach (var cmd in _actionCommand)
+                {
+                    if (cmd.IsCanAny())
+                    {
+                        return;
+                    }
+                }
+
                 tehais[turn_].Tsumo(yama);
                 AtariList atariList = new AtariList(tehais[turn_]);
 
@@ -83,8 +93,9 @@ namespace server
             }
             else
             {
-                if(tehais[turn_].List.Count < 14){
-                    turn_=(turn_+1) % 4;
+                if (tehais[turn_].List.Count < 14)
+                {
+                    turn_ = (turn_ + 1) % 4;
                     mode_ = eMode.Tsumo;
                 }
                 //tehais[turn_].Click(x, y);
@@ -92,13 +103,33 @@ namespace server
 
 
         }
-        public void ClickCheck(int x,int y)
+        public void ClickCheck(int x, int y)
         {
+            foreach (var cmd in _actionCommand)
+            {
+                // コマンドが選択された
+                if (cmd.Click(x, y))
+                {
+                    if (cmd.IsCallChi()) { }
+                    if (cmd.IsCallPon()) { mode_ = eMode.Wait; /* ポンをしてturn_をその人に変える */}
+                    if (cmd.IsCallKan()) { }
+                    if (cmd.IsCallRon()) { }
+
+                    // コマンドを初期化
+                    Array.ForEach(_actionCommand, e => e.Init());
+
+                    return;
+                }
+            }
+
             if (tehais[turn_].List.Count >= 14)
             {
                 Hai del = tehais[turn_].Click(x, y, kawas[turn_]);
                 if (del != null)
                 {
+                    // コマンドを初期化
+                    Array.ForEach(_actionCommand, e => e.Init());
+
                     tehais[turn_].Sort();
                     for (int i = 0; i < players; i++)
                     {
@@ -111,7 +142,12 @@ namespace server
                         if (atariList.IsAtari())
                         {
                             Ron = true;
+                        }
 
+                        // ポンのコマンドを有効にする
+                        if (tehais[i].IsCanPon(del))
+                        {
+                            _actionCommand[i].CanPon = true;
                         }
                     }
                 }
@@ -119,13 +155,14 @@ namespace server
         }
 
 
-        
+
         public void Draw(Graphics g)
         {
-            for (int i = 0;i < players;i++)
+            for (int i = 0; i < players; i++)
             {
                 tehais[i].Draw(g, i);
                 kawas[i].Draw(g, i);
+                _actionCommand[i].Draw(g);
             }
         }
     }

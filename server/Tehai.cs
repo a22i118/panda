@@ -13,7 +13,7 @@ namespace server
         List<Hai> list_ = new List<Hai>();
         public List<Hai> List { get { return list_; } }
         private List<Pon> pon = new List<Pon>();
-        private List<Hai> hais;
+        //private List<Hai> hais;
         public Tehai(){ }
             
         
@@ -85,6 +85,11 @@ namespace server
         //    }
         //}
 
+        public bool IsCanPon(Hai hai)
+        {
+            return list_.Count(item => item.Name == hai.Name) >= 2;
+        }
+
         public void Pon(int turn_, Hai del)
         {
             if(list_.Count(item => item == del) >= 2)
@@ -92,7 +97,7 @@ namespace server
                 //int Poncnt = 0;
                 for (int i = 0; i < list_.Count; ++i)
                 {
-                    Add(new Pon(hais[0], hais[1], hais[2]));
+                    //Add(new Pon(hais[0], hais[1], hais[2]));
                     //if (list_[i] == del && Poncnt <= 1)
                     //{
                     //    list_.RemoveAt(i);
