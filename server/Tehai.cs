@@ -16,7 +16,6 @@ namespace server
         //private List<Hai> hais;
         public Tehai() { }
 
-
         public void Add(Hai hai)
         {
             _list.Add(hai);
@@ -67,12 +66,12 @@ namespace server
             //    list_.Remove(hai);
             //}
         }
+
         public void Tsumo(Yama yama)
         {
-            if (_list.Count == 13)
+            if (IsCanTsumo())
             {
-                _list.Add(yama.List[0]);
-                yama.List.RemoveAt(0);
+                _list.Add(yama.Tsumo());
             }
         }
 
@@ -88,6 +87,11 @@ namespace server
 
         //    }
         //}
+
+        public bool IsCanTsumo()
+        {
+            return _list.Count + 3 * pon.Count < 14;
+        }
 
         public bool IsCanPon(Hai hai)
         {

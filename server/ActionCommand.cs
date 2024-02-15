@@ -87,10 +87,15 @@ namespace server
             return false;
         }
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g, bool teban)
         {
             Font font = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
             SolidBrush whiteBrush = new SolidBrush(Color.White);
+
+            if (teban)
+            {
+                g.DrawString("＞", font, Brushes.Black, new PointF(_x - 48, _y));
+            }
 
             int i;
             for (i = 0; i < (int)eCommand.Num; i++)

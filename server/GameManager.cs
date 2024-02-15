@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static reversi.Reversi;
+using static server.Hai.eName;
 
 namespace server
 {
@@ -47,11 +49,16 @@ namespace server
                 _actionCommand[i] = new ActionCommand(300, i * 200 + 74, 64, 32);
             }
 
+            // 鳴きのテストのために積み込み
+            yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
+            yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu1, Manzu2, Manzu2, Manzu3, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7 });
+            yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Pinzu7 });
+            yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
+
             //王牌
             for (int i = 0; i < 14; i++)
             {
-                wanPai.Add(yama.List[0]);
-                yama.List.RemoveAt(0);
+                wanPai.Add(yama.RinshanTsumo());
             }
 
             //四人に配る
@@ -59,8 +66,7 @@ namespace server
             {
                 for (int j = 0; j < 13; j++)
                 {
-                    tehais[i].Add(yama.List[0]);
-                    yama.List.RemoveAt(0);
+                    tehais[i].Add(yama.Tsumo());
                 }
             }
 
@@ -96,7 +102,7 @@ namespace server
             }
             else
             {
-                if (tehais[turn_].List.Count < 14)
+                if (tehais[turn_].IsCanTsumo())
                 {
                     turn_ = (turn_ + 1) % 4;
                     mode_ = eMode.Tsumo;
@@ -108,7 +114,7 @@ namespace server
         }
         public void ClickCheck(int x, int y)
         {
-            for(int i = 0;i<_actionCommand.Length;i++)
+            for (int i = 0; i < _actionCommand.Length; i++)
             //foreach (var cmd in _actionCommand)
             {
                 var cmd = _actionCommand[i];
@@ -116,11 +122,12 @@ namespace server
                 if (cmd.Click(x, y))
                 {
                     if (cmd.IsCallChi()) { }
-                    if (cmd.IsCallPon()) {
-                        mode_ = eMode.Wait; 
+                    if (cmd.IsCallPon())
+                    {
+                        mode_ = eMode.Wait;
                         tehais[i].Pon(sutehai);
-                        
-                        turn_= i;
+
+                        turn_ = i;
                         //牌を捨てる
                         /* ポンをしてturn_をその人に変える */
                     }
@@ -134,7 +141,7 @@ namespace server
                 }
             }
 
-            if (tehais[turn_].List.Count >= 14)
+            if (!tehais[turn_].IsCanTsumo())
             {
                 Hai del = tehais[turn_].Click(x, y, kawas[turn_]);
 
@@ -177,7 +184,7 @@ namespace server
                 tehais[i].Draw(g, i);
                 kawas[i].Draw(g, i);
                 //naki[i].Draw(g, i);
-                _actionCommand[i].Draw(g);
+                _actionCommand[i].Draw(g, i == turn_);
             }
         }
     }
