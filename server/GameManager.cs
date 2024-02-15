@@ -15,7 +15,10 @@ namespace server
         Yama yama = new Yama();
         Tehai[] tehais = new Tehai[players];
         Kawa[] kawas = new Kawa[players];
+        //Naki[] nakis = new Naki[players];
         WanPai wanPai = new WanPai();
+
+        Hai sutehai = null;
         //List<Hai> list_ = new List<Hai>();
         ActionCommand[] _actionCommand = new ActionCommand[players];
         public bool Atari = false;
@@ -105,13 +108,22 @@ namespace server
         }
         public void ClickCheck(int x, int y)
         {
-            foreach (var cmd in _actionCommand)
+            for(int i = 0;i<_actionCommand.Length;i++)
+            //foreach (var cmd in _actionCommand)
             {
+                var cmd = _actionCommand[i];
                 // コマンドが選択された
                 if (cmd.Click(x, y))
                 {
                     if (cmd.IsCallChi()) { }
-                    if (cmd.IsCallPon()) { mode_ = eMode.Wait; /* ポンをしてturn_をその人に変える */}
+                    if (cmd.IsCallPon()) {
+                        mode_ = eMode.Wait; 
+                        tehais[i].Pon(sutehai);
+                        
+                        turn_= i;
+                        //牌を捨てる
+                        /* ポンをしてturn_をその人に変える */
+                    }
                     if (cmd.IsCallKan()) { }
                     if (cmd.IsCallRon()) { }
 
@@ -125,8 +137,10 @@ namespace server
             if (tehais[turn_].List.Count >= 14)
             {
                 Hai del = tehais[turn_].Click(x, y, kawas[turn_]);
+
                 if (del != null)
                 {
+                    sutehai = del;
                     // コマンドを初期化
                     Array.ForEach(_actionCommand, e => e.Init());
 
@@ -162,6 +176,7 @@ namespace server
             {
                 tehais[i].Draw(g, i);
                 kawas[i].Draw(g, i);
+                //naki[i].Draw(g, i);
                 _actionCommand[i].Draw(g);
             }
         }

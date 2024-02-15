@@ -10,50 +10,54 @@ namespace server
     internal class Tehai
     {
         const int players = 4;
-        List<Hai> list_ = new List<Hai>();
-        public List<Hai> List { get { return list_; } }
+        List<Hai> _list = new List<Hai>();
+        public List<Hai> List { get { return _list; } }
         private List<Pon> pon = new List<Pon>();
         //private List<Hai> hais;
-        public Tehai(){ }
-            
-        
+        public Tehai() { }
+
+
         public void Add(Hai hai)
         {
-            list_.Add(hai);
+            _list.Add(hai);
         }
 
-        public void Sort() {
-            list_.Sort((a,b) => (int)a.Name- (int)b.Name);
-        }
-        
-        public void Draw(Graphics g,int players)
+        public void Sort()
         {
-            for (int i = 0; i < list_.Count; i++)
+            _list.Sort((a, b) => (int)a.Name - (int)b.Name);
+        }
+
+        public void Draw(Graphics g, int players)
+        {
+            for (int i = 0; i < _list.Count; i++)
             {
-                list_[i].SetPos(300 + i * 48, players * 200);
-                list_[i].Draw(g);
+                _list[i].SetPos(300 + i * 48, players * 200);
+                _list[i].Draw(g);
             }
+
+            
+
         }
         public Hai Click(int x, int y, Kawa kawas)
         {
             Hai del = null;
 
-            for (int i = 0; i < list_.Count; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                if (list_[i].IsClick(x, y))
+                if (_list[i].IsClick(x, y))
                 {
 
-                    kawas.Add(list_[i]);
-                    
-                    del = list_[i];
+                    kawas.Add(_list[i]);
+
+                    del = _list[i];
                     break;
 
                 }
             }
 
-            if(del != null)
+            if (del != null)
             {
-                list_.Remove(del);
+                _list.Remove(del);
 
             }
 
@@ -65,9 +69,9 @@ namespace server
         }
         public void Tsumo(Yama yama)
         {
-            if (list_.Count == 13)
+            if (_list.Count == 13)
             {
-                list_.Add(yama.List[0]);
+                _list.Add(yama.List[0]);
                 yama.List.RemoveAt(0);
             }
         }
@@ -87,26 +91,54 @@ namespace server
 
         public bool IsCanPon(Hai hai)
         {
-            return list_.Count(item => item.Name == hai.Name) >= 2;
+            return _list.Count(item => item.Name == hai.Name) >= 2;
         }
 
-        public void Pon(int turn_, Hai del)
+        public void Pon(Hai sutehai)
         {
-            if(list_.Count(item => item == del) >= 2)
+            Hai sutehai1 = null;
+            Hai sutehai2 = null;
+            int i;
+            for (i = 0; i < _list.Count; i++)
             {
-                //int Poncnt = 0;
-                for (int i = 0; i < list_.Count; ++i)
+                if (sutehai.Name == _list[i].Name)
                 {
-                    //Add(new Pon(hais[0], hais[1], hais[2]));
-                    //if (list_[i] == del && Poncnt <= 1)
-                    //{
-                    //    list_.RemoveAt(i);
-                    //    Poncnt++;
-                    //}
+                    sutehai1 = _list[i];
+                    i++;
+                    break;
                 }
-
-                //Pon(del,del,del);
             }
+
+            for (; i < _list.Count; i++)
+            {
+                if (sutehai.Name == _list[i].Name)
+                {
+                    sutehai2 = _list[i]; break;
+                }
+            }
+
+            if (sutehai1 != null && sutehai2 != null)
+            {
+                pon.Add(new server.Pon(sutehai, sutehai1, sutehai2));
+                _list.Remove(sutehai1);
+                _list.Remove(sutehai2);
+            }
+
+            //if(list_.Count(item => item == del) >= 2)
+            //{
+            //    //int Poncnt = 0;
+            //    for (int i = 0; i < list_.Count; ++i)
+            //    {
+            //        //Add(new Pon(hais[0], hais[1], hais[2]));
+            //        //if (list_[i] == del && Poncnt <= 1)
+            //        //{
+            //        //    list_.RemoveAt(i);
+            //        //    Poncnt++;
+            //        //}
+            //    }
+
+            //    //Pon(del,del,del);
+            //}
 
             //if (hais.Count >= 3 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name)
             //{
