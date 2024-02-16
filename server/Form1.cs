@@ -252,15 +252,7 @@ namespace reversi
 
             // ‚±‚±‚ÅgameManager‚ÌExec‚ğŒÄ‚Ño‚·
             gameManager.Exec();
-            if (gameManager.Atari)
-            {
-                textBox1.Text = "ƒcƒ‚";
-            }
-            else if(gameManager.Ron)
-            {
-                textBox1.Text = "ƒƒ“";
-            }
-            
+
             pictureBox1.Invalidate();
         }
     }

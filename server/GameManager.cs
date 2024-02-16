@@ -7,26 +7,30 @@ using System.Text;
 using System.Threading.Tasks;
 using static reversi.Reversi;
 using static server.Hai.eName;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace server
 {
     internal class GameManager
     {
         const int players = 4;
+
+        private Yama yama = new Yama();
+        private WanPai wanPai = new WanPai();
+        private Tehai[] tehais = new Tehai[players] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
+        private Kawa[] kawas = new Kawa[players] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
+        private ActionCommand[] _actionCommand = new ActionCommand[players];
+
         int turn_ = 0;
-        Yama yama = new Yama();
-        Tehai[] tehais = new Tehai[players];
-        Kawa[] kawas = new Kawa[players];
         //Naki[] nakis = new Naki[players];
-        WanPai wanPai = new WanPai();
 
         Hai sutehai = null;
-        //List<Hai> list_ = new List<Hai>();
-        ActionCommand[] _actionCommand = new ActionCommand[players];
-        public bool Atari = false;
-        public bool Ron = false;
+        //List<Hai> _hais = new List<Hai>();
+        private bool _tsumo = false;
+        private bool _ron = false;
 
-        //public List<Hai> List { get { return list_; } }
+        //public List<Hai> List { get { return _hais; } }
         public enum eMode
         {
             Tsumo,
@@ -37,17 +41,26 @@ namespace server
         public GameManager()
         {
             Init();
-
         }
 
-        public void Init()
+        private void gameStart()
         {
+            yama.Init();
+            wanPai.Init();
+
             for (int i = 0; i < players; i++)
             {
-                tehais[i] = new Tehai();
-                kawas[i] = new Kawa();
-                _actionCommand[i] = new ActionCommand(300, i * 200 + 74, 64, 32);
+                tehais[i].Init();
+                kawas[i].Init();
             }
+
+            turn_ = 0;  // TODO:親を入れる
+            turn_ = (turn_ - 1 + 4) % 4;    // ツモで進めるので１戻しておく
+
+            sutehai = null;
+
+            _tsumo = false;
+            _ron = false;
 
             // 鳴きのテストのために積み込み
             yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
@@ -76,8 +89,30 @@ namespace server
                 tehais[i].Sort();
             }
         }
+
+        public void Init()
+        {
+            for (int i = 0; i < players; i++)
+            {
+                _actionCommand[i] = new ActionCommand(300, i * 200 + 74, 64, 32);
+            }
+
+            gameStart();
+        }
+
+        //async Task Restart(int sec)
+        //{
+        //    await Task.Delay(TimeSpan.FromSeconds(sec));
+        //    gameStart();
+        //}
+
         public void Exec()
         {
+            if (_tsumo || _ron)
+            {
+                return;
+            }
+
             if (mode_ == eMode.Tsumo)
             {
                 // コマンド入力を待っている間はツモらない
@@ -89,12 +124,15 @@ namespace server
                     }
                 }
 
+                turn_ = (turn_ + 1) % 4;
+
                 tehais[turn_].Tsumo(yama);
+
                 AtariList atariList = new AtariList(tehais[turn_]);
 
                 if (atariList.IsAtari())
                 {
-                    Atari = true;
+                    _tsumo = true;
                     //Console.WriteLine("アタリ");
                 }
 
@@ -104,16 +142,21 @@ namespace server
             {
                 if (tehais[turn_].IsCanTsumo())
                 {
-                    turn_ = (turn_ + 1) % 4;
                     mode_ = eMode.Tsumo;
                 }
                 //tehais[turn_].Click(x, y);
             }
-
-
         }
+
         public void ClickCheck(int x, int y)
         {
+            if (_tsumo || _ron)
+            {
+                gameStart();
+
+                return;
+            }
+
             for (int i = 0; i < _actionCommand.Length; i++)
             //foreach (var cmd in _actionCommand)
             {
@@ -132,7 +175,12 @@ namespace server
                         /* ポンをしてturn_をその人に変える */
                     }
                     if (cmd.IsCallKan()) { }
-                    if (cmd.IsCallRon()) { }
+                    if (cmd.IsCallRon())
+                    {
+                        turn_ = i;
+                        mode_ = eMode.Wait;
+                        _ron = true;
+                    }
 
                     // コマンドを初期化
                     Array.ForEach(_actionCommand, e => e.Init());
@@ -162,7 +210,7 @@ namespace server
                         AtariList atariList = new AtariList(tehais[i], del);
                         if (atariList.IsAtari())
                         {
-                            Ron = true;
+                            _actionCommand[i].CanRon = true;
                         }
 
                         // ポンのコマンドを有効にする
@@ -175,8 +223,6 @@ namespace server
             }
         }
 
-
-
         public void Draw(Graphics g)
         {
             for (int i = 0; i < players; i++)
@@ -185,6 +231,18 @@ namespace server
                 kawas[i].Draw(g, i);
                 //naki[i].Draw(g, i);
                 _actionCommand[i].Draw(g, i == turn_);
+            }
+
+            Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
+            SolidBrush whiteBrush = new SolidBrush(Color.White);
+
+            if (_tsumo)
+            {
+                g.DrawString("ツモ", font, Brushes.White, new PointF(512, 304));
+            }
+            if (_ron)
+            {
+                g.DrawString("ロン", font, Brushes.White, new PointF(512, 304));
             }
         }
     }

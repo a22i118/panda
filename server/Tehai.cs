@@ -9,46 +9,52 @@ namespace server
 {
     internal class Tehai
     {
-        const int players = 4;
-        List<Hai> _list = new List<Hai>();
-        public List<Hai> List { get { return _list; } }
-        private List<Pon> pon = new List<Pon>();
+        //const int players = 4;
+        private List<Hai> _hais = new List<Hai>();
+        private List<Pon> _pons = new List<Pon>();
+
+        public List<Hai> List { get { return _hais; } }
         //private List<Hai> hais;
+
         public Tehai() { }
+
+        public void Init()
+        {
+            _hais.Clear();
+            _pons.Clear();
+        }
 
         public void Add(Hai hai)
         {
-            _list.Add(hai);
+            _hais.Add(hai);
         }
 
         public void Sort()
         {
-            _list.Sort((a, b) => (int)a.Name - (int)b.Name);
+            _hais.Sort((a, b) => (int)a.Name - (int)b.Name);
         }
 
         public void Draw(Graphics g, int players)
         {
-            for (int i = 0; i < _list.Count; i++)
+            for (int i = 0; i < _hais.Count; i++)
             {
-                _list[i].SetPos(300 + i * 48, players * 200);
-                _list[i].Draw(g);
+                _hais[i].SetPos(300 + i * 48, players * 200);
+                _hais[i].Draw(g);
             }
-
-            
-
         }
+
         public Hai Click(int x, int y, Kawa kawas)
         {
             Hai del = null;
 
-            for (int i = 0; i < _list.Count; i++)
+            for (int i = 0; i < _hais.Count; i++)
             {
-                if (_list[i].IsClick(x, y))
+                if (_hais[i].IsClick(x, y))
                 {
 
-                    kawas.Add(_list[i]);
+                    kawas.Add(_hais[i]);
 
-                    del = _list[i];
+                    del = _hais[i];
                     break;
 
                 }
@@ -56,14 +62,14 @@ namespace server
 
             if (del != null)
             {
-                _list.Remove(del);
+                _hais.Remove(del);
 
             }
 
             return del;
             //foreach (Hai hai in del)
             //{
-            //    list_.Remove(hai);
+            //    _hais.Remove(hai);
             //}
         }
 
@@ -71,11 +77,11 @@ namespace server
         {
             if (IsCanTsumo())
             {
-                _list.Add(yama.Tsumo());
+                _hais.Add(yama.Tsumo());
             }
         }
 
-        //public void Ron()
+        //public void _ron()
         //{
         //    List<Hai> thro = new List<Hai>();
         //}
@@ -90,12 +96,12 @@ namespace server
 
         public bool IsCanTsumo()
         {
-            return _list.Count + 3 * pon.Count < 14;
+            return _hais.Count + 3 * _pons.Count < 14;
         }
 
         public bool IsCanPon(Hai hai)
         {
-            return _list.Count(item => item.Name == hai.Name) >= 2;
+            return _hais.Count(item => item.Name == hai.Name) >= 2;
         }
 
         public void Pon(Hai sutehai)
@@ -103,40 +109,40 @@ namespace server
             Hai sutehai1 = null;
             Hai sutehai2 = null;
             int i;
-            for (i = 0; i < _list.Count; i++)
+            for (i = 0; i < _hais.Count; i++)
             {
-                if (sutehai.Name == _list[i].Name)
+                if (sutehai.Name == _hais[i].Name)
                 {
-                    sutehai1 = _list[i];
+                    sutehai1 = _hais[i];
                     i++;
                     break;
                 }
             }
 
-            for (; i < _list.Count; i++)
+            for (; i < _hais.Count; i++)
             {
-                if (sutehai.Name == _list[i].Name)
+                if (sutehai.Name == _hais[i].Name)
                 {
-                    sutehai2 = _list[i]; break;
+                    sutehai2 = _hais[i]; break;
                 }
             }
 
             if (sutehai1 != null && sutehai2 != null)
             {
-                pon.Add(new server.Pon(sutehai, sutehai1, sutehai2));
-                _list.Remove(sutehai1);
-                _list.Remove(sutehai2);
+                _pons.Add(new server.Pon(sutehai, sutehai1, sutehai2));
+                _hais.Remove(sutehai1);
+                _hais.Remove(sutehai2);
             }
 
-            //if(list_.Count(item => item == del) >= 2)
+            //if(_hais.Count(item => item == del) >= 2)
             //{
             //    //int Poncnt = 0;
-            //    for (int i = 0; i < list_.Count; ++i)
+            //    for (int i = 0; i < _hais.Count; ++i)
             //    {
             //        //Add(new Pon(hais[0], hais[1], hais[2]));
-            //        //if (list_[i] == del && Poncnt <= 1)
+            //        //if (_hais[i] == del && Poncnt <= 1)
             //        //{
-            //        //    list_.RemoveAt(i);
+            //        //    _hais.RemoveAt(i);
             //        //    Poncnt++;
             //        //}
             //    }

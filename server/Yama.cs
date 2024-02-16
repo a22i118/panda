@@ -11,10 +11,10 @@ namespace server
         List<Hai> _list = new List<Hai>();
         public List<Hai> List { get { return _list; } }
 
-        public Yama()
-        {
-            //_list.Add(new Hai(Hai.Type.Pinzu,Hai.Number.Num1));
+        public Yama() { }
 
+        public void Init()
+        {
             for (int k = 0; k < 4; k++)
             {
                 for (int i = 0; i < 4; i++)
@@ -36,6 +36,7 @@ namespace server
 
                 }
             }
+
             // シャッフルする
             Shuffle();
         }
@@ -87,7 +88,7 @@ namespace server
                 }
             }
 
-            //_list.InsertRange(player * 13, list.ToArray());
+            //_hais.InsertRange(player * 13, list.ToArray());
             _list.InsertRange(player * 13, list);
         }
     }

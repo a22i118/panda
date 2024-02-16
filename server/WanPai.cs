@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,13 @@ namespace server
 {
     internal class WanPai
     {
-        List<Hai> list_ = new List<Hai>();
-        public List<Hai> List { get { return list_; } }
+        List<Hai> _list = new List<Hai>();
+        //public List<Hai> List { get { return _hais; } }
+
         public WanPai() { }
 
+        public void Init() { _list.Clear(); }
 
-        public void Add(Hai hai)
-        {
-            list_.Add(hai);
-        }
-
-
+        public void Add(Hai hai) { _list.Add(hai); }
     }
 }
