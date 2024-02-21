@@ -132,7 +132,7 @@ namespace server
 
                 if (atariList.IsAtari())
                 {
-                    _tsumo = true;
+                    _actionCommand[turn_].CanTsumo = true;
                     //Console.WriteLine("アタリ");
                 }
 
@@ -164,7 +164,19 @@ namespace server
                 // コマンドが選択された
                 if (cmd.Click(x, y))
                 {
-                    if (cmd.IsCallChi()) { }
+                    bool init = true;
+                    if (cmd.IsCallChi())
+                    {
+                        if (tehais[i].Chi(sutehai))
+                        {
+                            mode_ = eMode.Wait;
+                            turn_ = i;
+                        }
+                        else
+                        {
+                            init = false;
+                        }
+                    }
                     if (cmd.IsCallPon())
                     {
                         mode_ = eMode.Wait;
@@ -181,9 +193,19 @@ namespace server
                         mode_ = eMode.Wait;
                         _ron = true;
                     }
+                    if (cmd.IsCallTsumo())
+                    {
+                        turn_ = i;
+                        mode_ = eMode.Wait;
+                        _tsumo = true;
+                    }
 
                     // コマンドを初期化
-                    Array.ForEach(_actionCommand, e => e.Init());
+                    if (init)
+                    {
+                        Array.ForEach(_actionCommand, e => e.Init());
+                        Array.ForEach(tehais, e => e.ResetChi());
+                    }
 
                     return;
                 }
@@ -200,23 +222,53 @@ namespace server
                     Array.ForEach(_actionCommand, e => e.Init());
 
                     tehais[turn_].Sort();
-                    for (int i = 0; i < players; i++)
-                    {
-                        if (i == turn_)
-                        {
-                            continue;
-                        }
 
-                        AtariList atariList = new AtariList(tehais[i], del);
+                    for (int shimocha = 1; shimocha < players; shimocha++)
+                    {
+                        int player = (turn_ + shimocha) % players;
+
+                        AtariList atariList = new AtariList(tehais[player], del);
+
                         if (atariList.IsAtari())
                         {
-                            _actionCommand[i].CanRon = true;
+                            _actionCommand[player].CanRon = true;
+                        }
+
+                        // チーのコマンドを有効にする
+                        if (shimocha == 1 && tehais[player].IsCanChi(del))
+                        {
+                            _actionCommand[player].CanChi = true;
                         }
 
                         // ポンのコマンドを有効にする
-                        if (tehais[i].IsCanPon(del))
+                        if (tehais[player].IsCanPon(del))
                         {
-                            _actionCommand[i].CanPon = true;
+                            _actionCommand[player].CanPon = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int player = 0; player < players; player++)
+                {
+                    Hai hai = tehais[player].Click(x, y);
+                    if (hai != null)
+                    {
+                        if (hai.Nakichoice)
+                        {
+                            hai.Nakichoice = false;
+                        }
+                        else if (hai.Nakikouho)
+                        {
+                            hai.Nakichoice = true;
+                            if (tehais[player].Chi(sutehai))
+                            {
+                                mode_ = eMode.Wait;
+                                turn_ = player;
+                                Array.ForEach(_actionCommand, e => e.Init());
+                                Array.ForEach(tehais, e => e.ResetChi());
+                            }
                         }
                     }
                 }

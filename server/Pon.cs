@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,15 @@ namespace server
 {
     internal class Pon
     {
-        private Hai[] hais = new Hai[3];
+        private Hai[] _hais = new Hai[3];
+
+        public Hai[] Hais { get { return _hais; } }
+
         public Pon(Hai hai0, Hai hai1, Hai hai2)
         {
-            hais[0] = hai0;
-            hais[1] = hai1;
-            hais[2] = hai2;
+            _hais[0] = hai0;
+            _hais[1] = hai1;
+            _hais[2] = hai2;
         }
     }
 }

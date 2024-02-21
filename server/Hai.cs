@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static server.Hai;
 
 namespace server
 {
@@ -76,64 +78,94 @@ namespace server
             Haku,
             Hatu,
             Thun,
+
+            Null
         }
 
-        eType type_;
-        eNumber num_;
+        public eName Next(int idx)
+        {
+            int n = (int)Number + idx;
+            if (Type == eType.Zihai || n < (int)eNumber.Num1 || (int)eNumber.Num9 < n) { return eName.Null; }
+            return name(_type, (eNumber)n);
+        }
 
-        static Int32 width = 48;
-        static Int32 height = 64;
+        private eType _type;
+        private eNumber _num;
 
-        private Int32 rot = 0;
+        private bool _nakikouho;
+        public bool Nakikouho
+        {
+            get { return _nakikouho; }
+            set { _nakikouho = value; }
+        }
 
-        private Bitmap bmp;
-        Rectangle bmpRect;
+        private bool _nakichoice;
+        public bool Nakichoice
+        {
+            get { return _nakichoice; }
+            set { _nakichoice = value; }
+        }
 
-        Point[] points = {
+        public void ResetChi()
+        {
+            _nakikouho = false;
+            _nakichoice = false;
+        }
+
+        static Int32 s_width = 48;
+        static Int32 s_height = 64;
+
+        private Int32 _rot = 0;
+
+        private Bitmap _bmp;
+        Rectangle _bmpRect;
+
+        Point[] _points = {
             new Point(0, 0),
-            new Point(width, 0),
-            new Point(0, height)
+            new Point(s_width, 0),
+            new Point(0, s_height)
         };
 
         public Hai(eType type, eNumber num)
         {
-            this.type_ = type;
-            this.num_ = num;
+            this._type = type;
+            this._num = num;
+            this._nakikouho = false;
 
-            if (type_ == eType.Manzu)
+            if (_type == eType.Manzu)
             {
-                bmp = Properties.Resources.hai_manzu;
+                _bmp = Properties.Resources.hai_manzu;
             }
-            else if (type_ == eType.Pinzu)
+            else if (_type == eType.Pinzu)
             {
-                bmp = Properties.Resources.hai_pinzu;
+                _bmp = Properties.Resources.hai_pinzu;
             }
-            else if (type_ == eType.Souzu)
+            else if (_type == eType.Souzu)
             {
-                bmp = Properties.Resources.hai_souzu;
+                _bmp = Properties.Resources.hai_souzu;
             }
             else if (num == eNumber.Ton ||
                 num == eNumber.Nan ||
                 num == eNumber.Sha ||
                 num == eNumber.Pei)
             {
-                bmp = Properties.Resources.hai_sufon;
+                _bmp = Properties.Resources.hai_sufon;
             }
             else
             {
-                bmp = Properties.Resources.hai_sangen;
+                _bmp = Properties.Resources.hai_sangen;
             }
 
             {
                 int top = 0;
                 int div = 9;
 
-                if (type_ == eType.Zihai)
+                if (_type == eType.Zihai)
                 {
-                    if (num_ == eNumber.Ton ||
-                        num_ == eNumber.Nan ||
-                        num_ == eNumber.Sha ||
-                        num_ == eNumber.Pei)
+                    if (_num == eNumber.Ton ||
+                        _num == eNumber.Nan ||
+                        _num == eNumber.Sha ||
+                        _num == eNumber.Pei)
                     {
                         div = 4;
                     }
@@ -145,26 +177,31 @@ namespace server
 
                 }
 
-                int w = bmp.Width / div;
-                int h = bmp.Height;
+                int w = _bmp.Width / div;
+                int h = _bmp.Height;
 
-                bmpRect = new Rectangle(((int)num - top) * w, 0, w, h);
+                _bmpRect = new Rectangle(((int)num - top) * w, 0, w, h);
             }
         }
 
         public eName Name
         {
-            get { return (eName)((int)type_ * 9 + (int)num_); }
+            get { return (eName)((int)_type * 9 + (int)_num); }
+        }
+
+        private static eName name(eType type, eNumber number)
+        {
+            return (eName)((int)type * 9 + (int)number);
         }
 
         public eType Type
         {
-            get { return type_; }
+            get { return _type; }
         }
 
         public eNumber Number
         {
-            get { return num_; }
+            get { return _num; }
         }
 
         static float DegToRad(Int32 deg)
@@ -174,24 +211,46 @@ namespace server
 
         public void SetPos(Int32 x, Int32 y)
         {
-            var sc = MathF.SinCos(DegToRad(rot));
-            points[0].X = x;
-            points[0].Y = y;
-            points[1].X = x + (Int32)(width * sc.Cos);
-            points[1].Y = y + (Int32)(width * sc.Sin);
-            points[2].X = x + (Int32)(height * sc.Sin);
-            points[2].Y = y + (Int32)(height * sc.Cos);
+            var sc = MathF.SinCos(DegToRad(_rot));
+            _points[0].X = x;
+            _points[0].Y = y;
+            _points[1].X = x + (Int32)(s_width * sc.Cos);
+            _points[1].Y = y + (Int32)(s_width * sc.Sin);
+            _points[2].X = x + (Int32)(s_height * sc.Sin);
+            _points[2].Y = y + (Int32)(s_height * sc.Cos);
+        }
+
+        private Point[] getOffsetPos(int ofs)
+        {
+            var sc = MathF.SinCos(DegToRad(_rot));
+            Point[] tmp = (Point[])_points.Clone();
+            tmp[0].X += (Int32)(ofs * sc.Sin);
+            tmp[0].Y += (Int32)(ofs * sc.Cos);
+            tmp[1].X += (Int32)(ofs * sc.Sin);
+            tmp[1].Y += (Int32)(ofs * sc.Cos);
+            tmp[2].X += (Int32)(ofs * sc.Sin);
+            tmp[2].Y += (Int32)(ofs * sc.Cos);
+            return tmp;
         }
 
         public void SetRot(Int32 rot)
         {
-            this.rot = rot;
-            SetPos(points[0].X, points[0].Y);
+            this._rot = rot;
+            SetPos(_points[0].X, _points[0].Y);
         }
 
         public void Draw(Graphics g)
         {
-            g.DrawImage(bmp, points, bmpRect, GraphicsUnit.Pixel);
+            if (_nakikouho)
+            {
+                int ofs = _nakichoice ? -s_height / 2 : -s_height / 4;
+                Point[] tmp = getOffsetPos(ofs);
+                g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+            }
+            else
+            {
+                g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
+            }
         }
 
         public bool IsClick(int x, int y)
@@ -201,7 +260,7 @@ namespace server
             int ymin = int.MaxValue;
             int ymax = int.MinValue;
 
-            foreach (var point in points)
+            foreach (var point in _points)
             {
                 xmin = Math.Min(xmin, point.X);
                 xmax = Math.Max(xmax, point.X);
@@ -212,7 +271,7 @@ namespace server
 
             return (xmin < x && x < xmax) && (ymin < y && y < ymax);
 
-//            return false;
+            //            return false;
         }
     }
 }

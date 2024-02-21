@@ -112,15 +112,15 @@ namespace server
 
         //public CheckTehai AddKantsu()
         //{
-        //    if (hais.Count >= 4 && hais[0].Name == hais[1].Name && hais[0].Name == hais[2].Name && hais[0].Name == hais[3].Name)
+        //    if (_hais.Count >= 4 && _hais[0].Name == _hais[1].Name && _hais[0].Name == _hais[2].Name && _hais[0].Name == _hais[3].Name)
         //    {
         //        CheckTehai tmp = new CheckTehai(this);
 
-        //        tmp.kantsu.Add(new Kantsu(tmp.hais[0], tmp.hais[1], tmp.hais[2], tmp.hais[3]);
-        //        tmp.hais.RemoveAt(3);
-        //        tmp.hais.RemoveAt(2);
-        //        tmp.hais.RemoveAt(1);
-        //        tmp.hais.RemoveAt(0);
+        //        tmp.kantsu.Add(new Kantsu(tmp._hais[0], tmp._hais[1], tmp._hais[2], tmp._hais[3]);
+        //        tmp._hais.RemoveAt(3);
+        //        tmp._hais.RemoveAt(2);
+        //        tmp._hais.RemoveAt(1);
+        //        tmp._hais.RemoveAt(0);
 
         //        return tmp;
         //    }

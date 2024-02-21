@@ -11,7 +11,7 @@ namespace server
     {
         private List<Toitsu> toitsu = new List<Toitsu>();
         private List<Kotsu> kotsu = new List<Kotsu>();
-        //private List<Hai> hais;
+        //private List<Hai> _hais;
         private CheckTehai checkTehai;
         private List<CheckTehai> checktehais = new List<CheckTehai>();
         

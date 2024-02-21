@@ -21,11 +21,12 @@ namespace server
             Pon,
             Kan,
             Ron,
+            Tsumo,
             Cancel,
             Num = Cancel
         };
 
-        private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "キャンセル" };
+        private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "ツモ", "キャンセル" };
 
         public ActionCommand(int x, int y, int w, int h)
         {
@@ -56,12 +57,14 @@ namespace server
         public bool CanPon { set { _can[(int)eCommand.Pon] = value; } }
         public bool CanKan { set { _can[(int)eCommand.Kan] = value; } }
         public bool CanRon { set { _can[(int)eCommand.Ron] = value; } }
+        public bool CanTsumo { set { _can[(int)eCommand.Tsumo] = value; } }
 
 
         public bool IsCallChi() { return _call[(int)eCommand.Chi]; }
         public bool IsCallPon() { return _call[(int)eCommand.Pon]; }
         public bool IsCallKan() { return _call[(int)eCommand.Kan]; }
         public bool IsCallRon() { return _call[(int)eCommand.Ron]; }
+        public bool IsCallTsumo() { return _call[(int)eCommand.Tsumo]; }
 
         public bool Click(int x, int y)
         {
