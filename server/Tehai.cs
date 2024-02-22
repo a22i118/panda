@@ -176,6 +176,9 @@ namespace server
                 choice[3] != null ? choice[3] : _hais.Find(value => value.Name == hai.Next(2))
             };
 
+            if (kouho[1] == null) { kouho[0] = null; }
+            if (kouho[2] == null) { kouho[3] = null; }
+
             int kouho_num = kouho.Count(value => value != null);
 
             bool[] is_kouho = new bool[4]{
