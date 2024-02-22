@@ -269,6 +269,7 @@ namespace server
                                 Array.ForEach(_actionCommand, e => e.Init());
                                 Array.ForEach(tehais, e => e.ResetChi());
                             }
+                            hai.Nakichoice = true;
                         }
                     }
                 }

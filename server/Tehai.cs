@@ -15,6 +15,7 @@ namespace server
         private List<Hai> _hais = new List<Hai>();
         private List<Pon> _pons = new List<Pon>();
         private List<Chi> _chis = new List<Chi>();
+        private List<INaki> _naki = new List<INaki>();
 
         public List<Hai> List { get { return _hais; } }
         //private List<Hai> _hais;
@@ -26,6 +27,7 @@ namespace server
             _hais.Clear();
             _pons.Clear();
             _chis.Clear();
+            _naki.Clear();
         }
 
         public void Add(Hai hai)
@@ -48,30 +50,15 @@ namespace server
                 _hais[i].Draw(g);
             }
 
-            if (_pons.Count != 0)
+            if (IsCanTsumo())
             {
-                x += 24;
-                for (int i = 0; i < _pons.Count; i++)
-                {
-                    foreach (var item in _pons[i].Hais)
-                    {
-                        item.SetPos(x += 48, players * 200);
-                        item.Draw(g);
-                    }
-                }
+                x += 48;
             }
 
-            if (_chis.Count != 0)
+            for (int i = _naki.Count-1; i >=0; i--)
             {
-                x += 24;
-                for (int i = 0; i < _chis.Count; i++)
-                {
-                    foreach (var item in _chis[i].Hais)
-                    {
-                        item.SetPos(x += 48, players * 200);
-                        item.Draw(g);
-                    }
-                }
+                x += 12;
+                x = _naki[i].Draw(g, x, players * 200);
             }
         }
 
@@ -172,14 +159,6 @@ namespace server
 
         public bool Chi(Hai hai)
         {
-            Hai[] kouho =
-            {
-                _hais.Find(value => value.Name == hai.Next(-2)),
-                _hais.Find(value => value.Name == hai.Next(-1)),
-                _hais.Find(value => value.Name == hai.Next(1)),
-                _hais.Find(value => value.Name == hai.Next(2))
-            };
-
             Hai[] choice =
             {
                 _hais.Find(value => value.Name == hai.Next(-2) && value.Nakichoice),
@@ -188,9 +167,31 @@ namespace server
                 _hais.Find(value => value.Name == hai.Next(2) && value.Nakichoice)
             };
 
+            Hai[] kouho =
+            {
+                choice[0] != null ? choice[0] :  _hais.Find(value => value.Name == hai.Next(-2)),
+                choice[1] != null ? choice[1] : _hais.Find(value => value.Name == hai.Next(-1)),
+                choice[2] != null ? choice[2] : _hais.Find(value => value.Name == hai.Next(1)),
+                choice[3] != null ? choice[3] : _hais.Find(value => value.Name == hai.Next(2))
+            };
+
+            // 2のチーは3が必ず含まれる
+            if (hai.Number == Hai.eNumber.Num2 && kouho[2] != null)
+            {
+                kouho[2].Nakichoice = true;
+            }
+
+            // 8のチーは7が必ず含まれる
+            if (hai.Number == Hai.eNumber.Num8 && kouho[1] != null)
+            {
+                kouho[1].Nakichoice = true;
+            }
+
             if (choice[0] != null && kouho[1] != null)
             {
-                _chis.Add(new Chi(choice[0], kouho[1], hai));
+                Chi chi = new Chi(choice[0], kouho[1], hai);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(choice[0]);
                 _hais.Remove(kouho[1]);
                 return true;
@@ -198,7 +199,9 @@ namespace server
 
             if (choice[1] != null && choice[2] != null)
             {
-                _chis.Add(new Chi(choice[1], hai, choice[2]));
+                Chi chi = new Chi(choice[1], hai, choice[2]);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(choice[1]);
                 _hais.Remove(choice[2]);
                 return true;
@@ -206,7 +209,9 @@ namespace server
 
             if (kouho[2] != null && choice[3] != null)
             {
-                _chis.Add(new Chi(hai, kouho[2], choice[3]));
+                Chi chi = new Chi(hai, kouho[2], choice[3]);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(kouho[2]);
                 _hais.Remove(choice[3]);
                 return true;
@@ -214,7 +219,9 @@ namespace server
 
             if (kouho[0] != null && kouho[1] != null && kouho[2] == null && kouho[3] == null)
             {
-                _chis.Add(new Chi(kouho[0], kouho[1], hai));
+                Chi chi = new Chi(kouho[0], kouho[1], hai);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(kouho[0]);
                 _hais.Remove(kouho[1]);
                 return true;
@@ -222,7 +229,9 @@ namespace server
 
             if (kouho[0] == null && kouho[1] != null && kouho[2] != null && kouho[3] == null)
             {
-                _chis.Add(new Chi(kouho[1], hai, kouho[2]));
+                Chi chi = new Chi(kouho[1], hai, kouho[2]);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(kouho[1]);
                 _hais.Remove(kouho[2]);
                 return true;
@@ -230,7 +239,9 @@ namespace server
 
             if (kouho[0] == null && kouho[1] == null && kouho[2] != null && kouho[3] != null)
             {
-                _chis.Add(new Chi(hai, kouho[2], kouho[3]));
+                Chi chi = new Chi(hai, kouho[2], kouho[3]);
+                _chis.Add(chi);
+                _naki.Add(chi);
                 _hais.Remove(kouho[2]);
                 _hais.Remove(kouho[3]);
                 return true;
@@ -297,7 +308,9 @@ namespace server
 
             if (sutehai1 != null && sutehai2 != null)
             {
-                _pons.Add(new Pon(sutehai, sutehai1, sutehai2));
+                Pon pon = new Pon(sutehai, sutehai1, sutehai2);
+                _pons.Add(pon);
+                _naki.Add(pon);
                 _hais.Remove(sutehai1);
                 _hais.Remove(sutehai2);
             }

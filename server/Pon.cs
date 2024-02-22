@@ -7,17 +7,27 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    internal class Pon
+    internal class Pon : INaki
     {
         private Hai[] _hais = new Hai[3];
 
-        public Hai[] Hais { get { return _hais; } }
+        //public Hai[] Hais { get { return _hais; } }
 
         public Pon(Hai hai0, Hai hai1, Hai hai2)
         {
             _hais[0] = hai0;
             _hais[1] = hai1;
             _hais[2] = hai2;
+        }
+
+        public int Draw(Graphics g, int x, int y)
+        {
+            foreach (var item in _hais)
+            {
+                item.SetPos(x += 48, y);
+                item.Draw(g);
+            }
+            return x;
         }
     }
 }
