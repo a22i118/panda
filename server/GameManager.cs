@@ -179,14 +179,16 @@ namespace server
                     }
                     if (cmd.IsCallPon())
                     {
-                        mode_ = eMode.Wait;
                         tehais[i].Pon(sutehai);
-
+                        mode_ = eMode.Wait;
                         turn_ = i;
-                        //牌を捨てる
-                        /* ポンをしてturn_をその人に変える */
                     }
-                    if (cmd.IsCallKan()) { }
+                    if (cmd.IsCallKan())
+                    {
+                        tehais[i].MinKan(sutehai);
+                        mode_ = eMode.Wait;
+                        turn_ = i;
+                    }
                     if (cmd.IsCallRon())
                     {
                         turn_ = i;
@@ -244,6 +246,12 @@ namespace server
                         if (tehais[player].IsCanPon(del))
                         {
                             _actionCommand[player].CanPon = true;
+                        }
+
+                        // カンのコマンドを有効にする
+                        if (tehais[player].IsCanMinKan(del))
+                        {
+                            _actionCommand[player].CanKan = true;
                         }
                     }
                 }

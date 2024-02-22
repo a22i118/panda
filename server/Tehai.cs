@@ -16,6 +16,7 @@ namespace server
         private List<Hai> _hais = new List<Hai>();
         private List<Pon> _pons = new List<Pon>();
         private List<Chi> _chis = new List<Chi>();
+        private List<Kantsu> _kans = new List<Kantsu>();
         private List<INaki> _naki = new List<INaki>();
 
         public List<Hai> List { get { return _hais; } }
@@ -28,6 +29,7 @@ namespace server
             _hais.Clear();
             _pons.Clear();
             _chis.Clear();
+            _kans.Clear();
             _naki.Clear();
         }
 
@@ -342,6 +344,30 @@ namespace server
             //}
 
 
+        }
+
+        public bool IsCanMinKan(Hai hai) { return _hais.Count(e => e.Name == hai.Name) >= 3; }
+
+        public void MinKan(Hai hai)
+        {
+            Hai hai1 = null;
+            Hai hai2 = null;
+            Hai hai3 = null;
+
+            int i = 0;
+            for (; i < _hais.Count; i++) { if (hai.Name == _hais[i].Name) { hai1 = _hais[i]; i++; break; } }
+            for (; i < _hais.Count; i++) { if (hai.Name == _hais[i].Name) { hai2 = _hais[i]; i++; break; } }
+            for (; i < _hais.Count; i++) { if (hai.Name == _hais[i].Name) { hai3 = _hais[i]; i++; break; } }
+
+            if (hai1 != null && hai2 != null && hai3 != null)
+            {
+                Kantsu kan = new Kantsu(hai, hai1, hai2, hai3);
+                _kans.Add(kan);
+                _naki.Add(kan);
+                _hais.Remove(hai1);
+                _hais.Remove(hai2);
+                _hais.Remove(hai3);
+            }
         }
     }
 }

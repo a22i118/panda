@@ -6,15 +6,26 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    internal class Kantsu
+    internal class Kantsu : INaki
     {
-        private Hai[] hais = new Hai[4];
+        private Hai[] _hais = new Hai[4];
+
         public Kantsu(Hai hai0, Hai hai1, Hai hai2, Hai hai3)
         {
-            hais[0] = hai0;
-            hais[1] = hai1;
-            hais[2] = hai2;
-            hais[3] = hai3;
+            _hais[0] = hai0;
+            _hais[1] = hai1;
+            _hais[2] = hai2;
+            _hais[3] = hai3;
+        }
+
+        public int Draw(Graphics g, int x, int y)
+        {
+            foreach (var item in _hais)
+            {
+                item.SetPos(x += 48, y);
+                item.Draw(g);
+            }
+            return x;
         }
     }
 }
