@@ -130,7 +130,7 @@ namespace server
 
         public bool IsCanTsumo()
         {
-            return _hais.Count + 3 * _pons.Count + 3 * _chis.Count < 14;
+            return _hais.Count + 3 * (_chis.Count +  _pons.Count + _kans.Count) < 14;
         }
 
         private bool find(eName hai1, eName hai2)
@@ -141,11 +141,11 @@ namespace server
             return false;
         }
 
-        public void ResetChi()
+        public void ResetNakikouho()
         {
             foreach (var item in _hais)
             {
-                item.ResetChi();
+                item.ResetNakikouho();
             }
         }
 
@@ -368,6 +368,74 @@ namespace server
                 _hais.Remove(hai2);
                 _hais.Remove(hai3);
             }
+        }
+
+        private bool isCanAnKan(Hai hai) { return _hais.Count(e => e.Name == hai.Name) >= 4; }
+
+        public bool IsCanAnKan()
+        {
+            foreach (var hai in _hais) { if (isCanAnKan(hai)) { return true; } }
+            return false;
+        }
+
+        public bool AnKan()
+        {
+            Hai hai1 = null;
+            Hai hai2 = null;
+            Hai hai3 = null;
+            Hai hai4 = null;
+
+            List<Hai> kouhos = new List<Hai>();
+            Hai choice = null;
+
+            foreach (var item in _hais)
+            {
+                if (isCanAnKan(item) && kouhos.Find(e => e.Name == item.Name) == null)
+                {
+                    kouhos.Add(item);
+                    Hai tmp = _hais.Find(e => e.Name == item.Name && e.Nakichoice);
+                    if (tmp != null) { choice = tmp; }
+                }
+            }
+
+            if (kouhos.Count == 1)
+            {
+                choice = kouhos[0];
+            }
+
+            if (choice != null)
+            {
+                int i = 0;
+                for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai1 = _hais[i]; i++; break; } }
+                for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai2 = _hais[i]; i++; break; } }
+                for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai3 = _hais[i]; i++; break; } }
+                for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai4 = _hais[i]; i++; break; } }
+
+                if (hai1 != null && hai2 != null && hai3 != null && hai4 != null)
+                {
+                    Kantsu kan = new Kantsu(hai1, hai2, hai3, hai4);
+                    _kans.Add(kan);
+                    _naki.Add(kan);
+                    _hais.Remove(hai1);
+                    _hais.Remove(hai2);
+                    _hais.Remove(hai3);
+                    _hais.Remove(hai4);
+                    return true;
+                }
+            }
+
+            foreach (var kouho in kouhos)
+            {
+                foreach (var hai in _hais)
+                {
+                    if (kouho.Name == hai.Name)
+                    {
+                        hai.Nakikouho = true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

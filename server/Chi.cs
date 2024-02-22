@@ -15,9 +15,9 @@ namespace server
 
         public Chi(Hai hai0, Hai hai1, Hai hai2)
         {
-            hai0.ResetChi();
-            hai1.ResetChi();
-            hai2.ResetChi();
+            hai0.ResetNakikouho();
+            hai1.ResetNakikouho();
+            hai2.ResetNakikouho();
             _hais[0] = hai0;
             _hais[1] = hai1;
             _hais[2] = hai2;

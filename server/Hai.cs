@@ -106,7 +106,7 @@ namespace server
             set { _nakichoice = value; }
         }
 
-        public void ResetChi()
+        public void ResetNakikouho()
         {
             _nakikouho = false;
             _nakichoice = false;
