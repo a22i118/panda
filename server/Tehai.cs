@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace server
                 x += 48;
             }
 
-            for (int i = _naki.Count-1; i >=0; i--)
+            for (int i = _naki.Count - 1; i >= 0; i--)
             {
                 x += 12;
                 x = _naki[i].Draw(g, x, players * 200);
@@ -169,180 +170,175 @@ namespace server
 
             Hai[] kouho =
             {
-                choice[0] != null ? choice[0] :  _hais.Find(value => value.Name == hai.Next(-2)),
+                choice[0] != null ? choice[0] : _hais.Find(value => value.Name == hai.Next(-2)),
                 choice[1] != null ? choice[1] : _hais.Find(value => value.Name == hai.Next(-1)),
                 choice[2] != null ? choice[2] : _hais.Find(value => value.Name == hai.Next(1)),
                 choice[3] != null ? choice[3] : _hais.Find(value => value.Name == hai.Next(2))
             };
 
-            // 2のチーは3が必ず含まれる
-            if (hai.Number == Hai.eNumber.Num2 && kouho[2] != null)
-            {
-                kouho[2].Nakichoice = true;
-            }
+            int kouho_num = kouho.Count(value => value != null);
 
-            // 8のチーは7が必ず含まれる
-            if (hai.Number == Hai.eNumber.Num8 && kouho[1] != null)
-            {
-                kouho[1].Nakichoice = true;
-            }
+            bool[] is_kouho = new bool[4]{
+                kouho[0] != null,
+                kouho[1] != null,
+                kouho[2] != null,
+                kouho[3] != null,
+            };
 
-            if (choice[0] != null && kouho[1] != null)
-            {
-                Chi chi = new Chi(choice[0], kouho[1], hai);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(choice[0]);
-                _hais.Remove(kouho[1]);
-                return true;
-            }
+        int pattern = -1;
 
-            if (choice[1] != null && choice[2] != null)
+            if (kouho_num == 2)
             {
-                Chi chi = new Chi(choice[1], hai, choice[2]);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(choice[1]);
-                _hais.Remove(choice[2]);
-                return true;
+                if (is_kouho[0] && is_kouho[1]) { pattern = 0; }
+                else if (is_kouho[1] && is_kouho[2]) { pattern = 1; }
+                else if (is_kouho[2] && is_kouho[3]) { pattern = 2; }
             }
+            else if (kouho_num == 3)
+{
+    if (is_kouho[0] && is_kouho[1] && is_kouho[2])
+    {
+        if (choice[0] != null) { pattern = 0; }
+        else if (choice[2] != null) { pattern = 1; }
+        kouho[1].Nakichoice = true;
+    }
+    else if (is_kouho[1] && is_kouho[2] && is_kouho[3])
+    {
+        if (choice[1] != null) { pattern = 1; }
+        else if (choice[3] != null) { pattern = 2; }
+        kouho[2].Nakichoice = true;
+    }
+}
+else if (kouho_num == 4)
+{
+    if (choice[0] != null) { pattern = 0; }
+    else if (choice[3] != null) { pattern = 2; }
+    else if (choice[1] != null && choice[2] != null) { pattern = 1; }
+}
 
-            if (kouho[2] != null && choice[3] != null)
-            {
-                Chi chi = new Chi(hai, kouho[2], choice[3]);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(kouho[2]);
-                _hais.Remove(choice[3]);
-                return true;
-            }
+if (pattern == 0)
+{
+    Chi chi = new Chi(kouho[0], kouho[1], hai);
+    _chis.Add(chi);
+    _naki.Add(chi);
+    _hais.Remove(kouho[0]);
+    _hais.Remove(kouho[1]);
+    return true;
+}
+else if (pattern == 1)
+{
+    Chi chi = new Chi(kouho[1], hai, kouho[2]);
+    _chis.Add(chi);
+    _naki.Add(chi);
+    _hais.Remove(kouho[1]);
+    _hais.Remove(kouho[2]);
+    return true;
+}
+else if (pattern == 2)
+{
+    Chi chi = new Chi(hai, kouho[2], kouho[3]);
+    _chis.Add(chi);
+    _naki.Add(chi);
+    _hais.Remove(kouho[2]);
+    _hais.Remove(kouho[3]);
+    return true;
+}
 
-            if (kouho[0] != null && kouho[1] != null && kouho[2] == null && kouho[3] == null)
-            {
-                Chi chi = new Chi(kouho[0], kouho[1], hai);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(kouho[0]);
-                _hais.Remove(kouho[1]);
-                return true;
-            }
+foreach (var item in _hais)
+{
+    if (item.Name == hai.Next(-2) ||
+        item.Name == hai.Next(-1) ||
+        item.Name == hai.Next(1) ||
+        item.Name == hai.Next(2))
+    {
+        item.Nakikouho = true;
+    }
+}
 
-            if (kouho[0] == null && kouho[1] != null && kouho[2] != null && kouho[3] == null)
-            {
-                Chi chi = new Chi(kouho[1], hai, kouho[2]);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(kouho[1]);
-                _hais.Remove(kouho[2]);
-                return true;
-            }
+int nakichoice = 0;
+foreach (var item in _hais)
+{
+    if (item.Nakichoice)
+    {
+        nakichoice++;
+    }
+}
 
-            if (kouho[0] == null && kouho[1] == null && kouho[2] != null && kouho[3] != null)
-            {
-                Chi chi = new Chi(hai, kouho[2], kouho[3]);
-                _chis.Add(chi);
-                _naki.Add(chi);
-                _hais.Remove(kouho[2]);
-                _hais.Remove(kouho[3]);
-                return true;
-            }
+if (nakichoice >= 2)
+{
+    foreach (var item in _hais)
+    {
+        if (item.Nakichoice)
+        {
+            item.Nakichoice = false;
+        }
+    }
+}
 
-            foreach (var item in _hais)
-            {
-                if (item.Name == hai.Next(-2) ||
-                    item.Name == hai.Next(-1) ||
-                    item.Name == hai.Next(1) ||
-                    item.Name == hai.Next(2))
-                {
-                    item.Nakikouho = true;
-                }
-            }
-
-            int nakichoice = 0;
-            foreach (var item in _hais)
-            {
-                if (item.Nakichoice)
-                {
-                    nakichoice++;
-                }
-            }
-
-            if (nakichoice >= 2)
-            {
-                foreach (var item in _hais)
-                {
-                    if (item.Nakichoice)
-                    {
-                        item.Nakichoice = false;
-                    }
-                }
-            }
-
-            return false;
+return false;
         }
 
         public bool IsCanPon(Hai hai) { return find(hai.Name, hai.Name); }
 
-        public void Pon(Hai sutehai)
+public void Pon(Hai sutehai)
+{
+    Hai sutehai1 = null;
+    Hai sutehai2 = null;
+    int i;
+    for (i = 0; i < _hais.Count; i++)
+    {
+        if (sutehai.Name == _hais[i].Name)
         {
-            Hai sutehai1 = null;
-            Hai sutehai2 = null;
-            int i;
-            for (i = 0; i < _hais.Count; i++)
-            {
-                if (sutehai.Name == _hais[i].Name)
-                {
-                    sutehai1 = _hais[i];
-                    i++;
-                    break;
-                }
-            }
-
-            for (; i < _hais.Count; i++)
-            {
-                if (sutehai.Name == _hais[i].Name)
-                {
-                    sutehai2 = _hais[i]; break;
-                }
-            }
-
-            if (sutehai1 != null && sutehai2 != null)
-            {
-                Pon pon = new Pon(sutehai, sutehai1, sutehai2);
-                _pons.Add(pon);
-                _naki.Add(pon);
-                _hais.Remove(sutehai1);
-                _hais.Remove(sutehai2);
-            }
-
-            //if(_hais.Count(item => item == del) >= 2)
-            //{
-            //    //int Poncnt = 0;
-            //    for (int i = 0; i < _hais.Count; ++i)
-            //    {
-            //        //Add(new Pon(_hais[0], _hais[1], _hais[2]));
-            //        //if (_hais[i] == del && Poncnt <= 1)
-            //        //{
-            //        //    _hais.RemoveAt(i);
-            //        //    Poncnt++;
-            //        //}
-            //    }
-
-            //    //Pon(del,del,del);
-            //}
-
-            //if (_hais.Count >= 3 && _hais[0].Name == _hais[1].Name && _hais[0].Name == _hais[2].Name)
-            //{
-            //    CheckTehai tmp = new CheckTehai(this);
-
-            //    tmp.kotsu.Add(new Kotsu(tmp._hais[0], tmp._hais[1], tmp._hais[2]));
-            //    tmp._hais.RemoveAt(2);
-            //    tmp._hais.RemoveAt(1);
-            //    tmp._hais.RemoveAt(0);
-
-            //}
-
-
+            sutehai1 = _hais[i];
+            i++;
+            break;
         }
+    }
+
+    for (; i < _hais.Count; i++)
+    {
+        if (sutehai.Name == _hais[i].Name)
+        {
+            sutehai2 = _hais[i]; break;
+        }
+    }
+
+    if (sutehai1 != null && sutehai2 != null)
+    {
+        Pon pon = new Pon(sutehai, sutehai1, sutehai2);
+        _pons.Add(pon);
+        _naki.Add(pon);
+        _hais.Remove(sutehai1);
+        _hais.Remove(sutehai2);
+    }
+
+    //if(_hais.Count(item => item == del) >= 2)
+    //{
+    //    //int Poncnt = 0;
+    //    for (int i = 0; i < _hais.Count; ++i)
+    //    {
+    //        //Add(new Pon(_hais[0], _hais[1], _hais[2]));
+    //        //if (_hais[i] == del && Poncnt <= 1)
+    //        //{
+    //        //    _hais.RemoveAt(i);
+    //        //    Poncnt++;
+    //        //}
+    //    }
+
+    //    //Pon(del,del,del);
+    //}
+
+    //if (_hais.Count >= 3 && _hais[0].Name == _hais[1].Name && _hais[0].Name == _hais[2].Name)
+    //{
+    //    CheckTehai tmp = new CheckTehai(this);
+
+    //    tmp.kotsu.Add(new Kotsu(tmp._hais[0], tmp._hais[1], tmp._hais[2]));
+    //    tmp._hais.RemoveAt(2);
+    //    tmp._hais.RemoveAt(1);
+    //    tmp._hais.RemoveAt(0);
+
+    //}
+
+
+}
     }
 }
