@@ -33,7 +33,6 @@ namespace server
                             _list.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
                         }
                     }
-
                 }
             }
 
@@ -44,6 +43,9 @@ namespace server
         // ツモ
         public Hai Tsumo()
         {
+            if (_list.Count <= 0)
+                return null;
+
             Hai tsumo = _list[0];
             _list.Remove(tsumo);
             return tsumo;

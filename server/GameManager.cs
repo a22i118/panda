@@ -28,6 +28,7 @@ namespace server
         Hai sutehai = null;
         private bool _tsumo = false;
         private bool _ron = false;
+        private bool _ryukyoku = false;
 
         public enum eMode
         {
@@ -45,7 +46,6 @@ namespace server
         private void gameStart()
         {
             yama.Init();
-            wanPai.Init();
 
             for (int i = 0; i < players; i++)
             {
@@ -60,6 +60,7 @@ namespace server
 
             _tsumo = false;
             _ron = false;
+            _ryukyoku = false;
             _mode = eMode.Tsumo;
 
             // 鳴きのテストのために積み込み
@@ -70,10 +71,7 @@ namespace server
             yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
 
             //王牌
-            for (int i = 0; i < 14; i++)
-            {
-                wanPai.Add(yama.RinshanTsumo());
-            }
+            wanPai.Init(yama);
 
             //四人に配る
             for (int i = 0; i < players; i++)
@@ -83,6 +81,15 @@ namespace server
                     tehais[i].Add(yama.Tsumo());
                 }
             }
+
+            // 流局のテスト
+            //{
+            //    int yama_num = yama.List.Count;
+            //    for (int i = 0; i < yama_num - 4; i++)
+            //    {
+            //        yama.Tsumo();
+            //    }
+            //}
 
             //手牌のソート
             for (int i = 0; i < players; i++)
@@ -109,14 +116,26 @@ namespace server
 
         public void Exec()
         {
-            if (_tsumo || _ron)
+            if (_tsumo || _ron || _ryukyoku)
             {
                 return;
             }
 
             if (_mode == eMode.RinshanTsumo)
             {
-                tehais[turn_].Tsumo(yama);
+                if (tehais[turn_].IsCanTsumo())
+                {
+                    Hai hai = wanPai.Tsumo();
+                    if (hai != null)
+                    {
+                        tehais[turn_].Add(hai);
+                    }
+                    else
+                    {
+                        _ryukyoku = true;
+                        return;
+                    }
+                }
 
                 AtariList atariList = new AtariList(tehais[turn_]);
 
@@ -146,7 +165,19 @@ namespace server
 
                 turn_ = (turn_ + 1) % 4;
 
-                tehais[turn_].Tsumo(yama);
+                if (tehais[turn_].IsCanTsumo())
+                {
+                    Hai hai = yama.Tsumo();
+                    if (hai != null)
+                    {
+                        tehais[turn_].Add(hai);
+                    }
+                    else
+                    {
+                        _ryukyoku = true;
+                        return;
+                    }
+                }
 
                 AtariList atariList = new AtariList(tehais[turn_]);
 
@@ -175,7 +206,7 @@ namespace server
 
         public void ClickCheck(int x, int y)
         {
-            if (_tsumo || _ron)
+            if (_tsumo || _ron || _ryukyoku)
             {
                 gameStart();
 
@@ -213,7 +244,7 @@ namespace server
                         if (tehais[i].IsCanTsumo())
                         {
                             tehais[i].MinKan(sutehai);
-                            _mode = eMode.Wait;
+                            _mode = eMode.RinshanTsumo;
                             turn_ = i;
                         }
                         else
@@ -369,6 +400,10 @@ namespace server
             if (_ron)
             {
                 g.DrawString("ロン", font, Brushes.White, new PointF(512, 304));
+            }
+            if (_ryukyoku)
+            {
+                g.DrawString("流局", font, Brushes.White, new PointF(512, 304));
             }
         }
     }
