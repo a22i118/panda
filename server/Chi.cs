@@ -11,8 +11,9 @@ namespace server
     {
         private Hai[] _hais = new Hai[3];
 
-        public Chi(Hai hai0, Hai hai1, Hai hai2)
+        public Chi(Hai hai0, Hai hai1, Hai hai2, int from)
         {
+            _from = from;
             hai0.ResetNakikouho();
             hai1.ResetNakikouho();
             hai2.ResetNakikouho();
@@ -21,13 +22,17 @@ namespace server
             _hais[2] = hai2;
         }
 
-        public int Draw(Graphics g, int x, int y)
+        public override int Draw(Graphics g, int x, int y)
         {
-            foreach (var item in _hais)
-            {
-                item.SetPos(x += 48, y);
-                item.Draw(g);
-            }
+            _hais[0].SetPos(x, y);
+            x += _hais[0].Draw(g, _from == 3);
+
+            _hais[1].SetPos(x, y);
+            x += _hais[1].Draw(g, _from == 2);
+
+            _hais[2].SetPos(x, y);
+            x += _hais[2].Draw(g, _from == 1);
+
             return x;
         }
     }

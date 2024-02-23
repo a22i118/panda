@@ -11,20 +11,25 @@ namespace server
     {
         private Hai[] _hais = new Hai[3];
 
-        public Pon(Hai hai0, Hai hai1, Hai hai2)
+        public Pon(Hai hai0, Hai hai1, Hai hai2, int from)
         {
+            _from = from;
             _hais[0] = hai0;
             _hais[1] = hai1;
             _hais[2] = hai2;
         }
 
-        public int Draw(Graphics g, int x, int y)
+        public override int Draw(Graphics g, int x, int y)
         {
-            foreach (var item in _hais)
-            {
-                item.SetPos(x += 48, y);
-                item.Draw(g);
-            }
+            _hais[0].SetPos(x, y);
+            x += _hais[0].Draw(g, _from == 3);
+
+            _hais[1].SetPos(x, y);
+            x += _hais[1].Draw(g, _from == 2);
+
+            _hais[2].SetPos(x, y);
+            x += _hais[2].Draw(g, _from == 1);
+
             return x;
         }
 
@@ -35,7 +40,7 @@ namespace server
 
         public Kan KaKan(Hai hai)
         {
-            return new Kan(hai, _hais[0], _hais[1], _hais[2]);
+            return new Kan(hai, _hais[0], _hais[1], _hais[2], _from);
         }
     }
 }

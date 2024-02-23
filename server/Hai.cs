@@ -118,12 +118,21 @@ namespace server
         private Int32 _rot = 0;
 
         private Bitmap _bmp;
-        Rectangle _bmpRect;
+        private Rectangle _bmpRect;
 
-        Point[] _points = {
-            new Point(0, 0),
-            new Point(s_width, 0),
-            new Point(0, s_height)
+        private static Bitmap s_bmpUra = Properties.Resources.hai_back;
+        private static Rectangle s_bmpUraRect = new Rectangle(0, 0, s_bmpUra.Width, s_bmpUra.Height);
+
+        private Point[] _points = {
+            new Point(      0,        0),
+            new Point(s_width,        0),
+            new Point(      0, s_height)
+        };
+
+        private Point[] _points_yoko = {
+            new Point(       0, (s_width + s_height) / 2),
+            new Point(       0, (s_width + s_height) / 2 - s_width),
+            new Point(s_height, (s_width + s_height) / 2)
         };
 
         public Hai(eType type, eNumber num)
@@ -214,10 +223,18 @@ namespace server
             var sc = MathF.SinCos(DegToRad(_rot));
             _points[0].X = x;
             _points[0].Y = y;
-            _points[1].X = x + (Int32)(s_width * sc.Cos);
-            _points[1].Y = y + (Int32)(s_width * sc.Sin);
-            _points[2].X = x + (Int32)(s_height * sc.Sin);
-            _points[2].Y = y + (Int32)(s_height * sc.Cos);
+            _points[1].X = _points[0].X + s_width;
+            _points[1].Y = _points[0].Y;
+            _points[2].X = _points[0].X;
+            _points[2].Y = _points[0].Y + s_height;
+
+            sc = MathF.SinCos(DegToRad(_rot + 90));
+            _points_yoko[0].X = x;
+            _points_yoko[0].Y = y + (s_width + s_height) / 2;
+            _points_yoko[1].X = _points_yoko[0].X;
+            _points_yoko[1].Y = _points_yoko[0].Y - s_width;
+            _points_yoko[2].X = _points_yoko[0].X + s_height;
+            _points_yoko[2].Y = _points_yoko[0].Y;
         }
 
         private Point[] getOffsetPos(int ofs)
@@ -239,17 +256,29 @@ namespace server
             SetPos(_points[0].X, _points[0].Y);
         }
 
-        public void Draw(Graphics g)
+        public int Draw(Graphics g, bool isYoko = false, bool isUra = false)
         {
-            if (_nakikouho)
+            if (isUra)
+            {
+                g.DrawImage(s_bmpUra, _points, s_bmpUraRect, GraphicsUnit.Pixel);
+                return s_width;
+            }
+            else if (_nakikouho)
             {
                 int ofs = _nakichoice ? -s_height / 2 : -s_height / 4;
                 Point[] tmp = getOffsetPos(ofs);
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+                return s_width;
+            }
+            else if (isYoko)
+            {
+                g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
+                return s_height;
             }
             else
             {
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
+                return s_width;
             }
         }
 

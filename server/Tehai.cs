@@ -59,9 +59,11 @@ namespace server
                 x += 48;
             }
 
+            x += 48;
+
             for (int i = _naki.Count - 1; i >= 0; i--)
             {
-                x += 12;
+                x += 6;
                 x = _naki[i].Draw(g, x, players * 200);
             }
         }
@@ -206,7 +208,7 @@ namespace server
 
             if (pattern == 0)
             {
-                Chi chi = new Chi(kouho[0], kouho[1], hai);
+                Chi chi = new Chi(kouho[0], kouho[1], hai, 1);
                 _chis.Add(chi);
                 _naki.Add(chi);
                 _hais.Remove(kouho[0]);
@@ -215,7 +217,7 @@ namespace server
             }
             else if (pattern == 1)
             {
-                Chi chi = new Chi(kouho[1], hai, kouho[2]);
+                Chi chi = new Chi(kouho[1], hai, kouho[2], 2);
                 _chis.Add(chi);
                 _naki.Add(chi);
                 _hais.Remove(kouho[1]);
@@ -224,7 +226,7 @@ namespace server
             }
             else if (pattern == 2)
             {
-                Chi chi = new Chi(hai, kouho[2], kouho[3]);
+                Chi chi = new Chi(hai, kouho[2], kouho[3], 3);
                 _chis.Add(chi);
                 _naki.Add(chi);
                 _hais.Remove(kouho[2]);
@@ -268,7 +270,7 @@ namespace server
 
         public bool IsCanPon(Hai hai) { return find(hai.Name, hai.Name); }
 
-        public void Pon(Hai sutehai)
+        public void Pon(Hai sutehai, int from)
         {
             Hai sutehai1 = null;
             Hai sutehai2 = null;
@@ -293,7 +295,7 @@ namespace server
 
             if (sutehai1 != null && sutehai2 != null)
             {
-                Pon pon = new Pon(sutehai, sutehai1, sutehai2);
+                Pon pon = new Pon(sutehai, sutehai1, sutehai2, from);
                 _pons.Add(pon);
                 _naki.Add(pon);
                 _hais.Remove(sutehai1);
@@ -303,7 +305,7 @@ namespace server
 
         public bool IsCanMinKan(Hai hai) { return _hais.Count(e => e.Name == hai.Name) >= 3; }
 
-        public void MinKan(Hai hai)
+        public void MinKan(Hai hai, int from)
         {
             Hai hai1 = null;
             Hai hai2 = null;
@@ -316,7 +318,7 @@ namespace server
 
             if (hai1 != null && hai2 != null && hai3 != null)
             {
-                Kan kan = new Kan(hai, hai1, hai2, hai3);
+                Kan kan = new Kan(hai, hai1, hai2, hai3, from);
                 _kans.Add(kan);
                 _naki.Add(kan);
                 _hais.Remove(hai1);
@@ -380,7 +382,7 @@ namespace server
 
                 if (hai1 != null && hai2 != null && hai3 != null && hai4 != null)
                 {
-                    Kan kan = new Kan(hai1, hai2, hai3, hai4);
+                    Kan kan = new Kan(hai1, hai2, hai3, hai4, 0);
                     _kans.Add(kan);
                     _naki.Add(kan);
                     _hais.Remove(hai1);
@@ -396,7 +398,8 @@ namespace server
                     {
                         Kan kan = pon.KaKan(choice);
                         _kans.Add(kan);
-                        _naki.Add(kan);
+                        int idx = _naki.FindIndex(e => e == pon);
+                        _naki.Insert(idx, kan);
                         _hais.Remove(choice);
                         _pons.Remove(pon);
                         _naki.Remove(pon);

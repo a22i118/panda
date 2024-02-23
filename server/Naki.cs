@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    interface INaki
+    abstract class INaki
     {
-        public int Draw(Graphics g, int x, int y);
+        protected int _from = 0;
+
+        public abstract int Draw(Graphics g, int x, int y);
     }
 }

@@ -235,7 +235,7 @@ namespace server
                     }
                     if (cmd.IsCallPon())
                     {
-                        tehais[i].Pon(sutehai);
+                        tehais[i].Pon(sutehai, (turn_ - i + players) % players);
                         _mode = eMode.Wait;
                         turn_ = i;
                     }
@@ -243,7 +243,7 @@ namespace server
                     {
                         if (tehais[i].IsCanTsumo())
                         {
-                            tehais[i].MinKan(sutehai);
+                            tehais[i].MinKan(sutehai, (turn_ - i + players) % players);
                             _mode = eMode.RinshanTsumo;
                             turn_ = i;
                         }
