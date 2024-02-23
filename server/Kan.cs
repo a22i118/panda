@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace server
 {
-    internal class Kantsu : INaki
+    internal class Kan : INaki
     {
         private Hai[] _hais = new Hai[4];
 
-        public Kantsu(Hai hai0, Hai hai1, Hai hai2, Hai hai3)
+        public Kan(Hai hai0, Hai hai1, Hai hai2, Hai hai3)
         {
             hai0.ResetNakikouho();
             hai1.ResetNakikouho();

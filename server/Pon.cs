@@ -11,8 +11,6 @@ namespace server
     {
         private Hai[] _hais = new Hai[3];
 
-        //public Hai[] Hais { get { return _hais; } }
-
         public Pon(Hai hai0, Hai hai1, Hai hai2)
         {
             _hais[0] = hai0;
@@ -28,6 +26,16 @@ namespace server
                 item.Draw(g);
             }
             return x;
+        }
+
+        public bool IsCanKaKan(Hai hai)
+        {
+            return hai.Name == _hais[0].Name;
+        }
+
+        public Kan KaKan(Hai hai)
+        {
+            return new Kan(hai, _hais[0], _hais[1], _hais[2]);
         }
     }
 }

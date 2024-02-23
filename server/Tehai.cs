@@ -12,15 +12,16 @@ namespace server
 {
     internal class Tehai
     {
-        //const int players = 4;
         private List<Hai> _hais = new List<Hai>();
-        private List<Pon> _pons = new List<Pon>();
         private List<Chi> _chis = new List<Chi>();
-        private List<Kantsu> _kans = new List<Kantsu>();
+        private List<Pon> _pons = new List<Pon>();
+        private List<Kan> _kans = new List<Kan>();
         private List<INaki> _naki = new List<INaki>();
 
-        public List<Hai> List { get { return _hais; } }
-        //private List<Hai> _hais;
+        public List<Hai> Hais { get { return _hais; } }
+        public List<Chi> Chis { get { return _chis; } }
+        public List<Pon> Pons { get { return _pons; } }
+        public List<Kan> Kans { get { return _kans; } }
 
         public Tehai() { }
 
@@ -101,10 +102,6 @@ namespace server
             }
 
             return del;
-            //foreach (Hai hai in del)
-            //{
-            //    _hais.Remove(hai);
-            //}
         }
 
         public void Tsumo(Yama yama)
@@ -115,22 +112,9 @@ namespace server
             }
         }
 
-        //public void _ron()
-        //{
-        //    List<Hai> thro = new List<Hai>();
-        //}
-
-        //public void MinKan(Hai del)
-        //{
-        //    if (IsKotsu)
-        //    {
-
-        //    }
-        //}
-
         public bool IsCanTsumo()
         {
-            return _hais.Count + 3 * (_chis.Count +  _pons.Count + _kans.Count) < 14;
+            return _hais.Count + 3 * (_chis.Count + _pons.Count + _kans.Count) < 14;
         }
 
         private bool find(eName hai1, eName hai2)
@@ -315,35 +299,6 @@ namespace server
                 _hais.Remove(sutehai1);
                 _hais.Remove(sutehai2);
             }
-
-            //if(_hais.Count(item => item == del) >= 2)
-            //{
-            //    //int Poncnt = 0;
-            //    for (int i = 0; i < _hais.Count; ++i)
-            //    {
-            //        //Add(new Pon(_hais[0], _hais[1], _hais[2]));
-            //        //if (_hais[i] == del && Poncnt <= 1)
-            //        //{
-            //        //    _hais.RemoveAt(i);
-            //        //    Poncnt++;
-            //        //}
-            //    }
-
-            //    //Pon(del,del,del);
-            //}
-
-            //if (_hais.Count >= 3 && _hais[0].Name == _hais[1].Name && _hais[0].Name == _hais[2].Name)
-            //{
-            //    CheckTehai tmp = new CheckTehai(this);
-
-            //    tmp.kotsu.Add(new Kotsu(tmp._hais[0], tmp._hais[1], tmp._hais[2]));
-            //    tmp._hais.RemoveAt(2);
-            //    tmp._hais.RemoveAt(1);
-            //    tmp._hais.RemoveAt(0);
-
-            //}
-
-
         }
 
         public bool IsCanMinKan(Hai hai) { return _hais.Count(e => e.Name == hai.Name) >= 3; }
@@ -361,7 +316,7 @@ namespace server
 
             if (hai1 != null && hai2 != null && hai3 != null)
             {
-                Kantsu kan = new Kantsu(hai, hai1, hai2, hai3);
+                Kan kan = new Kan(hai, hai1, hai2, hai3);
                 _kans.Add(kan);
                 _naki.Add(kan);
                 _hais.Remove(hai1);
@@ -372,28 +327,35 @@ namespace server
 
         private bool isCanAnKan(Hai hai) { return _hais.Count(e => e.Name == hai.Name) >= 4; }
 
+        private bool isCanKaKan(Hai hai)
+        {
+            foreach (var pon in _pons) { if (pon.IsCanKaKan(hai)) { return true; } }
+            return false;
+        }
+
         public bool IsCanAnKan()
         {
             foreach (var hai in _hais) { if (isCanAnKan(hai)) { return true; } }
             return false;
         }
 
+        public bool IsCanKaKan()
+        {
+            foreach (var hai in _hais) { if (isCanKaKan(hai)) { return true; } }
+            return false;
+        }
+
         public bool AnKan()
         {
-            Hai hai1 = null;
-            Hai hai2 = null;
-            Hai hai3 = null;
-            Hai hai4 = null;
-
             List<Hai> kouhos = new List<Hai>();
             Hai choice = null;
 
-            foreach (var item in _hais)
+            foreach (var hai in _hais)
             {
-                if (isCanAnKan(item) && kouhos.Find(e => e.Name == item.Name) == null)
+                if ((isCanAnKan(hai) || isCanKaKan(hai)) && kouhos.Find(e => e.Name == hai.Name) == null)
                 {
-                    kouhos.Add(item);
-                    Hai tmp = _hais.Find(e => e.Name == item.Name && e.Nakichoice);
+                    kouhos.Add(hai);
+                    Hai tmp = _hais.Find(e => e.Name == hai.Name && e.Nakichoice);
                     if (tmp != null) { choice = tmp; }
                 }
             }
@@ -405,6 +367,11 @@ namespace server
 
             if (choice != null)
             {
+                Hai hai1 = null;
+                Hai hai2 = null;
+                Hai hai3 = null;
+                Hai hai4 = null;
+
                 int i = 0;
                 for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai1 = _hais[i]; i++; break; } }
                 for (; i < _hais.Count; i++) { if (choice.Name == _hais[i].Name) { hai2 = _hais[i]; i++; break; } }
@@ -413,7 +380,7 @@ namespace server
 
                 if (hai1 != null && hai2 != null && hai3 != null && hai4 != null)
                 {
-                    Kantsu kan = new Kantsu(hai1, hai2, hai3, hai4);
+                    Kan kan = new Kan(hai1, hai2, hai3, hai4);
                     _kans.Add(kan);
                     _naki.Add(kan);
                     _hais.Remove(hai1);
@@ -421,6 +388,20 @@ namespace server
                     _hais.Remove(hai3);
                     _hais.Remove(hai4);
                     return true;
+                }
+
+                foreach (var pon in _pons)
+                {
+                    if (pon.IsCanKaKan(choice))
+                    {
+                        Kan kan = pon.KaKan(choice);
+                        _kans.Add(kan);
+                        _naki.Add(kan);
+                        _hais.Remove(choice);
+                        _pons.Remove(pon);
+                        _naki.Remove(pon);
+                        return true;
+                    }
                 }
             }
 

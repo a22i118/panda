@@ -88,7 +88,6 @@ namespace server
                 }
             }
 
-            //_hais.InsertRange(player * 13, list.ToArray());
             _list.InsertRange(player * 13, list);
         }
     }

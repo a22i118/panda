@@ -10,7 +10,6 @@ namespace server
     internal class WanPai
     {
         List<Hai> _list = new List<Hai>();
-        //public List<Hai> List { get { return _hais; } }
 
         public WanPai() { }
 
