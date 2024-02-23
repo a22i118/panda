@@ -11,7 +11,6 @@ namespace server
     internal class Kawa
     {
         List<Hai> _hais = new List<Hai>();
-        //public List<Hai> List { get { return _hais; } }
 
         public Kawa() { }
 
@@ -19,11 +18,19 @@ namespace server
 
         public void Add(Hai hai) { _hais.Add(hai); }
 
-        public void Draw(Graphics g, int players)
+        public void Draw(Graphics g, int player)
         {
+            int x = 1100 - 48;
+            int y = player * 200 + 64;
+
             for (int i = 0; i < _hais.Count; i++)
             {
-                _hais[i].SetPos(1100 + i * 48, players * 200);
+                if (i == 6 || i == 12)
+                {
+                    x = 1100 - 48;
+                    y += 64;
+                }
+                _hais[i].SetPos(x += 48, y);
                 _hais[i].Draw(g);
             }
         }
