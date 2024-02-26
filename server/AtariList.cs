@@ -60,6 +60,8 @@ namespace server
             if (checkTehai.IsAgari())
             {
                 checktehais.Add(checkTehai);
+
+
             }
         }
     }

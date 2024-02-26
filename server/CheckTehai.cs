@@ -113,5 +113,23 @@ namespace server
             }
             return null;
         }
+
+        public void Yakuhantei(CheckTehai checkTehai)
+        {
+            CheckTehai tmp = checkTehai;
+            int hu = 0;
+            int han = 0;
+            int ten = 0;
+
+            for (int i = 0; i < tmp.hais.Count; i++)
+            {
+                if (tmp.hais.etype ==)
+                {
+
+                }
+            }
+        }
+
+
     }
 }
