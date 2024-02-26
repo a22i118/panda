@@ -114,14 +114,18 @@ namespace server
             return null;
         }
 
-        public void Yakuhantei(CheckTehai checkTehai)
+        public void Yakuhantei()
         {
+            if (toitsu.Count == 1 && shuntsu.Count == 4)
+            {
+
+            }
             CheckTehai tmp = checkTehai;
             int hu = 0;
             int han = 0;
             int ten = 0;
 
-            for (int i = 0; i < tmp.hais.Count; i++)
+            for (int i = 0; i < hais.Count; i++)
             {
                 if (tmp.hais.etype ==)
                 {
