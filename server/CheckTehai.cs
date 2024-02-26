@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using static server.Yaku;
 
 namespace server
 {
@@ -116,9 +118,11 @@ namespace server
 
         public void Yakuhantei()
         {
+            uint yakuMask = 0;
+
             if (toitsu.Count == 1 && shuntsu.Count == 4)
             {
-
+                yakuMask |= Pinfu.Mask;
             }
             CheckTehai tmp = checkTehai;
             int hu = 0;
@@ -133,7 +137,5 @@ namespace server
                 }
             }
         }
-
-
     }
 }
