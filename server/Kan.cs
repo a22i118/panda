@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static server.Hai;
 
 namespace server
 {
@@ -21,6 +22,10 @@ namespace server
             _hais[1] = hai1;
             _hais[2] = hai2;
             _hais[3] = hai3;
+
+            eState state = Hai.sHaiStates[(int)_hais[0].Name].State;
+            _state_and &= state;
+            _state_or |= state;
         }
 
         public override int Draw(Graphics g, int x, int y)

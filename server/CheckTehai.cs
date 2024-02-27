@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using static server.Hai;
 using static server.Yaku;
 
 namespace server
@@ -21,13 +22,16 @@ namespace server
         private List<Hai> _hais;
         private ulong _yakuMask = 0;
 
+        private eState _state_and = 0;
+        private eState _state_or = 0;
+
         //private bool isKokushimuso = false;
         public bool IsAgari()
         {
             return _hais.Count == 0 || _yakuMask != 0;
         }
 
-        public CheckTehai(Tehai tehai)
+        public CheckTehai(Tehai tehai, Hai add = null)
         {
             this._toitsu = new List<Toitsu>();
             this._kotsu = new List<Kotsu>();
@@ -37,21 +41,37 @@ namespace server
             this._pons = new List<Pon>(tehai.Pons);
             this._kans = new List<Kan>(tehai.Kans);
             this._hais = new List<Hai>(tehai.Hais);
-            this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
-        }
 
-        public CheckTehai(Tehai tehai, Hai hai)
-        {
-            this._toitsu = new List<Toitsu>();
-            this._kotsu = new List<Kotsu>();
-            this._shuntsu = new List<Shuntsu>();
-
-            this._chis = new List<Chi>(tehai.Chis);
-            this._pons = new List<Pon>(tehai.Pons);
-            this._kans = new List<Kan>(tehai.Kans);
-            this._hais = new List<Hai>(tehai.Hais);
-            this._hais.Add(hai);
+            if (add != null)
+            {
+                this._hais.Add(add);
+            }
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
+
+            foreach (var hai in _hais)
+            {
+                eState state = Hai.sHaiStates[(int)hai.Name].State;
+                _state_and &= state;
+                _state_or |= state;
+            }
+
+            foreach (var chi in _chis)
+            {
+                _state_and &= chi.StateAnd;
+                _state_or |= chi.StateOr;
+            }
+
+            foreach (var pon in _pons)
+            {
+                _state_and &= pon.StateAnd;
+                _state_or |= pon.StateOr;
+            }
+
+            foreach (var kan in _kans)
+            {
+                _state_and &= kan.StateAnd;
+                _state_or |= kan.StateOr;
+            }
         }
 
         public CheckTehai(CheckTehai checkTehai)
@@ -168,20 +188,44 @@ namespace server
 
         public bool IsChitoitsu()
         {
-            if (_hais.Count >= 14)
+            // 鳴いてはいけない
+            if (_hais.Count < 14) { return false; }
+
+            // 偶数のみ、６番目の対子までを判定
+            for (int i = 0; i < 12; i += 2)
             {
-                if (_toitsu.Count == 7)
-                {
-                    _yakuMask |= Chitoitsu.Mask;
-                    return true;
-                }
+                // 隣の牌と同じでない
+                if (_hais[i].Name != _hais[i + 1].Name) { return false; }
+
+                // 隣の隣の牌と同じ（同じ対子があってはいけない）
+                if (_hais[i].Name == _hais[i + 2].Name) { return false; }
             }
+
+            // ７番目の対子の判定
+            if (_hais[12].Name == _hais[13].Name)
+            {
+                // 字一色
+                if (HaiState.IsTsuiso(_state_or))
+                {
+                    _yakuMask |= Tsuiso.Mask;
+                    return false;
+                }
+
+                _yakuMask |= Chitoitsu.Mask;
+
+                // 混老頭
+                // 混一色
+                // 清一色
+                // 清老頭
+
+                return true;
+            }
+
             return false;
         }
+
         public void Yakuhantei()
         {
-            
-
             if (_toitsu.Count == 1 && _shuntsu.Count == 4)
             {
                 _yakuMask |= Pinfu.Mask;

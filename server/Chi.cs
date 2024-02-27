@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static reversi.Reversi;
+using static server.Hai;
 
 namespace server
 {
@@ -20,6 +21,13 @@ namespace server
             _hais[0] = hai0;
             _hais[1] = hai1;
             _hais[2] = hai2;
+
+            foreach (var hai in _hais)
+            {
+                eState state = Hai.sHaiStates[(int)hai.Name].State;
+                _state_and &= state;
+                _state_or |= state;
+            }
         }
 
         public override int Draw(Graphics g, int x, int y)

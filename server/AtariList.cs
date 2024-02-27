@@ -19,13 +19,13 @@ namespace server
             {
                 checktehais.Add(checkTehai);
             }
-            else if (checkTehai.IsChitoitsu())
-            {
-                check(this.checkTehai, false);
-                checktehais.Add(checkTehai);
-            }
             else
             {
+                if (checkTehai.IsChitoitsu())
+                {
+                    checktehais.Add(checkTehai);
+                }
+
                 check(this.checkTehai, false);
             }
         }
@@ -37,14 +37,13 @@ namespace server
             {
                 checktehais.Add(checkTehai);
             }
-            else if (checkTehai.IsChitoitsu())
-            {
-                checktehais.Add(checkTehai);
-                check(this.checkTehai, false);
-                
-            }
             else
             {
+                if (checkTehai.IsChitoitsu())
+                {
+                    checktehais.Add(checkTehai);
+                }
+
                 check(this.checkTehai, false);
             }
         }
@@ -85,8 +84,6 @@ namespace server
             if (checkTehai.IsAgari())
             {
                 checktehais.Add(checkTehai);
-
-
             }
         }
     }
