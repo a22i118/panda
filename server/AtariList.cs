@@ -15,15 +15,38 @@ namespace server
         public AtariList(Tehai tehai)
         {
             this.checkTehai = new CheckTehai(tehai);
-            check(this.checkTehai, false);
-
+            if (checkTehai.IsKokushimuso())
+            {
+                checktehais.Add(checkTehai);
+            }
+            else if (checkTehai.IsChitoitsu())
+            {
+                check(this.checkTehai, false);
+                checktehais.Add(checkTehai);
+            }
+            else
+            {
+                check(this.checkTehai, false);
+            }
         }
 
         public AtariList(Tehai tehai, Hai hai)
         {
             this.checkTehai = new CheckTehai(tehai, hai);
-            check(this.checkTehai, false);
-
+            if (checkTehai.IsKokushimuso())
+            {
+                checktehais.Add(checkTehai);
+            }
+            else if (checkTehai.IsChitoitsu())
+            {
+                checktehais.Add(checkTehai);
+                check(this.checkTehai, false);
+                
+            }
+            else
+            {
+                check(this.checkTehai, false);
+            }
         }
 
         public bool IsAtari()
@@ -57,6 +80,8 @@ namespace server
                     check(tmp, isToitsu);
                 }
             }
+
+
             if (checkTehai.IsAgari())
             {
                 checktehais.Add(checkTehai);

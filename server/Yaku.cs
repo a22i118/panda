@@ -163,17 +163,17 @@ namespace server
 
         public struct YakuTable
         {
-            uint _mask;
-            uint _han;
-            uint _nakihan;
+            ulong _mask;
+            int _han;
+            int _nakihan;
 
-            public uint Mask { get { return _mask; } }
-            public uint Han { get { return _han; } }
-            public uint NakiHan { get { return _nakihan; } }
+            public ulong Mask { get { return _mask; } }
+            public int Han { get { return _han; } }
+            public int NakiHan { get { return _nakihan; } }
 
-            public YakuTable(eYaku yaku, uint han, uint nakihan)
+            public YakuTable(eYaku yaku, int han, int nakihan)
             {
-                this._mask = 1u << (int)yaku;
+                this._mask = 1ul << (int)yaku;
                 this._han = han;
                 this._nakihan = nakihan;
             }
