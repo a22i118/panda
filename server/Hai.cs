@@ -94,6 +94,9 @@ namespace server
             Fuampai = 1 << 4,   // 風牌
             Sangem = 1 << 5,    // 三元牌
             Ryuiso = 1 << 6,    // 緑一色
+            Manzu = 1 << 7,     // 萬子
+            Pinzu = 1 << 8,     // 筒子
+            Souzu = 1 << 9,     // 索子
         }
 
         public struct HaiState
@@ -114,6 +117,28 @@ namespace server
             }
 
             public static bool IsTsuiso(eState state) { return (state & eState.Shupai) == 0; }
+            public static bool IsHonroto(eState state) { return (state & eState.Chuncham) == 0; }
+            public static bool IsHoniso(eState state)
+            {
+                //return ((state & eState.Tsupai) != 0 && (
+                //    ((state & eState.Manzu) != 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
+                //    ((state & eState.Pinzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
+                //    ((state & eState.Souzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
+                //    );
+                return (
+                    ((state & eState.Tsupai) != 0 && (state & eState.Manzu) != 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
+                    ((state & eState.Tsupai) != 0 && (state & eState.Pinzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
+                    ((state & eState.Tsupai) != 0 && (state & eState.Souzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
+                    );
+            }
+            public static bool IsChiniso(eState state)
+            {
+                return (
+                    ((state & eState.Manzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
+                    ((state & eState.Pinzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
+                    ((state & eState.Souzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
+                    );
+            }
         };
 
         public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai);

@@ -172,16 +172,11 @@ namespace server
 
         public void Yakumanhantei()
         {
-            //if(_hais.Find(e => e.Name == Hai.eName.Souzu2) != null ||
-            //    _hais.Find(e => e.Name == Hai.eName.Souzu3 != null ||
-            //    _hais.Find(e => e.Name == Hai.eName.Souzu4 != null ||
-            //    _hais.Find(e => e.Name == Hai.eName.Souzu6 != null ||
-            //    _hais.Find(e => e.Name == Hai.eName.Souzu8 != null ||
-            //    _hais.Find(e => e.Name == Hai.eName.Hatu
-            //    ){
-
-            //}
-
+            // 字一色
+            if (HaiState.IsTsuiso(_state_or))
+            {
+                _yakuMask |= Tsuiso.Mask;
+            }
 
 
         }
@@ -214,9 +209,26 @@ namespace server
                 _yakuMask |= Chitoitsu.Mask;
 
                 // 混老頭
+                if (HaiState.IsHonroto(_state_or))
+                {
+                    _yakuMask |= Honroto.Mask;
+                    return false;
+                }
+
                 // 混一色
+                if (HaiState.IsHoniso(_state_or))
+                {
+                    _yakuMask |= Honiso.Mask;
+                    return false;
+                }
+
                 // 清一色
-                // 清老頭
+                if (HaiState.IsChiniso(_state_or))
+                {
+                    _yakuMask |= Chiniso.Mask;
+                    return false;
+                }
+
 
                 return true;
             }
