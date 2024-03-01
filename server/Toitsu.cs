@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
+using static server.Yaku;
 
 namespace server
 {
@@ -21,6 +22,6 @@ namespace server
             _state_or |= state;
         }
 
-        public override bool IsSangempai() { return Hai.HaiState.IsSangenpai(_state_and); }
+        public override eMachi Machi(Hai hai) { return hai.Name == _hais[0].Name ? eMachi.Tanki : eMachi.None; }
     }
 }

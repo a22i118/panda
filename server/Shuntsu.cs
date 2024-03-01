@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
+using static server.Yaku;
 
 namespace server
 {
@@ -23,6 +24,14 @@ namespace server
                 _state_and &= state;
                 _state_or |= state;
             }
+        }
+
+        public override eMachi Machi(Hai hai)
+        {
+            if (hai.Name == _hais[1].Name) { return eMachi.Kanchan; }
+            else if (hai.Name == _hais[0].Name) { return hai.Number == eNumber.Num7 ? eMachi.Penchan : eMachi.Ryammen; }
+            else if (hai.Name == _hais[2].Name) { return hai.Number == eNumber.Num3 ? eMachi.Penchan : eMachi.Ryammen; }
+            return eMachi.None;
         }
     }
 }

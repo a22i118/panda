@@ -86,5 +86,17 @@ namespace server
                 checktehais.Add(checkTehai);
             }
         }
+
+        public string[] YakuString()
+        {
+            List<string> result = new List<string>();
+
+            foreach (var item in checktehais)
+            {
+                result.AddRange(item.YakuString());
+            }
+
+            return result.ToArray();
+        }
     }
 }

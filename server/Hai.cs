@@ -151,6 +151,11 @@ namespace server
             {
                 return (state & eState.Sangem) != 0;
             }
+
+            public static bool IsYaochu(eState state)
+            {
+                return (state & eState.Yaochu) != 0;
+            }
         };
 
         public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Manzu);

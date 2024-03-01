@@ -10,6 +10,17 @@ namespace server
 {
     internal class Yaku
     {
+        public enum eMachi
+        {
+            Tanki,
+            Penchan,
+            Kanchan,
+            Ryammen,
+            Shampon,
+
+            None
+        }
+
         //麻雀のすべて：http://mjall.jp/
         //[Flags]
         public enum eYaku
@@ -163,66 +174,113 @@ namespace server
 
         public struct YakuTable
         {
+            string _name;
             ulong _mask;
             int _han;
             int _nakihan;
 
+            public string Name { get { return _name; } }
             public ulong Mask { get { return _mask; } }
             public int Han { get { return _han; } }
             public int NakiHan { get { return _nakihan; } }
 
-            public YakuTable(eYaku yaku, int han, int nakihan)
+            public YakuTable(string name, eYaku yaku, int han, int nakihan)
             {
+                this._name = name;
                 this._mask = 1ul << (int)yaku;
                 this._han = han;
                 this._nakihan = nakihan;
             }
         };
 
-        public static YakuTable Tsumo = new YakuTable(eYaku.Tsumo, 1, 0);                       // 門前自摸(メンゼンツモ) 1 飜- 門前役
-        public static YakuTable Reach = new YakuTable(eYaku.Reach, 1, 0);                       // 立直(リーチ) 1 飜- 門前役
-        public static YakuTable Ippatsu = new YakuTable(eYaku.Ippatsu, 1, 0);                   // 一発(イッパツ) 1 飜- 門前役
-        public static YakuTable Tanyao = new YakuTable(eYaku.Tanyao, 1, 1);                     // タンヤオ 1 飜- 鳴き１飜
-        public static YakuTable Pinfu = new YakuTable(eYaku.Pinfu, 1, 0);                       // 平和(ピンフ) 1 飜- 門前役
-        public static YakuTable Ipeiko = new YakuTable(eYaku.Ipeiko, 1, 0);                     // 一盃口(イーペイコー) 1 飜- 門前役
-        public static YakuTable Yakuhai = new YakuTable(eYaku.Yakuhai, 1, 1);                   // 役牌(三元牌)／白發中 1 飜- 鳴き１飜
-        public static YakuTable Chankan = new YakuTable(eYaku.Chankan, 1, 1);                   // 槍槓(チャンカン) 1 飜- 鳴き１飜
-        public static YakuTable Rinshankaiho = new YakuTable(eYaku.Rinshankaiho, 1, 1);         // 嶺上開花(リンシャンカイホウ） 1 飜- 鳴き１飜
-        public static YakuTable Haiteiraoyue = new YakuTable(eYaku.Haiteiraoyue, 1, 1);         // 海底撈月(ハイテイラオユエ） 1 飜- 鳴き１飜
-        public static YakuTable Hoteiraoyui = new YakuTable(eYaku.Hoteiraoyui, 1, 1);           // 河底撈魚(ホウテイラオユイ) 1 飜- 鳴き１飜
-        public static YakuTable Daburi = new YakuTable(eYaku.Daburi, 2, 0);                     // ダブリー 2 飜- 門前役
-        public static YakuTable Rempuhai = new YakuTable(eYaku.Rempuhai, 2, 2);                 // 連風牌(レンプウハイ） 2 飜- 鳴き２飜
-        public static YakuTable Chitoitsu = new YakuTable(eYaku.Chitoitsu, 2, 0);               // 七対子(チートイツ) 2 飜- 門前役
-        public static YakuTable Toitoi = new YakuTable(eYaku.Toitoi, 2, 2);                     // 対々和(トイトイ） 2 飜- 鳴き２飜
-        public static YakuTable Sananko = new YakuTable(eYaku.Sananko, 2, 2);                   // 三暗刻(サンアンコウ） 2 飜- 鳴き２飜
-        public static YakuTable Sanshokudoko = new YakuTable(eYaku.Sanshokudoko, 2, 2);         // 三色同刻(サンショクドウコウ） 2 飜- 鳴き２飜
-        public static YakuTable Sanshokudojun = new YakuTable(eYaku.Sanshokudojun, 2, 1);       // 三色同順(サンショクドウジュン） 2 飜- 鳴き１飜
-        public static YakuTable Honroto = new YakuTable(eYaku.Honroto, 2, 2);                   // 混老頭(ホンロウトウ） 2 飜- 鳴き２飜
-        public static YakuTable Ikkitsukan = new YakuTable(eYaku.Ikkitsukan, 2, 1);             // 一気通貫(イッキツウカン） 2 飜- 鳴き１飜
-        public static YakuTable Chanta = new YakuTable(eYaku.Chanta, 2, 1);                     // チャンタ 2 飜- 鳴き１飜
-        public static YakuTable Shosangen = new YakuTable(eYaku.Shosangen, 2, 2);               // 小三元(ショウサンゲン） 2 飜- 鳴き２飜
-        public static YakuTable Sankantsu = new YakuTable(eYaku.Sankantsu, 2, 2);               // 三槓子(サンカンツ） 2 飜- 鳴き２飜
-        public static YakuTable Honiso = new YakuTable(eYaku.Honiso, 3, 2);                     // 混一色(ホンイーソー） 3 飜- 鳴き２飜
-        public static YakuTable Junchan = new YakuTable(eYaku.Junchan, 3, 2);                   // 純チャン(ジュンチャン） 3 飜- 鳴き２飜
-        public static YakuTable Ryampeiko = new YakuTable(eYaku.Ryampeiko, 3, 0);               // 二盃口(リャンペイコー） 3 飜- 門前役
-        public static YakuTable Nagashimangan = new YakuTable(eYaku.Nagashimangan, 5, 5);       // 流し満貫(ナガシマンガン） 5 飜- 鳴き 5 飜
-        public static YakuTable Chiniso = new YakuTable(eYaku.Chiniso, 6, 5);                   // 清一色(チンイーソー） 6 飜- 鳴き 5 飜
-        public static YakuTable Tenho = new YakuTable(eYaku.Tenho, 13, 0);                      // 天和(テンホー） 役満- 門前役
-        public static YakuTable Chiho = new YakuTable(eYaku.Chiho, 13, 0);                      // 地和(チーホー） 役満- 門前役
-        public static YakuTable Renho = new YakuTable(eYaku.Renho, 13, 0);                      // 人和(レンホー） 役満- 門前役
-        public static YakuTable Ryuiso = new YakuTable(eYaku.Ryuiso, 13, 13);                   // 緑一色(リューイーソー） 役満- 鳴き可
-        public static YakuTable Daisangen = new YakuTable(eYaku.Daisangen, 13, 13);             // 大三元(ダイサンゲン） 役満- 鳴き可
-        public static YakuTable Suanko = new YakuTable(eYaku.Suanko, 13, 0);                    // 四暗刻(スーアンコウ） 役満- 門前役
-        public static YakuTable Chinroto = new YakuTable(eYaku.Chinroto, 13, 13);               // 清老頭(チンロウトウ） 役満- 鳴き可
-        public static YakuTable Kokushimuso = new YakuTable(eYaku.Kokushimuso, 13, 0);          // 国士無双(コクシムソウ） 役満- 門前役
-        public static YakuTable Churempoto = new YakuTable(eYaku.Churempoto, 13, 0);            // 九蓮宝燈(チューレンポートウ） 役満- 門前役
-        public static YakuTable Tsuiso = new YakuTable(eYaku.Tsuiso, 13, 13);                   // 字一色(ツーイーソー） 役満- 鳴き可
-        public static YakuTable Shosushi = new YakuTable(eYaku.Shosushi, 13, 13);               // 小四喜(ショウスーシー） 役満- 鳴き可
-        public static YakuTable Sukantsu = new YakuTable(eYaku.Sukantsu, 13, 13);               // 四槓子(スーカンツ） 役満- 鳴き可
-        public static YakuTable Suankotanki = new YakuTable(eYaku.Suankotanki, 26, 0);          // 四暗刻単騎(スーアンコウタンキ） ダブル役満- 門前役
-        public static YakuTable Daisushi = new YakuTable(eYaku.Daisushi, 26, 26);               // 大四喜(ダイスーシー） ダブル役満- 鳴き可
-        public static YakuTable Junseichuren = new YakuTable(eYaku.Junseichuren, 26, 0);        // 純正九蓮宝燈(ジュンセイチューレンポートウ） ダブル役満- 門前役
-        public static YakuTable Kokushijusammen = new YakuTable(eYaku.Kokushijusammen, 26, 0);  // 国士無双十三面待ち(コクシムソウジュウサンメンマチ） ダブル役満- 門前役
+        // 門前自摸(メンゼンツモ) 1 飜- 門前役
+        public static YakuTable Tsumo = new YakuTable("門前自摸", eYaku.Tsumo, 1, 0);
+        // 立直(リーチ) 1 飜- 門前役
+        public static YakuTable Reach = new YakuTable("立直", eYaku.Reach, 1, 0);
+        // 一発(イッパツ) 1 飜- 門前役
+        public static YakuTable Ippatsu = new YakuTable("一発", eYaku.Ippatsu, 1, 0);
+        // タンヤオ 1 飜- 鳴き１飜
+        public static YakuTable Tanyao = new YakuTable("タンヤオ", eYaku.Tanyao, 1, 1);
+        // 平和(ピンフ) 1 飜- 門前役
+        public static YakuTable Pinfu = new YakuTable("平和", eYaku.Pinfu, 1, 0);
+        // 一盃口(イーペイコー) 1 飜- 門前役
+        public static YakuTable Ipeiko = new YakuTable("一盃口", eYaku.Ipeiko, 1, 0);
+        // 役牌(三元牌)／白發中 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai = new YakuTable("役牌", eYaku.Yakuhai, 1, 1);
+        // 槍槓(チャンカン) 1 飜- 鳴き１飜
+        public static YakuTable Chankan = new YakuTable("槍槓", eYaku.Chankan, 1, 1);
+        // 嶺上開花(リンシャンカイホウ） 1 飜- 鳴き１飜
+        public static YakuTable Rinshankaiho = new YakuTable("嶺上開花", eYaku.Rinshankaiho, 1, 1);
+        // 海底撈月(ハイテイラオユエ） 1 飜- 鳴き１飜
+        public static YakuTable Haiteiraoyue = new YakuTable("海底撈月", eYaku.Haiteiraoyue, 1, 1);
+        // 河底撈魚(ホウテイラオユイ) 1 飜- 鳴き１飜
+        public static YakuTable Hoteiraoyui = new YakuTable("河底撈魚", eYaku.Hoteiraoyui, 1, 1);
+        // ダブリー 2 飜- 門前役
+        public static YakuTable Daburi = new YakuTable("ダブリー", eYaku.Daburi, 2, 0);
+        // 連風牌(レンプウハイ） 2 飜- 鳴き２飜
+        public static YakuTable Rempuhai = new YakuTable("連風牌", eYaku.Rempuhai, 2, 2);
+        // 七対子(チートイツ) 2 飜- 門前役
+        public static YakuTable Chitoitsu = new YakuTable("七対子", eYaku.Chitoitsu, 2, 0);
+        // 対々和(トイトイ） 2 飜- 鳴き２飜
+        public static YakuTable Toitoi = new YakuTable("対々和", eYaku.Toitoi, 2, 2);
+        // 三暗刻(サンアンコウ） 2 飜- 鳴き２飜
+        public static YakuTable Sananko = new YakuTable("三暗刻", eYaku.Sananko, 2, 2);
+        // 三色同刻(サンショクドウコウ） 2 飜- 鳴き２飜
+        public static YakuTable Sanshokudoko = new YakuTable("三色同刻", eYaku.Sanshokudoko, 2, 2);
+        // 三色同順(サンショクドウジュン） 2 飜- 鳴き１飜
+        public static YakuTable Sanshokudojun = new YakuTable("三色同順", eYaku.Sanshokudojun, 2, 1);
+        // 混老頭(ホンロウトウ） 2 飜- 鳴き２飜
+        public static YakuTable Honroto = new YakuTable("混老頭", eYaku.Honroto, 2, 2);
+        // 一気通貫(イッキツウカン） 2 飜- 鳴き１飜
+        public static YakuTable Ikkitsukan = new YakuTable("一気通貫", eYaku.Ikkitsukan, 2, 1);
+        // チャンタ 2 飜- 鳴き１飜
+        public static YakuTable Chanta = new YakuTable("チャンタ", eYaku.Chanta, 2, 1);
+        // 小三元(ショウサンゲン） 2 飜- 鳴き２飜
+        public static YakuTable Shosangen = new YakuTable("小三元", eYaku.Shosangen, 2, 2);
+        // 三槓子(サンカンツ） 2 飜- 鳴き２飜
+        public static YakuTable Sankantsu = new YakuTable("三槓子", eYaku.Sankantsu, 2, 2);
+        // 混一色(ホンイーソー） 3 飜- 鳴き２飜
+        public static YakuTable Honiso = new YakuTable("混一色", eYaku.Honiso, 3, 2);
+        // 純チャン(ジュンチャン） 3 飜- 鳴き２飜
+        public static YakuTable Junchan = new YakuTable("純チャン", eYaku.Junchan, 3, 2);
+        // 二盃口(リャンペイコー） 3 飜- 門前役
+        public static YakuTable Ryampeiko = new YakuTable("二盃口", eYaku.Ryampeiko, 3, 0);
+        // 流し満貫(ナガシマンガン） 5 飜- 鳴き 5 飜
+        public static YakuTable Nagashimangan = new YakuTable("流し満貫", eYaku.Nagashimangan, 5, 5);
+        // 清一色(チンイーソー） 6 飜- 鳴き 5 飜
+        public static YakuTable Chiniso = new YakuTable("清一色", eYaku.Chiniso, 6, 5);
+        // 天和(テンホー） 役満- 門前役
+        public static YakuTable Tenho = new YakuTable("天和", eYaku.Tenho, 13, 0);
+        // 地和(チーホー） 役満- 門前役
+        public static YakuTable Chiho = new YakuTable("地和", eYaku.Chiho, 13, 0);
+        // 人和(レンホー） 役満- 門前役
+        public static YakuTable Renho = new YakuTable("人和", eYaku.Renho, 13, 0);
+        // 緑一色(リューイーソー） 役満- 鳴き可
+        public static YakuTable Ryuiso = new YakuTable("緑一色", eYaku.Ryuiso, 13, 13);
+        // 大三元(ダイサンゲン） 役満- 鳴き可
+        public static YakuTable Daisangen = new YakuTable("大三元", eYaku.Daisangen, 13, 13);
+        // 四暗刻(スーアンコウ） 役満- 門前役
+        public static YakuTable Suanko = new YakuTable("四暗刻", eYaku.Suanko, 13, 0);
+        // 清老頭(チンロウトウ） 役満- 鳴き可
+        public static YakuTable Chinroto = new YakuTable("清老頭", eYaku.Chinroto, 13, 13);
+        // 国士無双(コクシムソウ） 役満- 門前役
+        public static YakuTable Kokushimuso = new YakuTable("国士無双", eYaku.Kokushimuso, 13, 0);
+        // 九蓮宝燈(チューレンポートウ） 役満- 門前役
+        public static YakuTable Churempoto = new YakuTable("九蓮宝燈", eYaku.Churempoto, 13, 0);
+        // 字一色(ツーイーソー） 役満- 鳴き可
+        public static YakuTable Tsuiso = new YakuTable("字一色", eYaku.Tsuiso, 13, 13);
+        // 小四喜(ショウスーシー） 役満- 鳴き可
+        public static YakuTable Shosushi = new YakuTable("小四喜", eYaku.Shosushi, 13, 13);
+        // 四槓子(スーカンツ） 役満- 鳴き可
+        public static YakuTable Sukantsu = new YakuTable("四槓子", eYaku.Sukantsu, 13, 13);
+        // 四暗刻単騎(スーアンコウタンキ） ダブル役満- 門前役
+        public static YakuTable Suankotanki = new YakuTable("四暗刻単騎", eYaku.Suankotanki, 26, 0);
+        // 大四喜(ダイスーシー） ダブル役満- 鳴き可
+        public static YakuTable Daisushi = new YakuTable("大四喜", eYaku.Daisushi, 26, 26);
+        // 純正九蓮宝燈(ジュンセイチューレンポートウ） ダブル役満- 門前役
+        public static YakuTable Junseichuren = new YakuTable("純正九蓮宝燈", eYaku.Junseichuren, 26, 0);
+        // 国士無双十三面待ち(コクシムソウジュウサンメンマチ） ダブル役満- 門前役
+        public static YakuTable Kokushijusammen = new YakuTable("国士無双十三面待ち", eYaku.Kokushijusammen, 26, 0);
 
         public static YakuTable[] sYakuTables = {
             Tsumo,
@@ -270,10 +328,5 @@ namespace server
             Junseichuren,
             Kokushijusammen,
         };
-
-        public Yaku()
-        {
-
-        }
     }
 }

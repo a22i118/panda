@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static reversi.Reversi;
 using static server.Hai.eName;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -21,6 +22,7 @@ namespace server
         private Tehai[] tehais = new Tehai[players] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
         private Kawa[] kawas = new Kawa[players] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
         private ActionCommand[] _actionCommand = new ActionCommand[players];
+        private AtariList[] _atariList = new AtariList[players];
 
         int turn_ = 0;
 
@@ -140,9 +142,9 @@ namespace server
                     }
                 }
 
-                AtariList atariList = new AtariList(tehais[turn_]);
+                _atariList[turn_] = new AtariList(tehais[turn_]);
 
-                if (atariList.IsAtari())
+                if (_atariList[turn_].IsAtari())
                 {
                     _actionCommand[turn_].CanTsumo = true;
                     //Console.WriteLine("アタリ");
@@ -182,9 +184,9 @@ namespace server
                     }
                 }
 
-                AtariList atariList = new AtariList(tehais[turn_]);
+                _atariList[turn_] = new AtariList(tehais[turn_]);
 
-                if (atariList.IsAtari())
+                if (_atariList[turn_].IsAtari())
                 {
                     _actionCommand[turn_].CanTsumo = true;
                     //Console.WriteLine("アタリ");
@@ -327,9 +329,9 @@ namespace server
                         {
                             int player = (turn_ + shimocha) % players;
 
-                            AtariList atariList = new AtariList(tehais[player], hai);
+                            _atariList[player] = new AtariList(tehais[player], hai);
 
-                            if (atariList.IsAtari())
+                            if (_atariList[player].IsAtari())
                             {
                                 _actionCommand[player].CanRon = true;
                             }
@@ -394,15 +396,28 @@ namespace server
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
+            Font font_small = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
             SolidBrush whiteBrush = new SolidBrush(Color.White);
 
-            if (_tsumo)
+            if (_tsumo || _ron)
             {
-                g.DrawString("ツモ", font, Brushes.White, new PointF(512, 304));
-            }
-            if (_ron)
-            {
-                g.DrawString("ロン", font, Brushes.White, new PointF(512, 304));
+                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
+
+                string[] yakus = _atariList[turn_].YakuString();
+                List<string> list = new List<string>();
+
+                foreach (var yaku in yakus)
+                {
+                    if (list.Find(e=>e ==  yaku) == null)
+                    {
+                        list.Add(yaku);
+                    }
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    g.DrawString($"{list[i]}", font_small, Brushes.White, new PointF(32, 64 + 32 * i));
+                }
             }
             if (_ryukyoku)
             {

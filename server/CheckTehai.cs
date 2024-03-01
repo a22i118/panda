@@ -23,6 +23,10 @@ namespace server
 
         private List<Hai> _hais;
 
+        private Hai _atariHai;
+        private bool _ronAgari;
+        private eMachi _machi = eMachi.None;
+
         private List<IMentsu> _mentsus = new List<IMentsu>();
 
         private ulong _yakuMask = 0;
@@ -30,13 +34,9 @@ namespace server
         private eState _state_and = 0;
         private eState _state_or = 0;
 
-        //private bool isKokushimuso = false;
-        public bool IsAgari()
-        {
-            return _hais.Count == 0;
-        }
+        public bool IsAgari() { return _hais.Count == 0; }
 
-        public CheckTehai(Tehai tehai, Hai add = null)
+        public CheckTehai(Tehai tehai, Hai? add = null)
         {
             this._toitsu = new List<Toitsu>();
             this._kotsu = new List<Kotsu>();
@@ -47,7 +47,17 @@ namespace server
             this._kans = new List<Kan>(tehai.Kans);
             this._hais = new List<Hai>(tehai.Hais);
 
-            if (add != null) { this._hais.Add(add); }
+            if (add != null)
+            {
+                _ronAgari = true;
+                _atariHai = add;
+                this._hais.Add(add);
+            }
+            else
+            {
+                _ronAgari = false;
+                _atariHai = tehai.Hais.Last();
+            }
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
 
             init();
@@ -63,6 +73,9 @@ namespace server
             this._pons = new List<Pon>(checkTehai._pons);
             this._kans = new List<Kan>(checkTehai._kans);
             this._hais = new List<Hai>(checkTehai._hais);
+
+            this._ronAgari = checkTehai._ronAgari;
+            this._atariHai = checkTehai._atariHai;
         }
 
         private void init()
@@ -158,7 +171,6 @@ namespace server
                             _hais.Find(e => e.Name == Hai.eName.Hatu) != null &&
                             _hais.Find(e => e.Name == Hai.eName.Thun) != null)
                         {
-                            //isKokushimuso = true;
                             _yakuMask |= Kokushimuso.Mask;
                             return true;
                         }
@@ -189,6 +201,7 @@ namespace server
             // 小三元、大三元
             if (_mentsus.Count(e => e.IsSangempai()) >= 3)
             {
+                _yakuMask |= Daisangen.Mask;
             }
 
             //門前
@@ -261,6 +274,19 @@ namespace server
         {
             init();
 
+            // 待ち毎に役を判定する
+            foreach (var mentsu in _mentsus)
+            {
+                _machi = mentsu.Machi(_atariHai);
+                if (_machi != eMachi.None)
+                {
+                    yakuhantei();
+                }
+            }
+        }
+
+        private void yakuhantei()
+        {
             if (Yakumanhantei())
             {
                 return;
@@ -270,37 +296,21 @@ namespace server
             {
                 _yakuMask |= Pinfu.Mask;
             }
+        }
 
-            //if (jihaisikanai)
-            //{
-            //    yakuMask |= Ipeiko.Mask;
-            //}
+        public string[] YakuString()
+        {
+            List<string> result = new List<string>();
 
-            //int han = 0;
+            foreach (var yaku in sYakuTables)
+            {
+                if ((yaku.Mask & _yakuMask) != 0)
+                {
+                    result.Add(yaku.Name);
+                }
+            }
 
-            //foreach (var item in sYakuTables)
-            //{
-            //    if ((yakuMask & item.Mask) != 0)
-            //    {
-            //        han += item.Han;
-            //    }
-            //}
-
-
-
-
-            //CheckTehai tmp = checkTehai;
-            //int hu = 0;
-            //int han = 0;
-            //int ten = 0;
-
-            //for (int i = 0; i < hais.Count; i++)
-            //{
-            //    if (tmp.hais.etype ==)
-            //    {
-
-            //    }
-            //}
+            return result.ToArray();
         }
     }
 }
