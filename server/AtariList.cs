@@ -80,9 +80,9 @@ namespace server
                 }
             }
 
-
             if (checkTehai.IsAgari())
             {
+                checkTehai.Yakuhantei();
                 checktehais.Add(checkTehai);
             }
         }

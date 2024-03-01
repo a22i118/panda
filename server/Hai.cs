@@ -120,56 +120,66 @@ namespace server
             public static bool IsHonroto(eState state) { return (state & eState.Chuncham) == 0; }
             public static bool IsHoniso(eState state)
             {
-                //return ((state & eState.Tsupai) != 0 && (
-                //    ((state & eState.Manzu) != 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
-                //    ((state & eState.Pinzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
-                //    ((state & eState.Souzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
-                //    );
                 return (
                     ((state & eState.Tsupai) != 0 && (state & eState.Manzu) != 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
                     ((state & eState.Tsupai) != 0 && (state & eState.Pinzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
                     ((state & eState.Tsupai) != 0 && (state & eState.Souzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
                     );
             }
-            public static bool IsChiniso(eState state)
+            public static bool IsChiniso(eState state_and)
             {
                 return (
-                    ((state & eState.Manzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
-                    ((state & eState.Pinzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
-                    ((state & eState.Souzu) != 0 && (state & eState.Tsupai) == 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
+                    (state_and & eState.Manzu) != 0 ||
+                    (state_and & eState.Pinzu) != 0 ||
+                    (state_and & eState.Souzu) != 0
                     );
+            }
+
+            public static bool IsRyuiso(eState state_and)
+            {
+                return (state_and & eState.Ryuiso) != 0;
+            }
+
+            public static bool IsChinroto(eState state)
+            {
+                return ((state & eState.Chuncham) == 0 && (state & eState.Tsupai) == 0);
+            }
+
+            public static bool IsSangenpai(eState state)
+            {
+                return (state & eState.Sangem) != 0;
             }
         };
 
-        public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai);
-        public static HaiState Manzu2 = new HaiState(eType.Manzu, eNumber.Num2, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu3 = new HaiState(eType.Manzu, eNumber.Num3, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu4 = new HaiState(eType.Manzu, eNumber.Num4, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu5 = new HaiState(eType.Manzu, eNumber.Num5, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu6 = new HaiState(eType.Manzu, eNumber.Num6, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu7 = new HaiState(eType.Manzu, eNumber.Num7, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu8 = new HaiState(eType.Manzu, eNumber.Num8, eState.Chuncham | eState.Shupai);
-        public static HaiState Manzu9 = new HaiState(eType.Manzu, eNumber.Num9, eState.Yaochu | eState.Shupai);
+        public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu2 = new HaiState(eType.Manzu, eNumber.Num2, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu3 = new HaiState(eType.Manzu, eNumber.Num3, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu4 = new HaiState(eType.Manzu, eNumber.Num4, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu5 = new HaiState(eType.Manzu, eNumber.Num5, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu6 = new HaiState(eType.Manzu, eNumber.Num6, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu7 = new HaiState(eType.Manzu, eNumber.Num7, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu8 = new HaiState(eType.Manzu, eNumber.Num8, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiState Manzu9 = new HaiState(eType.Manzu, eNumber.Num9, eState.Yaochu | eState.Shupai | eState.Manzu);
 
-        public static HaiState Pinzu1 = new HaiState(eType.Pinzu, eNumber.Num1, eState.Yaochu | eState.Shupai);
-        public static HaiState Pinzu2 = new HaiState(eType.Pinzu, eNumber.Num2, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu3 = new HaiState(eType.Pinzu, eNumber.Num3, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu4 = new HaiState(eType.Pinzu, eNumber.Num4, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu5 = new HaiState(eType.Pinzu, eNumber.Num5, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu6 = new HaiState(eType.Pinzu, eNumber.Num6, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu7 = new HaiState(eType.Pinzu, eNumber.Num7, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu8 = new HaiState(eType.Pinzu, eNumber.Num8, eState.Chuncham | eState.Shupai);
-        public static HaiState Pinzu9 = new HaiState(eType.Pinzu, eNumber.Num9, eState.Yaochu | eState.Shupai);
+        public static HaiState Pinzu1 = new HaiState(eType.Pinzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu2 = new HaiState(eType.Pinzu, eNumber.Num2, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu3 = new HaiState(eType.Pinzu, eNumber.Num3, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu4 = new HaiState(eType.Pinzu, eNumber.Num4, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu5 = new HaiState(eType.Pinzu, eNumber.Num5, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu6 = new HaiState(eType.Pinzu, eNumber.Num6, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu7 = new HaiState(eType.Pinzu, eNumber.Num7, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu8 = new HaiState(eType.Pinzu, eNumber.Num8, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiState Pinzu9 = new HaiState(eType.Pinzu, eNumber.Num9, eState.Yaochu | eState.Shupai | eState.Pinzu);
 
-        public static HaiState Souzu1 = new HaiState(eType.Souzu, eNumber.Num1, eState.Yaochu | eState.Shupai);
-        public static HaiState Souzu2 = new HaiState(eType.Souzu, eNumber.Num2, eState.Chuncham | eState.Shupai | eState.Ryuiso);
-        public static HaiState Souzu3 = new HaiState(eType.Souzu, eNumber.Num3, eState.Chuncham | eState.Shupai | eState.Ryuiso);
-        public static HaiState Souzu4 = new HaiState(eType.Souzu, eNumber.Num4, eState.Chuncham | eState.Shupai | eState.Ryuiso);
-        public static HaiState Souzu5 = new HaiState(eType.Souzu, eNumber.Num5, eState.Chuncham | eState.Shupai);
-        public static HaiState Souzu6 = new HaiState(eType.Souzu, eNumber.Num6, eState.Chuncham | eState.Shupai | eState.Ryuiso);
-        public static HaiState Souzu7 = new HaiState(eType.Souzu, eNumber.Num7, eState.Chuncham | eState.Shupai);
-        public static HaiState Souzu8 = new HaiState(eType.Souzu, eNumber.Num8, eState.Chuncham | eState.Shupai | eState.Ryuiso);
-        public static HaiState Souzu9 = new HaiState(eType.Souzu, eNumber.Num9, eState.Yaochu | eState.Shupai);
+        public static HaiState Souzu1 = new HaiState(eType.Souzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Souzu);
+        public static HaiState Souzu2 = new HaiState(eType.Souzu, eNumber.Num2, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiState Souzu3 = new HaiState(eType.Souzu, eNumber.Num3, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiState Souzu4 = new HaiState(eType.Souzu, eNumber.Num4, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiState Souzu5 = new HaiState(eType.Souzu, eNumber.Num5, eState.Chuncham | eState.Shupai | eState.Souzu);
+        public static HaiState Souzu6 = new HaiState(eType.Souzu, eNumber.Num6, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiState Souzu7 = new HaiState(eType.Souzu, eNumber.Num7, eState.Chuncham | eState.Shupai | eState.Souzu);
+        public static HaiState Souzu8 = new HaiState(eType.Souzu, eNumber.Num8, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiState Souzu9 = new HaiState(eType.Souzu, eNumber.Num9, eState.Yaochu | eState.Shupai | eState.Souzu);
 
         public static HaiState Ton = new HaiState(eType.Zihai, eNumber.Ton, eState.Yaochu | eState.Tsupai | eState.Fuampai);
         public static HaiState Nan = new HaiState(eType.Zihai, eNumber.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai);
@@ -297,7 +307,10 @@ namespace server
                 _bmpRect = new Rectangle(((int)num - top) * w, 0, w, h);
             }
         }
-
+        public eState State
+        {
+            get { return sHaiStates[(int)this.Name].State; }
+        }
         public eName Name
         {
             get { return (eName)((int)_type * 9 + (int)_num); }

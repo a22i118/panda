@@ -28,7 +28,7 @@ namespace server
         //private bool isKokushimuso = false;
         public bool IsAgari()
         {
-            return _hais.Count == 0 || _yakuMask != 0;
+            return _hais.Count == 0;
         }
 
         public CheckTehai(Tehai tehai, Hai add = null)
@@ -84,6 +84,9 @@ namespace server
             this._pons = new List<Pon>(checkTehai._pons);
             this._kans = new List<Kan>(checkTehai._kans);
             this._hais = new List<Hai>(checkTehai._hais);
+
+            this._state_and = checkTehai._state_and;
+            this._state_or = checkTehai._state_or;
         }
 
         public CheckTehai AddToitsu(bool isToitsu)
@@ -170,15 +173,36 @@ namespace server
             return false;
         }
 
-        public void Yakumanhantei()
+        public bool Yakumanhantei()
         {
             // 字一色
             if (HaiState.IsTsuiso(_state_or))
             {
                 _yakuMask |= Tsuiso.Mask;
             }
+            //緑一色
+            if (HaiState.IsRyuiso(_state_and))
+            {
+                _yakuMask |= Ryuiso.Mask;
+            }
+            //清老頭
+            if (HaiState.IsChinroto(_state_or))
+            {
+                _yakuMask |= Chinroto.Mask;
+            }
 
 
+
+            //門前
+            if (_hais.Count >= 14)
+            {
+                //四暗刻 ?
+                if (_toitsu.Count == 1 && _kotsu.Count == 4)
+                {
+                    _yakuMask |= Suanko.Mask;
+                }
+            }
+            return _yakuMask != 0;
         }
 
         public bool IsChitoitsu()
@@ -238,6 +262,11 @@ namespace server
 
         public void Yakuhantei()
         {
+            if (Yakumanhantei())
+            {
+                return;
+            }
+
             if (_toitsu.Count == 1 && _shuntsu.Count == 4)
             {
                 _yakuMask |= Pinfu.Mask;
