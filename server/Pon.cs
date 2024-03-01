@@ -24,6 +24,8 @@ namespace server
             _state_or |= state;
         }
 
+        public override bool IsSangempai() { return Hai.HaiState.IsSangenpai(_state_and); }
+
         public override int Draw(Graphics g, int x, int y)
         {
             _hais[0].SetPos(x, y);

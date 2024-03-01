@@ -7,19 +7,24 @@ using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
 using static server.Yaku;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace server
 {
     internal class CheckTehai
     {
-        private List<Toitsu> _toitsu = new List<Toitsu>();
-        private List<Kotsu> _kotsu = new List<Kotsu>();
-        private List<Shuntsu> _shuntsu = new List<Shuntsu>();
+        private List<Toitsu> _toitsu;
+        private List<Kotsu> _kotsu;
+        private List<Shuntsu> _shuntsu;
 
         private List<Chi> _chis;
         private List<Pon> _pons;
         private List<Kan> _kans;
+
         private List<Hai> _hais;
+
+        private List<IMentsu> _mentsus = new List<IMentsu>();
+
         private ulong _yakuMask = 0;
 
         private eState _state_and = 0;
@@ -42,36 +47,10 @@ namespace server
             this._kans = new List<Kan>(tehai.Kans);
             this._hais = new List<Hai>(tehai.Hais);
 
-            if (add != null)
-            {
-                this._hais.Add(add);
-            }
+            if (add != null) { this._hais.Add(add); }
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
 
-            foreach (var hai in _hais)
-            {
-                eState state = Hai.sHaiStates[(int)hai.Name].State;
-                _state_and &= state;
-                _state_or |= state;
-            }
-
-            foreach (var chi in _chis)
-            {
-                _state_and &= chi.StateAnd;
-                _state_or |= chi.StateOr;
-            }
-
-            foreach (var pon in _pons)
-            {
-                _state_and &= pon.StateAnd;
-                _state_or |= pon.StateOr;
-            }
-
-            foreach (var kan in _kans)
-            {
-                _state_and &= kan.StateAnd;
-                _state_or |= kan.StateOr;
-            }
+            init();
         }
 
         public CheckTehai(CheckTehai checkTehai)
@@ -84,9 +63,25 @@ namespace server
             this._pons = new List<Pon>(checkTehai._pons);
             this._kans = new List<Kan>(checkTehai._kans);
             this._hais = new List<Hai>(checkTehai._hais);
+        }
 
-            this._state_and = checkTehai._state_and;
-            this._state_or = checkTehai._state_or;
+        private void init()
+        {
+            _mentsus.Clear();
+            _state_and = _state_or = 0;
+
+            _mentsus.AddRange(this._toitsu);
+            _mentsus.AddRange(this._kotsu);
+            _mentsus.AddRange(this._shuntsu);
+            _mentsus.AddRange(this._chis);
+            _mentsus.AddRange(this._pons);
+            _mentsus.AddRange(this._kans);
+
+            foreach (var mentsu in _mentsus)
+            {
+                _state_and &= mentsu.StateAnd;
+                _state_or |= mentsu.StateOr;
+            }
         }
 
         public CheckTehai AddToitsu(bool isToitsu)
@@ -191,7 +186,10 @@ namespace server
                 _yakuMask |= Chinroto.Mask;
             }
 
-
+            // 小三元、大三元
+            if (_mentsus.Count(e => e.IsSangempai()) >= 3)
+            {
+            }
 
             //門前
             if (_hais.Count >= 14)
@@ -253,7 +251,6 @@ namespace server
                     return false;
                 }
 
-
                 return true;
             }
 
@@ -262,6 +259,8 @@ namespace server
 
         public void Yakuhantei()
         {
+            init();
+
             if (Yakumanhantei())
             {
                 return;

@@ -97,6 +97,8 @@ namespace server
             Manzu = 1 << 7,     // 萬子
             Pinzu = 1 << 8,     // 筒子
             Souzu = 1 << 9,     // 索子
+
+            All = uint.MaxValue
         }
 
         public struct HaiState
