@@ -14,6 +14,9 @@ namespace server
 
         public override eMachi Machi(Hai hai) { return eMachi.None; }
 
+        public override bool IsMenzen() { return _from == 0; }
+
+
         public abstract int Draw(Graphics g, int x, int y);
     }
 }

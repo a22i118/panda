@@ -149,7 +149,8 @@ namespace server
             return null;
         }
 
-        public bool IsKokushimuso()//国士無双
+        // 国士無双
+        public bool IsKokushimuso()
         {
             if (_hais.Count >= 14)
             {
@@ -171,7 +172,16 @@ namespace server
                             _hais.Find(e => e.Name == Hai.eName.Hatu) != null &&
                             _hais.Find(e => e.Name == Hai.eName.Thun) != null)
                         {
-                            _yakuMask |= Kokushimuso.Mask;
+                            // 国士無双十三面待ち(当たり牌が２枚）
+                            if (_hais.Count(e=>e.Name == _atariHai.Name) == 2)
+                            {
+                                _yakuMask |= Kokushijusammen.Mask;
+                            }
+                            // 国士無双
+                            else
+                            {
+                                _yakuMask |= Kokushimuso.Mask;
+                            }
                             return true;
                         }
                     }
@@ -187,32 +197,61 @@ namespace server
             {
                 _yakuMask |= Tsuiso.Mask;
             }
-            //緑一色
+            // 緑一色
             if (HaiState.IsRyuiso(_state_and))
             {
                 _yakuMask |= Ryuiso.Mask;
             }
-            //清老頭
+            // 清老頭
             if (HaiState.IsChinroto(_state_or))
             {
                 _yakuMask |= Chinroto.Mask;
             }
 
-            // 小三元、大三元
-            if (_mentsus.Count(e => e.IsSangempai()) >= 3)
+            // 雀頭がある
+            if (_toitsu.Count == 1)
             {
-                _yakuMask |= Daisangen.Mask;
-            }
-
-            //門前
-            if (_hais.Count >= 14)
-            {
-                //四暗刻 ?
-                if (_toitsu.Count == 1 && _kotsu.Count == 4)
+                // 大三元（三元牌の面子が３個かつ雀頭が三元牌ではない）
+                if (_mentsus.Count(e => e.IsSangempai()) == 3 && !_toitsu[0].IsSangempai())
                 {
-                    _yakuMask |= Suanko.Mask;
+                    _yakuMask |= Daisangen.Mask;
+                }
+
+                // 四槓子（槓子が４個）
+                if (_kans.Count == 4)
+                {
+                    _yakuMask |= Sukantsu.Mask;
+                }
+
+                // 暗刻＋暗槓が４個
+                if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 4)
+                {
+                    // 四暗刻単騎（単騎待ち）
+                    if (_machi == eMachi.Tanki)
+                    {
+                        _yakuMask |= Suankotanki.Mask;
+                    }
+                    // 四暗刻（双碰待ち＋ツモ）
+                    else if (_machi == eMachi.Shampon && !_ronAgari)
+                    {
+                        _yakuMask |= Suanko.Mask;
+                    }
                 }
             }
+
+            // 九蓮宝燈
+            // 小四喜
+            // 大四喜
+            // 純正九蓮宝燈
+
+            bool menzen = true;
+            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
+
+            //門前
+            if (menzen)
+            {
+            }
+
             return _yakuMask != 0;
         }
 

@@ -16,14 +16,14 @@ namespace server
         public eState StateAnd { get { return _state_and; } }
         public eState StateOr { get { return _state_or; } }
 
-        // virtual : 基底クラスに実装を持たせて継承先でoverrideするとき
-        // public virtual bool IsSangempai() { return false; }
-
-        // abstract : 基底クラスに実装を持たせないで継承先でoverrideするとき
-        // public abstract bool IsSangempai();
-
         // 待ちを返す
+        // abstract : 基底クラスに実装を持たせないで継承先でoverrideする場合に付ける修飾子
         public abstract eMachi Machi(Hai hai);
+
+        // 面前
+        // virtual : 基底クラスに実装を持たせて継承先でoverrideする場合に付ける修飾子
+        public virtual bool IsMenzen() { return true; }
+
 
         // すべて三元牌（対子、刻子）
         public bool IsSangempai() { return Hai.HaiState.IsSangenpai(_state_and); }
