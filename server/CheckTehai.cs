@@ -216,6 +216,11 @@ namespace server
                 {
                     _yakuMask |= Daisangen.Mask;
                 }
+                // 小三元
+                else if(_mentsus.Count(e => e.IsSangempai()) == 3)
+                {
+                    _yakuMask |= Shosangen.Mask;
+                }
 
                 // 四槓子（槓子が４個）
                 if (_kans.Count == 4)
