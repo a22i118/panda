@@ -28,6 +28,9 @@ namespace server
         // すべて三元牌（対子、刻子）
         public bool IsSangempai() { return Hai.HaiState.IsSangenpai(_state_and); }
 
+        // すべての風牌
+        public bool IsFuampai() { return Hai.HaiState.IsFuampai(_state_and); }
+
         // 1つでも幺九牌（１、９、字牌）がある
         public bool IsYaochu() { return Hai.HaiState.IsYaochu(_state_or); }
     }

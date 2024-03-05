@@ -173,7 +173,7 @@ namespace server
                             _hais.Find(e => e.Name == Hai.eName.Thun) != null)
                         {
                             // 国士無双十三面待ち(当たり牌が２枚）
-                            if (_hais.Count(e=>e.Name == _atariHai.Name) == 2)
+                            if (_hais.Count(e => e.Name == _atariHai.Name) == 2)
                             {
                                 _yakuMask |= Kokushijusammen.Mask;
                             }
@@ -187,6 +187,46 @@ namespace server
                     }
                 }
             }
+            return false;
+        }
+
+        public bool IsChurempoto()
+        {
+            bool menzen = true;
+            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
+
+            //門前
+            if (menzen)
+            {
+                // 清一色チェック
+                if (HaiState.IsChiniso(_state_or))
+                {
+                    if (_hais.Count(e => e.Number == Hai.eNumber.Num1) >= 3 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num2) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num3) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num4) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num5) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num6) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num7) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num8) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num9) != null)
+                    {
+
+                        if (_hais.Count(e => e.Name == _atariHai.Name) == 2)
+                        {
+                            _yakuMask |= Junseichuren.Mask;
+                        }
+                        
+                        else
+                        {
+                            _yakuMask |= Churempoto.Mask;
+                        }
+                        return true;
+                    }
+
+                }
+            }
+
             return false;
         }
 
@@ -216,10 +256,16 @@ namespace server
                 {
                     _yakuMask |= Daisangen.Mask;
                 }
-                // 小三元
-                else if(_mentsus.Count(e => e.IsSangempai()) == 3)
+
+                // 大四喜
+                if (_mentsus.Count(e => e.IsFuampai()) == 4 && !_toitsu[0].IsFuampai())
                 {
-                    _yakuMask |= Shosangen.Mask;
+                    _yakuMask |= Daisushi.Mask;
+                }
+                // 小四喜
+                else if (_mentsus.Count(e => e.IsFuampai()) == 4)
+                {
+                    _yakuMask |= Shosushi.Mask;
                 }
 
                 // 四槓子（槓子が４個）
@@ -242,11 +288,11 @@ namespace server
                         _yakuMask |= Suanko.Mask;
                     }
                 }
+
             }
 
             // 九蓮宝燈
-            // 小四喜
-            // 大四喜
+
             // 純正九蓮宝燈
 
             bool menzen = true;
@@ -255,6 +301,7 @@ namespace server
             //門前
             if (menzen)
             {
+
             }
 
             return _yakuMask != 0;

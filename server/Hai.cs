@@ -156,6 +156,17 @@ namespace server
             {
                 return (state & eState.Yaochu) != 0;
             }
+
+            public static bool IsFuampai(eState state)
+            {
+                return (state & eState.Fuampai) != 0;
+            }
+
+            //public static bool IsChurempoto(eState state)
+            //{
+            //    return ()
+            //}
+
         };
 
         public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Manzu);
