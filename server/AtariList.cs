@@ -19,6 +19,10 @@ namespace server
             {
                 checktehais.Add(checkTehai);
             }
+            else if (checkTehai.IsChurempoto())
+            {
+                checktehais.Add(checkTehai);
+            }
             else
             {
                 if (checkTehai.IsChitoitsu())
@@ -34,6 +38,10 @@ namespace server
         {
             this.checkTehai = new CheckTehai(tehai, hai);
             if (checkTehai.IsKokushimuso())
+            {
+                checktehais.Add(checkTehai);
+            }
+            else if (checkTehai.IsChurempoto())
             {
                 checktehais.Add(checkTehai);
             }

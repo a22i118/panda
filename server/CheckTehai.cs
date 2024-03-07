@@ -31,7 +31,7 @@ namespace server
 
         private ulong _yakuMask = 0;
 
-        private eState _state_and = 0;
+        private eState _state_and = eState.All;
         private eState _state_or = 0;
 
         public bool IsAgari() { return _hais.Count == 0; }
@@ -76,12 +76,14 @@ namespace server
 
             this._ronAgari = checkTehai._ronAgari;
             this._atariHai = checkTehai._atariHai;
+            init();
         }
 
         private void init()
         {
             _mentsus.Clear();
-            _state_and = _state_or = 0;
+            _state_and = eState.All;
+            _state_or = 0;
 
             _mentsus.AddRange(this._toitsu);
             _mentsus.AddRange(this._kotsu);
@@ -94,6 +96,12 @@ namespace server
             {
                 _state_and &= mentsu.StateAnd;
                 _state_or |= mentsu.StateOr;
+
+            }
+            foreach (var hai in _hais)
+            {
+                _state_and &= hai.State;
+                _state_or |= hai.State;
             }
         }
 
@@ -199,9 +207,24 @@ namespace server
             if (menzen)
             {
                 // 清一色チェック
-                if (HaiState.IsChiniso(_state_or))
+                if (HaiState.IsChiniso(_state_and))
                 {
-                    if (_hais.Count(e => e.Number == Hai.eNumber.Num1) >= 3 &&
+                    // 純正九蓮宝燈
+                    if (_hais.Count(e => e.Number == Hai.eNumber.Num1 && _atariHai != e) >= 3 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num2 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num3 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num4 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num5 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num6 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num7 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num8 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num9 && _atariHai != e) >= 3)
+                    {
+                        _yakuMask |= Junseichuren.Mask;
+                        return true;
+                    }
+                    // 九蓮宝燈
+                    else if (_hais.Count(e => e.Number == Hai.eNumber.Num1) >= 3 &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num2) != null &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num3) != null &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num4) != null &&
@@ -209,18 +232,10 @@ namespace server
                         _hais.Count(e => e.Number == Hai.eNumber.Num6) != null &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num7) != null &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num8) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num9) != null)
+                        _hais.Count(e => e.Number == Hai.eNumber.Num9) >= 3)
                     {
+                        _yakuMask |= Churempoto.Mask;
 
-                        if (_hais.Count(e => e.Name == _atariHai.Name) == 2)
-                        {
-                            _yakuMask |= Junseichuren.Mask;
-                        }
-                        
-                        else
-                        {
-                            _yakuMask |= Churempoto.Mask;
-                        }
                         return true;
                     }
 
@@ -291,18 +306,14 @@ namespace server
 
             }
 
-            // 九蓮宝燈
+            //bool menzen = true;
+            //_mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
 
-            // 純正九蓮宝燈
+            ////門前
+            //if (menzen)
+            //{
 
-            bool menzen = true;
-            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
-
-            //門前
-            if (menzen)
-            {
-
-            }
+            //}
 
             return _yakuMask != 0;
         }
@@ -329,7 +340,7 @@ namespace server
                 if (HaiState.IsTsuiso(_state_or))
                 {
                     _yakuMask |= Tsuiso.Mask;
-                    return false;
+                    return true;
                 }
 
                 _yakuMask |= Chitoitsu.Mask;
@@ -338,21 +349,18 @@ namespace server
                 if (HaiState.IsHonroto(_state_or))
                 {
                     _yakuMask |= Honroto.Mask;
-                    return false;
                 }
 
                 // 混一色
                 if (HaiState.IsHoniso(_state_or))
                 {
                     _yakuMask |= Honiso.Mask;
-                    return false;
                 }
 
                 // 清一色
-                if (HaiState.IsChiniso(_state_or))
+                if (HaiState.IsChiniso(_state_and))
                 {
                     _yakuMask |= Chiniso.Mask;
-                    return false;
                 }
 
                 return true;
@@ -382,11 +390,95 @@ namespace server
             {
                 return;
             }
-
-            if (_toitsu.Count == 1 && _shuntsu.Count == 4)
+            // タンヤオ
+            if (HaiState.IsTanyao(_state_or))
             {
-                _yakuMask |= Pinfu.Mask;
+                _yakuMask |= Tanyao.Mask;
             }
+
+            // 混一色
+            if (HaiState.IsHoniso(_state_or))
+            {
+                _yakuMask |= Honiso.Mask;
+            }
+            // 清一色
+            if (HaiState.IsChiniso(_state_and))
+            {
+                _yakuMask |= Chiniso.Mask;
+            }
+            // 対々和
+            if (_kotsu.Count == 4)
+            {
+                _yakuMask |= Toitoi.Mask;
+            }
+
+            if (_mentsus.Count(e => e.IsSangempai()) == 3)
+            {
+                _yakuMask |= Shosangen.Mask;
+            }
+            else
+            {
+                if (HaiState.IsYakuhai_Haku(_state_and))
+                {
+                    _yakuMask |= Yakuhai_Haku.Mask;
+                }
+                if (HaiState.IsYakuhai_Hatu(_state_and))
+                {
+                    _yakuMask |= Yakuhai_Hatu.Mask;
+                }
+                if (HaiState.IsYakuhai_Thun(_state_and))
+                {
+                    _yakuMask |= Yakuhai_Thun.Mask;
+                }
+            }
+            // 混老頭
+            if (HaiState.IsHonroto(_state_or))
+            {
+                _yakuMask |= Honroto.Mask;
+            }
+            else
+            {
+                // チャンタ
+                bool yaochu = true;
+                _mentsus.ForEach(e => { yaochu &= e.IsYaochu(); });
+
+                if (yaochu)
+                {
+                    if (HaiState.IsTsuhai(_state_or))
+                    {
+                        _yakuMask |= Chanta.Mask;
+                    }
+                    // 純チャン
+                    else
+                    {
+                        _yakuMask |= Junchan.Mask;
+                    }
+                }
+
+            }
+
+            bool menzen = true;
+            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
+            if (menzen)
+            {
+                // 二盃口
+                if (Shuntsu.IsRyampeiko(_shuntsu))
+                {
+                    _yakuMask |= Ryampeiko.Mask;
+                }
+                // 一盃口
+                else if (Shuntsu.IsIpeiko(_shuntsu))
+                {
+                    _yakuMask |= Ipeiko.Mask;
+                }
+
+                // 平和　?
+                if (_toitsu.Count == 1 && _shuntsu.Count == 4)
+                {
+                    _yakuMask |= Pinfu.Mask;
+                }
+            }
+
         }
 
         public string[] YakuString()

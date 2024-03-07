@@ -33,5 +33,48 @@ namespace server
             else if (hai.Name == _hais[2].Name) { return hai.Number == eNumber.Num3 ? eMachi.Penchan : eMachi.Ryammen; }
             return eMachi.None;
         }
+
+        static public bool IsIpeiko(List<Shuntsu> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i]._hais[0].Name == list[j]._hais[0].Name)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        static public bool IsRyampeiko(List<Shuntsu> list)
+        {
+            int i = 0;
+            for (; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i]._hais[0].Name == list[j]._hais[0].Name)
+                    {
+                        i++;
+                        goto label;
+                    }
+                }
+            }
+        label:
+            for (; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i]._hais[0].Name == list[j]._hais[0].Name)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

@@ -47,11 +47,14 @@ namespace server
             Ipeiko,         // 一盃口(イーペイコー) 1 飜- 門前役
                             // 同じ順子（連番で揃えた面子）が２つあると成立する役です。
 
-            Yakuhai,        // 役牌(三元牌)／白發中 1 飜- 鳴き１飜
-                            // 三元牌（白、發、中）のいずれかが３枚以上揃うと成立する役です。
-                            // 役牌／東南西北 1 飜- 鳴き１飜
-                            // 場の風（東場は東）、自分の風（親から反時計回りに東、南、
-                            // 西、北）のいずれかが３枚以上揃うと成立する役です。
+            Yakuhai_Haku,   // 役牌(三元牌)／白發中 1 飜- 鳴き１飜
+            Yakuhai_Hatu,   // 三元牌（白、發、中）のいずれかが３枚以上揃うと成立する役です。
+            Yakuhai_Thun,
+
+            Yakuhai_Ton,    // 役牌／東南西北 1 飜- 鳴き１飜
+            Yakuhai_Nan,    // 場の風（東場は東）、自分の風（親から反時計回りに東、南、
+            Yakuhai_Sha,    // 西、北）のいずれかが３枚以上揃うと成立する役です。
+            Yakuhai_Pei,
 
             Chankan,        // 槍槓(チャンカン) 1 飜- 鳴き１飜
                             // 他家が加槓（ポンしている牌にもう１枚加えて槓）した牌であがると成立する役です。
@@ -205,8 +208,20 @@ namespace server
         public static YakuTable Pinfu = new YakuTable("平和", eYaku.Pinfu, 1, 0);
         // 一盃口(イーペイコー) 1 飜- 門前役
         public static YakuTable Ipeiko = new YakuTable("一盃口", eYaku.Ipeiko, 1, 0);
-        // 役牌(三元牌)／白發中 1 飜- 鳴き１飜
-        public static YakuTable Yakuhai = new YakuTable("役牌", eYaku.Yakuhai, 1, 1);
+        // 役牌(白) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Haku = new YakuTable("役牌：白", eYaku.Yakuhai_Haku, 1, 1);
+        // 役牌(發) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Hatu = new YakuTable("役牌：發", eYaku.Yakuhai_Hatu, 1, 1);
+        // 役牌(中) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Thun = new YakuTable("役牌：中", eYaku.Yakuhai_Thun, 1, 1);
+        // 役牌(東) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Ton = new YakuTable("役牌：東", eYaku.Yakuhai_Ton, 1, 1);
+        // 役牌(南) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Nan = new YakuTable("役牌：南", eYaku.Yakuhai_Nan, 1, 1);
+        // 役牌(西) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Sha = new YakuTable("役牌：西", eYaku.Yakuhai_Sha, 1, 1);
+        // 役牌(北) 1 飜- 鳴き１飜
+        public static YakuTable Yakuhai_Pei = new YakuTable("役牌：北", eYaku.Yakuhai_Pei, 1, 1);
         // 槍槓(チャンカン) 1 飜- 鳴き１飜
         public static YakuTable Chankan = new YakuTable("槍槓", eYaku.Chankan, 1, 1);
         // 嶺上開花(リンシャンカイホウ） 1 飜- 鳴き１飜
@@ -289,7 +304,13 @@ namespace server
             Tanyao,
             Pinfu,
             Ipeiko,
-            Yakuhai,
+            Yakuhai_Haku,
+            Yakuhai_Hatu,
+            Yakuhai_Thun,
+            Yakuhai_Ton,
+            Yakuhai_Nan,
+            Yakuhai_Sha,
+            Yakuhai_Pei,
             Chankan,
             Rinshankaiho,
             Haiteiraoyue,

@@ -38,7 +38,7 @@ namespace server
             Pei,
             Haku,
             Hatu,
-            Thun,
+            Chun,
         }
 
         public enum eName
@@ -97,6 +97,9 @@ namespace server
             Manzu = 1 << 7,     // 萬子
             Pinzu = 1 << 8,     // 筒子
             Souzu = 1 << 9,     // 索子
+            Haku = 1 << 10,     // 白
+            Hatu = 1 << 11,     // 發
+            Thun = 1 << 12,     // 中
 
             All = uint.MaxValue
         }
@@ -162,11 +165,27 @@ namespace server
                 return (state & eState.Fuampai) != 0;
             }
 
-            //public static bool IsChurempoto(eState state)
-            //{
-            //    return ()
-            //}
+            public static bool IsTanyao(eState state)
+            {
+                return (state & eState.Yaochu) == 0;
+            }
 
+            public static bool IsTsuhai(eState state_or)
+            {
+                return (state_or & eState.Tsupai) != 0;
+            }
+            public static bool IsYakuhai_Haku(eState state_and)
+            {
+                return (state_and & eState.Haku) != 0;
+            }
+            public static bool IsYakuhai_Hatu(eState state_and)
+            {
+                return (state_and & eState.Hatu) != 0;
+            }
+            public static bool IsYakuhai_Thun(eState state_and)
+            {
+                return (state_and & eState.Thun) != 0;
+            }
         };
 
         public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eState.Yaochu | eState.Shupai | eState.Manzu);
@@ -205,7 +224,7 @@ namespace server
         public static HaiState Pei = new HaiState(eType.Zihai, eNumber.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai);
         public static HaiState Haku = new HaiState(eType.Zihai, eNumber.Haku, eState.Yaochu | eState.Tsupai | eState.Sangem);
         public static HaiState Hatu = new HaiState(eType.Zihai, eNumber.Hatu, eState.Yaochu | eState.Tsupai | eState.Sangem | eState.Ryuiso);
-        public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Thun, eState.Yaochu | eState.Tsupai | eState.Sangem);
+        public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Chun, eState.Yaochu | eState.Tsupai | eState.Sangem);
 
         public static HaiState[] sHaiStates = {
             Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9,
