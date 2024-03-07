@@ -31,8 +31,7 @@ namespace server
 
         private ulong _yakuMask = 0;
 
-        private eState _state_and = eState.All;
-        private eState _state_or = 0;
+        private (eState and, eState or) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
 
@@ -82,8 +81,8 @@ namespace server
         private void init()
         {
             _mentsus.Clear();
-            _state_and = eState.All;
-            _state_or = 0;
+            _state.and = eState.All;
+            _state.or = 0;
 
             _mentsus.AddRange(this._toitsu);
             _mentsus.AddRange(this._kotsu);
@@ -94,14 +93,14 @@ namespace server
 
             foreach (var mentsu in _mentsus)
             {
-                _state_and &= mentsu.StateAnd;
-                _state_or |= mentsu.StateOr;
+                _state.and &= mentsu.StateAnd;
+                _state.or |= mentsu.StateOr;
 
             }
             foreach (var hai in _hais)
             {
-                _state_and &= hai.State;
-                _state_or |= hai.State;
+                _state.and &= hai.State;
+                _state.or |= hai.State;
             }
         }
 
@@ -207,7 +206,7 @@ namespace server
             if (menzen)
             {
                 // 清一色チェック
-                if (HaiState.IsChiniso(_state_and))
+                if (HaiState.IsChiniso(_state))
                 {
                     // 純正九蓮宝燈
                     if (_hais.Count(e => e.Number == Hai.eNumber.Num1 && _atariHai != e) >= 3 &&
@@ -248,17 +247,17 @@ namespace server
         public bool Yakumanhantei()
         {
             // 字一色
-            if (HaiState.IsTsuiso(_state_or))
+            if (HaiState.IsTsuiso(_state))
             {
                 _yakuMask |= Tsuiso.Mask;
             }
             // 緑一色
-            if (HaiState.IsRyuiso(_state_and))
+            if (HaiState.IsRyuiso(_state))
             {
                 _yakuMask |= Ryuiso.Mask;
             }
             // 清老頭
-            if (HaiState.IsChinroto(_state_or))
+            if (HaiState.IsChinroto(_state))
             {
                 _yakuMask |= Chinroto.Mask;
             }
@@ -337,7 +336,7 @@ namespace server
             if (_hais[12].Name == _hais[13].Name)
             {
                 // 字一色
-                if (HaiState.IsTsuiso(_state_or))
+                if (HaiState.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
                     return true;
@@ -346,19 +345,19 @@ namespace server
                 _yakuMask |= Chitoitsu.Mask;
 
                 // 混老頭
-                if (HaiState.IsHonroto(_state_or))
+                if (HaiState.IsHonroto(_state))
                 {
                     _yakuMask |= Honroto.Mask;
                 }
 
                 // 混一色
-                if (HaiState.IsHoniso(_state_or))
+                if (HaiState.IsHoniso(_state))
                 {
                     _yakuMask |= Honiso.Mask;
                 }
 
                 // 清一色
-                if (HaiState.IsChiniso(_state_and))
+                if (HaiState.IsChiniso(_state))
                 {
                     _yakuMask |= Chiniso.Mask;
                 }
@@ -391,18 +390,18 @@ namespace server
                 return;
             }
             // タンヤオ
-            if (HaiState.IsTanyao(_state_or))
+            if (HaiState.IsTanyao(_state))
             {
                 _yakuMask |= Tanyao.Mask;
             }
 
             // 混一色
-            if (HaiState.IsHoniso(_state_or))
+            if (HaiState.IsHoniso(_state))
             {
                 _yakuMask |= Honiso.Mask;
             }
             // 清一色
-            if (HaiState.IsChiniso(_state_and))
+            if (HaiState.IsChiniso(_state))
             {
                 _yakuMask |= Chiniso.Mask;
             }
@@ -418,21 +417,21 @@ namespace server
             }
             else
             {
-                if (HaiState.IsYakuhai_Haku(_state_and))
+                if (_mentsus.Count(e => e.IsHaku()) != 0)
                 {
                     _yakuMask |= Yakuhai_Haku.Mask;
                 }
-                if (HaiState.IsYakuhai_Hatu(_state_and))
+                if (_mentsus.Count(e => e.IsHatu()) != 0)
                 {
                     _yakuMask |= Yakuhai_Hatu.Mask;
                 }
-                if (HaiState.IsYakuhai_Thun(_state_and))
+                if (_mentsus.Count(e => e.IsThun()) != 0)
                 {
                     _yakuMask |= Yakuhai_Thun.Mask;
                 }
             }
             // 混老頭
-            if (HaiState.IsHonroto(_state_or))
+            if (HaiState.IsHonroto(_state))
             {
                 _yakuMask |= Honroto.Mask;
             }
@@ -444,7 +443,7 @@ namespace server
 
                 if (yaochu)
                 {
-                    if (HaiState.IsTsuhai(_state_or))
+                    if (HaiState.IsTsuhai(_state))
                     {
                         _yakuMask |= Chanta.Mask;
                     }

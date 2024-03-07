@@ -21,8 +21,8 @@ namespace server
             foreach (var hai in _hais)
             {
                 eState state = Hai.sHaiStates[(int)hai.Name].State;
-                _state_and &= state;
-                _state_or |= state;
+                _state.and &= state;
+                _state.or |= state;
             }
         }
 

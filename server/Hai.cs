@@ -38,7 +38,7 @@ namespace server
             Pei,
             Haku,
             Hatu,
-            Chun,
+            Thun,
         }
 
         public enum eName
@@ -92,7 +92,6 @@ namespace server
             Tsupai = 1 << 2,    // 字牌
             Shupai = 1 << 3,    // 数牌
             Fuampai = 1 << 4,   // 風牌
-            Sangem = 1 << 5,    // 三元牌
             Ryuiso = 1 << 6,    // 緑一色
             Manzu = 1 << 7,     // 萬子
             Pinzu = 1 << 8,     // 筒子
@@ -121,70 +120,46 @@ namespace server
                 this._state = state;
             }
 
-            public static bool IsTsuiso(eState state) { return (state & eState.Shupai) == 0; }
-            public static bool IsHonroto(eState state) { return (state & eState.Chuncham) == 0; }
-            public static bool IsHoniso(eState state)
+            public static bool IsTsuiso((eState and, eState or) state) { return (state.or & eState.Shupai) == 0; }
+            public static bool IsHonroto((eState and, eState or) state) { return (state.or & eState.Chuncham) == 0; }
+            public static bool IsHoniso((eState and, eState or) state)
             {
                 return (
-                    ((state & eState.Tsupai) != 0 && (state & eState.Manzu) != 0 && (state & eState.Pinzu) == 0 && (state & eState.Souzu) == 0) ||
-                    ((state & eState.Tsupai) != 0 && (state & eState.Pinzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Souzu) == 0) ||
-                    ((state & eState.Tsupai) != 0 && (state & eState.Souzu) != 0 && (state & eState.Manzu) == 0 && (state & eState.Pinzu) == 0)
+                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Manzu) != 0 && (state.or & eState.Pinzu) == 0 && (state.or & eState.Souzu) == 0) ||
+                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Pinzu) != 0 && (state.or & eState.Manzu) == 0 && (state.or & eState.Souzu) == 0) ||
+                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Souzu) != 0 && (state.or & eState.Manzu) == 0 && (state.or & eState.Pinzu) == 0)
                     );
             }
-            public static bool IsChiniso(eState state_and)
+            public static bool IsChiniso((eState and, eState or) state)
             {
                 return (
-                    (state_and & eState.Manzu) != 0 ||
-                    (state_and & eState.Pinzu) != 0 ||
-                    (state_and & eState.Souzu) != 0
+                    (state.and & eState.Manzu) != 0 ||
+                    (state.and & eState.Pinzu) != 0 ||
+                    (state.and & eState.Souzu) != 0
                     );
             }
 
-            public static bool IsRyuiso(eState state_and)
+            public static bool IsAnd((eState and, eState or) state, eState mask) { return (state.and & mask) != 0; }
+            public static bool IsOr((eState and, eState or) state, eState mask) { return (state.or & mask) != 0; }
+
+            public static bool IsRyuiso((eState and, eState or) state)
             {
-                return (state_and & eState.Ryuiso) != 0;
+                return (state.and & eState.Ryuiso) != 0;
             }
 
-            public static bool IsChinroto(eState state)
+            public static bool IsChinroto((eState and, eState or) state)
             {
-                return ((state & eState.Chuncham) == 0 && (state & eState.Tsupai) == 0);
+                return ((state.or & eState.Chuncham) == 0 && (state.or & eState.Tsupai) == 0);
             }
 
-            public static bool IsSangenpai(eState state)
+            public static bool IsTanyao((eState and, eState or) state)
             {
-                return (state & eState.Sangem) != 0;
+                return (state.or & eState.Yaochu) == 0;
             }
 
-            public static bool IsYaochu(eState state)
+            public static bool IsTsuhai((eState and, eState or) state)
             {
-                return (state & eState.Yaochu) != 0;
-            }
-
-            public static bool IsFuampai(eState state)
-            {
-                return (state & eState.Fuampai) != 0;
-            }
-
-            public static bool IsTanyao(eState state)
-            {
-                return (state & eState.Yaochu) == 0;
-            }
-
-            public static bool IsTsuhai(eState state_or)
-            {
-                return (state_or & eState.Tsupai) != 0;
-            }
-            public static bool IsYakuhai_Haku(eState state_and)
-            {
-                return (state_and & eState.Haku) != 0;
-            }
-            public static bool IsYakuhai_Hatu(eState state_and)
-            {
-                return (state_and & eState.Hatu) != 0;
-            }
-            public static bool IsYakuhai_Thun(eState state_and)
-            {
-                return (state_and & eState.Thun) != 0;
+                return (state.or & eState.Tsupai) != 0;
             }
         };
 
@@ -222,9 +197,9 @@ namespace server
         public static HaiState Nan = new HaiState(eType.Zihai, eNumber.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai);
         public static HaiState Sha = new HaiState(eType.Zihai, eNumber.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai);
         public static HaiState Pei = new HaiState(eType.Zihai, eNumber.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai);
-        public static HaiState Haku = new HaiState(eType.Zihai, eNumber.Haku, eState.Yaochu | eState.Tsupai | eState.Sangem);
-        public static HaiState Hatu = new HaiState(eType.Zihai, eNumber.Hatu, eState.Yaochu | eState.Tsupai | eState.Sangem | eState.Ryuiso);
-        public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Chun, eState.Yaochu | eState.Tsupai | eState.Sangem);
+        public static HaiState Haku = new HaiState(eType.Zihai, eNumber.Haku, eState.Yaochu | eState.Tsupai | eState.Haku);
+        public static HaiState Hatu = new HaiState(eType.Zihai, eNumber.Hatu, eState.Yaochu | eState.Tsupai | eState.Hatu | eState.Ryuiso);
+        public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Thun, eState.Yaochu | eState.Tsupai | eState.Thun);
 
         public static HaiState[] sHaiStates = {
             Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9,

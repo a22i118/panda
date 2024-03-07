@@ -24,8 +24,8 @@ namespace server
             _hais[3] = hai3;
 
             eState state = Hai.sHaiStates[(int)_hais[0].Name].State;
-            _state_and &= state;
-            _state_or |= state;
+            _state.and &= state;
+            _state.or |= state;
         }
 
         public override int Draw(Graphics g, int x, int y)

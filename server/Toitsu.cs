@@ -18,8 +18,8 @@ namespace server
             _hais[1] = hai1;
 
             eState state = Hai.sHaiStates[(int)_hais[0].Name].State;
-            _state_and &= state;
-            _state_or |= state;
+            _state.and &= state;
+            _state.or |= state;
         }
 
         public override eMachi Machi(Hai hai) { return hai.Name == _hais[0].Name ? eMachi.Tanki : eMachi.None; }
