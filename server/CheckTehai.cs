@@ -459,16 +459,19 @@ namespace server
 
             }
             // 一気通貫
+            // todo:_chis
             if (Shuntsu.IsIkkitsukan(_shuntsu))
             {
                 _yakuMask |= Ikkitsukan.Mask;
             }
             // 三色同順
+            // todo:_chis
             if (Shuntsu.IsSanshokudojun(_shuntsu))
             {
                 _yakuMask |=Sanshokudojun.Mask;
             }
             // 三色同刻
+            // todo:_pons, _kans
             if (Kotsu.IsSanshokudoko(_kotsu))
             {
                 _yakuMask |= Sanshokudoko.Mask;
@@ -489,12 +492,14 @@ namespace server
                     _yakuMask |= Ipeiko.Mask;
                 }
                 // 三暗刻
+                // todo:四暗刻参照
                 if (_kotsu.Count == 3)
                 {
                     _yakuMask|= Sananko.Mask;
                 }
 
                 // 平和　?
+                // todo:両面待ち
                 if (_toitsu.Count == 1 && _shuntsu.Count == 4
                     && !_toitsu[0].IsSangempai())
                 {
