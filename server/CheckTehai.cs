@@ -463,6 +463,16 @@ namespace server
             {
                 _yakuMask |= Ikkitsukan.Mask;
             }
+            // 三色同順
+            if (Shuntsu.IsSanshokudojun(_shuntsu))
+            {
+                _yakuMask |=Sanshokudojun.Mask;
+            }
+            // 三色同刻
+            if (Kotsu.IsSanshokudoko(_kotsu))
+            {
+                _yakuMask |= Sanshokudoko.Mask;
+            }
 
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });

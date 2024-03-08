@@ -24,5 +24,28 @@ namespace server
         }
 
         public override eMachi Machi(Hai hai) { return hai.Name == _hais[0].Name ? eMachi.Shampon : eMachi.None; }
+        static public bool IsSanshokudoko(List<Kotsu> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i]._hais[0].Number == list[j]._hais[0].Number &&
+                        list[i]._hais[0].Type != list[j]._hais[0].Type)
+                    {
+                        for (int k = j + 1; k < list.Count; k++)
+                        {
+                            if (list[j]._hais[0].Number == list[k]._hais[0].Number &&
+                                list[i]._hais[0].Type != list[k]._hais[0].Type &&
+                                list[j]._hais[0].Type != list[k]._hais[0].Type)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
