@@ -15,6 +15,8 @@ namespace server
 
         public void Init()
         {
+            _list.Clear();
+
             for (int k = 0; k < 4; k++)
             {
                 for (int i = 0; i < 4; i++)
