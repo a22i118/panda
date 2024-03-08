@@ -410,21 +410,24 @@ namespace server
             {
                 _yakuMask |= Toitoi.Mask;
             }
-
+            // 小三元
             if (_mentsus.Count(e => e.IsSangempai()) == 3)
             {
                 _yakuMask |= Shosangen.Mask;
             }
             else
             {
+                // 白
                 if (_mentsus.Count(e => e.IsHaku()) != 0)
                 {
                     _yakuMask |= Yakuhai_Haku.Mask;
                 }
+                // 發
                 if (_mentsus.Count(e => e.IsHatu()) != 0)
                 {
                     _yakuMask |= Yakuhai_Hatu.Mask;
                 }
+                // 中
                 if (_mentsus.Count(e => e.IsThun()) != 0)
                 {
                     _yakuMask |= Yakuhai_Thun.Mask;
@@ -455,6 +458,11 @@ namespace server
                 }
 
             }
+            // 一気通貫
+            if (Shuntsu.IsIkkitsukan(_shuntsu))
+            {
+                _yakuMask |= Ikkitsukan.Mask;
+            }
 
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
@@ -470,14 +478,19 @@ namespace server
                 {
                     _yakuMask |= Ipeiko.Mask;
                 }
+                // 三暗刻
+                if (_kotsu.Count == 3)
+                {
+                    _yakuMask|= Sananko.Mask;
+                }
 
                 // 平和　?
-                if (_toitsu.Count == 1 && _shuntsu.Count == 4)
+                if (_toitsu.Count == 1 && _shuntsu.Count == 4
+                    && !_toitsu[0].IsSangempai())
                 {
                     _yakuMask |= Pinfu.Mask;
                 }
             }
-
         }
 
         public string[] YakuString()

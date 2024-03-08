@@ -76,5 +76,30 @@ namespace server
             }
             return false;
         }
+
+        static public bool IsIkkitsukan(List<Shuntsu> list)
+        {
+            int i = 0;
+            for (; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i]._hais[0].Type == list[j]._hais[0].Type &&
+                        list[i]._hais[0].Number == Hai.eNumber.Num1 &&
+                        list[j]._hais[0].Number == Hai.eNumber.Num4)
+                    {
+                        for (int k = j + 1; k < list.Count; k++)
+                        {
+                            if(list[j]._hais[0].Type == list[k]._hais[0].Type &&
+                               list[k]._hais[0].Number == Hai.eNumber.Num7)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
