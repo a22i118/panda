@@ -15,17 +15,28 @@ namespace server
 {
     internal class GameManager
     {
-        const int players = 4;
-
+        // _を付ける
         private Yama yama = new Yama();
+        // _を付ける
         private WanPai wanPai = new WanPai();
-        private Tehai[] tehais = new Tehai[players] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
-        private Kawa[] kawas = new Kawa[players] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
-        private ActionCommand[] _actionCommand = new ActionCommand[players];
-        private AtariList[] _atariList = new AtariList[players];
 
+        // これらをPlayerクラスに移行すること
+        private Tehai[] tehais = new Tehai[Player.Num] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
+        private Kawa[] kawas = new Kawa[Player.Num] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
+        private ActionCommand[] _actionCommand = new ActionCommand[Player.Num];
+        private AtariList[] _atariList = new AtariList[Player.Num];
+
+        private Player[] _players = new Player[Player.Num] {
+            new Player(0),
+            new Player(1),
+            new Player(2),
+            new Player(3)
+        };
+
+        // _は前に付ける
         int turn_ = 0;
 
+        // _を付ける
         Hai sutehai = null;
         private bool _tsumo = false;
         private bool _ron = false;
@@ -48,7 +59,7 @@ namespace server
         {
             yama.Init();
 
-            for (int i = 0; i < players; i++)
+            for (int i = 0; i < Player.Num; i++)
             {
                 tehais[i].Init();
                 kawas[i].Init();
@@ -70,7 +81,7 @@ namespace server
             //yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  //国士無双
             //yama.Tsumikomi(0, new Hai.eName[] { Ton, Nan, Nan, Sha, Sha, Pei, Pei, Haku, Haku, Hatu, Hatu, Thun, Thun });   //七対子
             //yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu1, Souzu1, Souzu9, Souzu9 });  //清老頭
-            yama.Tsumikomi(0, new Hai.eName[] { Pei, Pei, Pei, Haku, Haku, Haku,  Hatu, Hatu, Thun, Thun, Thun, Souzu9, Souzu9 });  // 大三元
+            yama.Tsumikomi(0, new Hai.eName[] { Pei, Pei, Pei, Haku, Haku, Haku, Hatu, Hatu, Thun, Thun, Thun, Souzu9, Souzu9 });  // 大三元
             //yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu1, Manzu2, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9, Manzu9, Manzu9 });
             yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu1, Manzu2, Manzu2, Manzu3, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Souzu9 });
             yama.Tsumikomi(2, new Hai.eName[] { Pinzu2, Pinzu2, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
@@ -80,7 +91,7 @@ namespace server
             wanPai.Init(yama);
 
             //四人に配る
-            for (int i = 0; i < players; i++)
+            for (int i = 0; i < Player.Num; i++)
             {
                 for (int j = 0; j < 13; j++)
                 {
@@ -98,7 +109,7 @@ namespace server
             //}
 
             //手牌のソート
-            for (int i = 0; i < players; i++)
+            for (int i = 0; i < Player.Num; i++)
             {
                 tehais[i].Sort();
             }
@@ -106,7 +117,7 @@ namespace server
 
         public void Init()
         {
-            for (int i = 0; i < players; i++)
+            for (int i = 0; i < Player.Num; i++)
             {
                 _actionCommand[i] = new ActionCommand(300, i * 200 + 74, 64, 32);
             }
@@ -241,7 +252,7 @@ namespace server
                     }
                     if (cmd.IsCallPon())
                     {
-                        tehais[i].Pon(sutehai, (turn_ - i + players) % players);
+                        tehais[i].Pon(sutehai, (turn_ - i + Player.Num) % Player.Num);
                         _mode = eMode.Wait;
                         turn_ = i;
                     }
@@ -249,7 +260,7 @@ namespace server
                     {
                         if (tehais[i].IsCanTsumo())
                         {
-                            tehais[i].MinKan(sutehai, (turn_ - i + players) % players);
+                            tehais[i].MinKan(sutehai, (turn_ - i + Player.Num) % Player.Num);
                             _mode = eMode.RinshanTsumo;
                             turn_ = i;
                         }
@@ -326,9 +337,9 @@ namespace server
 
                         tehais[turn_].Sort();
 
-                        for (int shimocha = 1; shimocha < players; shimocha++)
+                        for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
-                            int player = (turn_ + shimocha) % players;
+                            int player = (turn_ + shimocha) % Player.Num;
 
                             _atariList[player] = new AtariList(tehais[player], hai);
 
@@ -360,7 +371,7 @@ namespace server
             }
             else
             {
-                for (int player = 0; player < players; player++)
+                for (int player = 0; player < Player.Num; player++)
                 {
                     Hai hai = tehais[player].Click(x, y);
                     if (hai != null)
@@ -388,7 +399,7 @@ namespace server
 
         public void Draw(Graphics g)
         {
-            for (int i = 0; i < players; i++)
+            for (int i = 0; i < Player.Num; i++)
             {
                 tehais[i].Draw(g, i);
                 kawas[i].Draw(g, i);
@@ -409,7 +420,7 @@ namespace server
 
                 foreach (var yaku in yakus)
                 {
-                    if (list.Find(e=>e ==  yaku) == null)
+                    if (list.Find(e => e == yaku) == null)
                     {
                         list.Add(yaku);
                     }

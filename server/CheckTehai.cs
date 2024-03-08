@@ -31,7 +31,7 @@ namespace server
 
         private ulong _yakuMask = 0;
 
-        private (eState and, eState or) _state = (eState.All, 0);
+        private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
 
@@ -81,8 +81,8 @@ namespace server
         private void init()
         {
             _mentsus.Clear();
-            _state.and = eState.All;
-            _state.or = 0;
+            _state.all = eState.All;
+            _state.any = 0;
 
             _mentsus.AddRange(this._toitsu);
             _mentsus.AddRange(this._kotsu);
@@ -93,14 +93,14 @@ namespace server
 
             foreach (var mentsu in _mentsus)
             {
-                _state.and &= mentsu.StateAnd;
-                _state.or |= mentsu.StateOr;
+                _state.all &= mentsu.StateAll;
+                _state.any |= mentsu.StateAny;
 
             }
             foreach (var hai in _hais)
             {
-                _state.and &= hai.State;
-                _state.or |= hai.State;
+                _state.all &= hai.State;
+                _state.any |= hai.State;
             }
         }
 

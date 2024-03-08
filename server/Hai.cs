@@ -120,46 +120,46 @@ namespace server
                 this._state = state;
             }
 
-            public static bool IsTsuiso((eState and, eState or) state) { return (state.or & eState.Shupai) == 0; }
-            public static bool IsHonroto((eState and, eState or) state) { return (state.or & eState.Chuncham) == 0; }
-            public static bool IsHoniso((eState and, eState or) state)
+            public static bool IsTsuiso((eState all, eState any) state) { return (state.any & eState.Shupai) == 0; }
+            public static bool IsHonroto((eState all, eState any) state) { return (state.any & eState.Chuncham) == 0; }
+            public static bool IsHoniso((eState all, eState any) state)
             {
                 return (
-                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Manzu) != 0 && (state.or & eState.Pinzu) == 0 && (state.or & eState.Souzu) == 0) ||
-                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Pinzu) != 0 && (state.or & eState.Manzu) == 0 && (state.or & eState.Souzu) == 0) ||
-                    ((state.or & eState.Tsupai) != 0 && (state.or & eState.Souzu) != 0 && (state.or & eState.Manzu) == 0 && (state.or & eState.Pinzu) == 0)
+                    ((state.any & eState.Tsupai) != 0 && (state.any & eState.Manzu) != 0 && (state.any & eState.Pinzu) == 0 && (state.any & eState.Souzu) == 0) ||
+                    ((state.any & eState.Tsupai) != 0 && (state.any & eState.Pinzu) != 0 && (state.any & eState.Manzu) == 0 && (state.any & eState.Souzu) == 0) ||
+                    ((state.any & eState.Tsupai) != 0 && (state.any & eState.Souzu) != 0 && (state.any & eState.Manzu) == 0 && (state.any & eState.Pinzu) == 0)
                     );
             }
-            public static bool IsChiniso((eState and, eState or) state)
+            public static bool IsChiniso((eState all, eState any) state)
             {
                 return (
-                    (state.and & eState.Manzu) != 0 ||
-                    (state.and & eState.Pinzu) != 0 ||
-                    (state.and & eState.Souzu) != 0
+                    (state.all & eState.Manzu) != 0 ||
+                    (state.all & eState.Pinzu) != 0 ||
+                    (state.all & eState.Souzu) != 0
                     );
             }
 
-            public static bool IsAnd((eState and, eState or) state, eState mask) { return (state.and & mask) != 0; }
-            public static bool IsOr((eState and, eState or) state, eState mask) { return (state.or & mask) != 0; }
+            public static bool IsAll((eState all, eState any) state, eState mask) { return (state.all & mask) != 0; }
+            public static bool IsOr((eState all, eState any) state, eState mask) { return (state.any & mask) != 0; }
 
-            public static bool IsRyuiso((eState and, eState or) state)
+            public static bool IsRyuiso((eState all, eState any) state)
             {
-                return (state.and & eState.Ryuiso) != 0;
+                return (state.all & eState.Ryuiso) != 0;
             }
 
-            public static bool IsChinroto((eState and, eState or) state)
+            public static bool IsChinroto((eState all, eState any) state)
             {
-                return ((state.or & eState.Chuncham) == 0 && (state.or & eState.Tsupai) == 0);
+                return ((state.any & eState.Chuncham) == 0 && (state.any & eState.Tsupai) == 0);
             }
 
-            public static bool IsTanyao((eState and, eState or) state)
+            public static bool IsTanyao((eState all, eState any) state)
             {
-                return (state.or & eState.Yaochu) == 0;
+                return (state.any & eState.Yaochu) == 0;
             }
 
-            public static bool IsTsuhai((eState and, eState or) state)
+            public static bool IsTsuhai((eState all, eState any) state)
             {
-                return (state.or & eState.Tsupai) != 0;
+                return (state.any & eState.Tsupai) != 0;
             }
         };
 
