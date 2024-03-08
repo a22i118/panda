@@ -418,17 +418,17 @@ namespace server
             else
             {
                 // 白
-                if (_mentsus.Count(e => e.IsHaku()) != 0)
+                if (_mentsus.Count(e => e.IsHaku()) != 0 && !_toitsu[0].IsHaku())
                 {
                     _yakuMask |= Yakuhai_Haku.Mask;
                 }
                 // 發
-                if (_mentsus.Count(e => e.IsHatu()) != 0)
+                if (_mentsus.Count(e => e.IsHatu()) != 0 && !_toitsu[0].IsHatu())
                 {
                     _yakuMask |= Yakuhai_Hatu.Mask;
                 }
                 // 中
-                if (_mentsus.Count(e => e.IsThun()) != 0)
+                if (_mentsus.Count(e => e.IsThun()) != 0 && !_toitsu[0].IsThun())
                 {
                     _yakuMask |= Yakuhai_Thun.Mask;
                 }
