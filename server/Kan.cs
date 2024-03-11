@@ -44,5 +44,20 @@ namespace server
 
             return x;
         }
+        public override (uint manzu, uint pinzu, uint souzu) KotsuMask()
+        {
+            if (_hais[0].Type == eType.Manzu)
+            {
+                return (1u << (int)_hais[0].Number, 0, 0);
+            }
+            else if (_hais[0].Type == eType.Pinzu)
+            {
+                return (0, 1u << (int)_hais[0].Number, 0);
+            }
+            else
+            {
+                return (0, 0, 1u << (int)_hais[0].Number);
+            }
+        }
     }
 }

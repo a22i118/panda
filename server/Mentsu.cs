@@ -35,5 +35,14 @@ namespace server
 
         // 1つでも幺九牌（１、９、字牌）がある
         public bool IsYaochu() { return Hai.HaiState.IsOr(_state, eState.Yaochu); }
+
+        public virtual (uint manzu, uint pinzu, uint souzu) ShuntsuMask()
+        {
+            return (0, 0, 0);
+        }
+        public virtual (uint manzu, uint pinzu, uint souzu) KotsuMask()
+        {
+            return (0, 0, 0);
+        }
     }
 }

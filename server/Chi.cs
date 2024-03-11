@@ -29,6 +29,22 @@ namespace server
             }
         }
 
+        public override (uint manzu, uint pinzu, uint souzu) ShuntsuMask()
+        {
+            if (_hais[0].Type == eType.Manzu)
+            {
+                return (1u << (int)_hais[0].Number, 0, 0);
+            }
+            else if (_hais[0].Type == eType.Pinzu)
+            {
+                return (0, 1u << (int)_hais[0].Number, 0);
+            }
+            else
+            {
+                return (0, 0, 1u << (int)_hais[0].Number);
+            }
+        }
+
         public override int Draw(Graphics g, int x, int y)
         {
             _hais[0].SetPos(x, y);

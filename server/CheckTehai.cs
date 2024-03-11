@@ -458,23 +458,47 @@ namespace server
                 }
 
             }
+
+
+
+            (uint manzu, uint pinzu, uint souzu) shuntsumask = (0, 0, 0);
+            foreach (var mentsu in _mentsus)
+            {
+                var m = mentsu.ShuntsuMask();
+                shuntsumask.manzu |= m.manzu;
+                shuntsumask.pinzu |= m.pinzu;
+                shuntsumask.souzu |= m.souzu;
+            }
             // 一気通貫
-            // todo:_chis
-            if (Shuntsu.IsIkkitsukan(_shuntsu))
+            if ((shuntsumask.manzu & 0b001001001) == 0b001001001 ||
+                (shuntsumask.pinzu & 0b001001001) == 0b001001001 ||
+                (shuntsumask.souzu & 0b001001001) == 0b001001001)
             {
                 _yakuMask |= Ikkitsukan.Mask;
             }
             // 三色同順
-            // todo:_chis
-            if (Shuntsu.IsSanshokudojun(_shuntsu))
+            if ((shuntsumask.manzu & shuntsumask.pinzu & shuntsumask.souzu) != 0)
             {
-                _yakuMask |=Sanshokudojun.Mask;
+                _yakuMask |= Sanshokudojun.Mask;
             }
+
             // 三色同刻
-            // todo:_pons, _kans
-            if (Kotsu.IsSanshokudoko(_kotsu))
+            (uint manzu, uint pinzu, uint souzu) kotsumask = (0, 0, 0);
+            foreach (var mentsu in _mentsus)
+            {
+                var m = mentsu.KotsuMask();
+                kotsumask.manzu |= m.manzu;
+                kotsumask.pinzu |= m.pinzu;
+                kotsumask.souzu |= m.souzu;
+            }
+            if ((kotsumask.manzu & kotsumask.pinzu & kotsumask.souzu) != 0)
             {
                 _yakuMask |= Sanshokudoko.Mask;
+            }
+            // 三槓子
+            if (_kans.Count == 3)
+            {
+                _yakuMask |= Sankantsu.Mask;
             }
 
             bool menzen = true;
@@ -492,16 +516,19 @@ namespace server
                     _yakuMask |= Ipeiko.Mask;
                 }
                 // 三暗刻
-                // todo:四暗刻参照
-                if (_kotsu.Count == 3)
+                if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 3)
                 {
-                    _yakuMask|= Sananko.Mask;
+                    if (!(_machi == eMachi.Shampon && _ronAgari))
+                    {
+                        _yakuMask |= Sananko.Mask;
+                    }
+
                 }
 
                 // 平和　?
-                // todo:両面待ち
+                // todo:_toitsu 風牌
                 if (_toitsu.Count == 1 && _shuntsu.Count == 4
-                    && !_toitsu[0].IsSangempai())
+                    && !_toitsu[0].IsSangempai() && _machi == eMachi.Ryammen)
                 {
                     _yakuMask |= Pinfu.Mask;
                 }
