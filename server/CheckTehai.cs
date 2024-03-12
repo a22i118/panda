@@ -516,6 +516,7 @@ namespace server
                     _yakuMask |= Ipeiko.Mask;
                 }
                 // 三暗刻
+                // todo:menzenに限らない
                 if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 3)
                 {
                     if (!(_machi == eMachi.Shampon && _ronAgari))
