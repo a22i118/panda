@@ -459,8 +459,6 @@ namespace server
 
             }
 
-
-
             (uint manzu, uint pinzu, uint souzu) shuntsumask = (0, 0, 0);
             foreach (var mentsu in _mentsus)
             {
@@ -469,10 +467,12 @@ namespace server
                 shuntsumask.pinzu |= m.pinzu;
                 shuntsumask.souzu |= m.souzu;
             }
+
             // 一気通貫
-            if ((shuntsumask.manzu & 0b001001001) == 0b001001001 ||
-                (shuntsumask.pinzu & 0b001001001) == 0b001001001 ||
-                (shuntsumask.souzu & 0b001001001) == 0b001001001)
+            const int num147 = (1 << (int)eNumber.Num1) | (1 << (int)eNumber.Num4) | (1 << (int)eNumber.Num7);
+            if ((shuntsumask.manzu & num147) == num147 ||
+                (shuntsumask.pinzu & num147) == num147 ||
+                (shuntsumask.souzu & num147) == num147)
             {
                 _yakuMask |= Ikkitsukan.Mask;
             }
