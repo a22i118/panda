@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static server.GameManager;
 
 namespace server
 {
@@ -19,12 +21,13 @@ namespace server
 
         public Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
-        private ActionCommand[]? _actionCommand = null;
+        private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
-
+        public int Id { get { return _id; } }
         public Player(int id)
         {
             _id = id;
+            _actionCommand = new ActionCommand(300, _id * 200 + 74, 64, 32);
         }
         public void Init()
         {
@@ -33,11 +36,56 @@ namespace server
         }
         public void Sort()
         {
+            _actionCommand.Init();
             _tehai.Sort();
+        }
+        public void Deal(Hai hai)
+        {
+            _tehai.Add(hai);
         }
         public void Tsumo(Hai hai)
         {
             _tehai.Add(hai);
+
+            _atariList = new AtariList(_tehai);
+
+            if (_atariList.IsAtari())
+            {
+                _actionCommand.CanTsumo = true;
+                //Console.WriteLine("アタリ");
+            }
+
+            if (IsCanAnKan() || IsCanKaKan())
+            {
+                _actionCommand.CanKan = true;
+            }
+
+        }
+        public void Ron(Hai hai, bool isCanChi)
+        {
+            _atariList = new AtariList(_tehai, hai);
+
+            if (_atariList.IsAtari())
+            {
+                _actionCommand.CanRon = true;
+            }
+            // チーのコマンドを有効にする
+            if (isCanChi && IsCanChi(hai))
+            {
+                _actionCommand.CanChi = true;
+            }
+
+            // ポンのコマンドを有効にする
+            if (IsCanPon(hai))
+            {
+                _actionCommand.CanPon = true;
+            }
+
+            // カンのコマンドを有効にする
+            if (IsCanMinKan(hai))
+            {
+                _actionCommand.CanKan = true;
+            }
         }
         public bool Chi(Hai _sutehai)
         {
@@ -83,22 +131,47 @@ namespace server
         {
             return _tehai.Click(x, y);
         }
-        public Hai Click(int x, int y, Kawa _kawa)
+        public Hai Throw(int x, int y)
         {
-            return _tehai.Click(x, y, _kawa);
+            return _tehai.Throw(x, y, _kawa);
         }
         public void ResetNakikouho()
         {
+            _actionCommand.Init();
             _tehai.ResetNakikouho();
         }
         public void Restart()
         {
 
         }
+        //public ActionCommand(int x, int y,int w, int h)
+        //{
 
-        public void Draw(Graphics g)
+        //}
+        public bool IsCanAny()
+        {
+            return _actionCommand.IsCanAny();
+        }
+        public void Draw(Graphics g, bool teban)
         {
             _tehai.Draw(g, _id);
+            _kawa.Draw(g, _id);
+            _actionCommand.Draw(g, teban);
         }
+
+        public string[] YakuString()
+        {
+            return _atariList.YakuString();
+        }
+
+        public bool CommandUpdate(int x, int y)
+        {
+            return _actionCommand.Click(x, y);
+        }
+        public bool IsCallKan() { return _actionCommand.IsCallKan(); }
+        public bool IsCallRon() { return _actionCommand.IsCallRon(); }
+        public bool IsCallTsumo() { return (_actionCommand.IsCallTsumo()); }
+        public bool IsCallChi() { return _actionCommand.IsCallChi(); }
+        public bool IsCallPon() { return _actionCommand.IsCallPon(); }
     }
 }

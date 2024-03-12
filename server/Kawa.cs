@@ -18,10 +18,10 @@ namespace server
 
         public void Add(Hai hai) { _hais.Add(hai); }
 
-        public void Draw(Graphics g, int player)
+        public void Draw(Graphics g, int players)
         {
             int x = 1100 - 48;
-            int y = player * 200 + 64;
+            int y = players * 200 + 64;
 
             for (int i = 0; i < _hais.Count; i++)
             {

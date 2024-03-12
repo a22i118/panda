@@ -79,7 +79,7 @@ namespace server
             return null;
         }
 
-        public Hai Click(int x, int y, Kawa kawas)
+        public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
 
