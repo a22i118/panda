@@ -173,5 +173,7 @@ namespace server
         public bool IsCallTsumo() { return (_actionCommand.IsCallTsumo()); }
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
+
+        
     }
 }

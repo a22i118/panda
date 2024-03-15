@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
@@ -383,7 +384,7 @@ namespace server
             }
         }
 
-        private void yakuhantei()
+        private void yakuhantei(Ba ba)
         {
             if (Yakumanhantei())
             {
@@ -501,6 +502,18 @@ namespace server
                 _yakuMask |= Sankantsu.Mask;
             }
 
+            // 三暗刻
+            if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 3)
+            {
+                if (!(_machi == eMachi.Shampon && _ronAgari))
+                {
+                    _yakuMask |= Sananko.Mask;
+                }
+            }
+
+            Ba.eKaze _ziKaze = ba.ZiKaze(_id);
+
+
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
             if (menzen)
@@ -515,19 +528,11 @@ namespace server
                 {
                     _yakuMask |= Ipeiko.Mask;
                 }
-                // 三暗刻
-                // todo:menzenに限らない
-                if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 3)
-                {
-                    if (!(_machi == eMachi.Shampon && _ronAgari))
-                    {
-                        _yakuMask |= Sananko.Mask;
-                    }
 
-                }
 
                 // 平和　?
                 // todo:_toitsu 風牌
+
                 if (_toitsu.Count == 1 && _shuntsu.Count == 4
                     && !_toitsu[0].IsSangempai() && _machi == eMachi.Ryammen)
                 {

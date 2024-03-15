@@ -16,6 +16,7 @@ namespace server
     {
         private Yama _yama = new Yama();
         private WanPai _wanPai = new WanPai();
+        private Ba _ba = new Ba();
 
         // これらをPlayerクラスに移行すること
         //private Tehai[] tehais = new Tehai[Player.Num] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
