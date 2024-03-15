@@ -12,48 +12,16 @@ namespace server
         private CheckTehai checkTehai = null;
         private List<CheckTehai> checktehais = new List<CheckTehai>();
 
-        public AtariList(Tehai tehai)
+        public AtariList(Tehai tehai, ulong yakuMask)
         {
-            this.checkTehai = new CheckTehai(tehai);
-            if (checkTehai.IsKokushimuso())
-            {
-                checktehais.Add(checkTehai);
-            }
-            else if (checkTehai.IsChurempoto())
-            {
-                checktehais.Add(checkTehai);
-            }
-            else
-            {
-                if (checkTehai.IsChitoitsu())
-                {
-                    checktehais.Add(checkTehai);
-                }
-
-                check(this.checkTehai, false);
-            }
+            this.checkTehai = new CheckTehai(tehai, yakuMask);
+            check();
         }
 
-        public AtariList(Tehai tehai, Hai hai)
+        public AtariList(Tehai tehai, ulong yakuMask, Hai hai)
         {
-            this.checkTehai = new CheckTehai(tehai, hai);
-            if (checkTehai.IsKokushimuso())
-            {
-                checktehais.Add(checkTehai);
-            }
-            else if (checkTehai.IsChurempoto())
-            {
-                checktehais.Add(checkTehai);
-            }
-            else
-            {
-                if (checkTehai.IsChitoitsu())
-                {
-                    checktehais.Add(checkTehai);
-                }
-
-                check(this.checkTehai, false);
-            }
+            this.checkTehai = new CheckTehai(tehai, yakuMask, hai);
+            check();
         }
 
         public bool IsAtari()
@@ -61,14 +29,36 @@ namespace server
             return checktehais.Count > 0;
         }
 
-        private void check(CheckTehai checkTehai, bool isToitsu)
+        private void check()
+        {
+            if (checkTehai.IsKokushimuso())
+            {
+                checktehais.Add(checkTehai);
+            }
+            else if (checkTehai.IsChurempoto())
+            {
+                checktehais.Add(checkTehai);
+            }
+            else
+            {
+                if (checkTehai.IsChitoitsu())
+                {
+                    checktehais.Add(checkTehai);
+                }
+
+                checkRecursive(this.checkTehai, false);
+            }
+        }
+
+
+        private void checkRecursive(CheckTehai checkTehai, bool isToitsu)
         {
             {
                 CheckTehai tmp = checkTehai.AddToitsu(isToitsu);
 
                 if (tmp != null)
                 {
-                    check(tmp, true);
+                    checkRecursive(tmp, true);
                 }
             }
             {
@@ -76,7 +66,7 @@ namespace server
 
                 if (tmp != null)
                 {
-                    check(tmp, isToitsu);
+                    checkRecursive(tmp, isToitsu);
                 }
             }
             {
@@ -84,7 +74,7 @@ namespace server
 
                 if (tmp != null)
                 {
-                    check(tmp, isToitsu);
+                    checkRecursive(tmp, isToitsu);
                 }
             }
 

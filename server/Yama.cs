@@ -8,14 +8,18 @@ namespace server
 {
     internal class Yama
     {
-        List<Hai> _list = new List<Hai>();
-        public List<Hai> List { get { return _list; } }
+        private List<Hai> _hais = new List<Hai>();
+
+        // 牌の種類 * 4枚 - 配牌 * 4人 - 王牌 = 70
+        private const int c_yamaMax = (9 * 3 + 7) * 4 - 13 * 4 - 14;
+
+        public int TsumoCount { get { return c_yamaMax - _hais.Count; } }
 
         public Yama() { }
 
         public void Init()
         {
-            _list.Clear();
+            _hais.Clear();
 
             for (int k = 0; k < 4; k++)
             {
@@ -25,14 +29,14 @@ namespace server
                     {
                         for (int j = 0; j < 9; j++)
                         {
-                            _list.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
+                            _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
                         }
                     }
                     else
                     {
                         for (int j = 0; j < 7; j++)
                         {
-                            _list.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
+                            _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
                         }
                     }
                 }
@@ -45,19 +49,19 @@ namespace server
         // ツモ
         public Hai Tsumo()
         {
-            if (_list.Count <= 0)
+            if (_hais.Count <= 0)
                 return null;
 
-            Hai tsumo = _list[0];
-            _list.Remove(tsumo);
+            Hai tsumo = _hais[0];
+            _hais.Remove(tsumo);
             return tsumo;
         }
 
         // 嶺上ツモ
         public Hai RinshanTsumo()
         {
-            Hai tsumo = _list.Last();
-            _list.Remove(tsumo);
+            Hai tsumo = _hais.Last();
+            _hais.Remove(tsumo);
             return tsumo;
         }
 
@@ -66,13 +70,13 @@ namespace server
         /// </summary>
         public void Shuffle()
         {
-            for (int i = _list.Count - 1; i > 0; i--)
+            for (int i = _hais.Count - 1; i > 0; i--)
             {
                 var rand = new Random();
                 var x = rand.Next(0, i + 1);
-                var a = _list[i];
-                _list[i] = _list[x];
-                _list[x] = a;
+                var a = _hais[i];
+                _hais[i] = _hais[x];
+                _hais[x] = a;
             }
         }
 
@@ -83,16 +87,16 @@ namespace server
 
             for (int i = 0; i < array.Length; i++)
             {
-                Hai hai = _list.FindLast(e => e.Name == array[i]);
+                Hai hai = _hais.FindLast(e => e.Name == array[i]);
 
                 if (hai != null)
                 {
                     list.Add(hai);
-                    _list.Remove(hai);
+                    _hais.Remove(hai);
                 }
             }
 
-            _list.InsertRange(player * 13, list);
+            _hais.InsertRange(player * 13, list);
         }
     }
 }

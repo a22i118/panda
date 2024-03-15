@@ -74,8 +74,10 @@ namespace server
                             // 鳴きのない１巡目でテンパイしている時に「リーチ」と宣言することで成立する役です。
                             // ダブル立直（リーチ）の略称です。
 
-            Rempuhai,       // 連風牌(レンプウハイ） 2 飜- 鳴き２飜
-                            // 場の風（東場は東）と、自分の風（親から反時計回りに東、南、西、北）が同じ時に、３枚以上揃うと成立する役です。
+            DabuTon,        // 連風牌(レンプウハイ） 2 飜- 鳴き２飜
+            DabuNan,        // 場の風（東場は東）と、自分の風（親から反時計回りに東、南、西、北）が同じ時に、３枚以上揃うと成立する役です。
+            DabuSha,
+            DabuPei,
 
             Chitoitsu,      // 七対子(チートイツ) 2 飜- 門前役
                             // 対子（同じ牌が２つある形）が７組あると成立する役です。
@@ -132,6 +134,7 @@ namespace server
 
             Renho,          // 人和(レンホー） 役満- 門前役
                             // 鳴きのない１巡目で、自分のツモ番までに他家からあがると成立する役です。
+
             Ryuiso,         // 緑一色(リューイーソー） 役満- 鳴き可
                             // 發と、索子の２・３・４・６・８（すべて使わなくてもよい）で揃えると成立する役です。
                             // 發を含めなければ成立しないルールもあります。
@@ -232,8 +235,14 @@ namespace server
         public static YakuTable Hoteiraoyui = new YakuTable("河底撈魚", eYaku.Hoteiraoyui, 1, 1);
         // ダブリー 2 飜- 門前役
         public static YakuTable Daburi = new YakuTable("ダブリー", eYaku.Daburi, 2, 0);
-        // 連風牌(レンプウハイ） 2 飜- 鳴き２飜
-        public static YakuTable Rempuhai = new YakuTable("連風牌", eYaku.Rempuhai, 2, 2);
+        // ダブ東 2 飜- 鳴き２飜
+        public static YakuTable DabuTon = new YakuTable("ダブ東", eYaku.DabuTon, 2, 2);
+        // ダブ南 2 飜- 鳴き２飜
+        public static YakuTable DabuNan = new YakuTable("ダブ南", eYaku.DabuNan, 2, 2);
+        // ダブ西 2 飜- 鳴き２飜
+        public static YakuTable DabuSha = new YakuTable("ダブ西", eYaku.DabuSha, 2, 2);
+        // ダブ北 2 飜- 鳴き２飜
+        public static YakuTable DabuPei = new YakuTable("ダブ北", eYaku.DabuPei, 2, 2);
         // 七対子(チートイツ) 2 飜- 門前役
         public static YakuTable Chitoitsu = new YakuTable("七対子", eYaku.Chitoitsu, 2, 0);
         // 対々和(トイトイ） 2 飜- 鳴き２飜
@@ -316,7 +325,10 @@ namespace server
             Haiteiraoyue,
             Hoteiraoyui,
             Daburi,
-            Rempuhai,
+            DabuTon,
+            DabuNan,
+            DabuSha,
+            DabuPei,
             Chitoitsu,
             Toitoi,
             Sananko,

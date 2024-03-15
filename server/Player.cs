@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -19,7 +20,7 @@ namespace server
 
         private int _id;
 
-        public Tehai _tehai = new Tehai();
+        private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
@@ -43,11 +44,11 @@ namespace server
         {
             _tehai.Add(hai);
         }
-        public void Tsumo(Hai hai)
+        public void Tsumo(Hai hai, ulong yakuMask)
         {
             _tehai.Add(hai);
 
-            _atariList = new AtariList(_tehai);
+            _atariList = new AtariList(_tehai, yakuMask);
 
             if (_atariList.IsAtari())
             {
@@ -61,9 +62,9 @@ namespace server
             }
 
         }
-        public void Ron(Hai hai, bool isCanChi)
+        public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {
-            _atariList = new AtariList(_tehai, hai);
+            _atariList = new AtariList(_tehai, yakuMask, hai);
 
             if (_atariList.IsAtari())
             {
@@ -174,6 +175,6 @@ namespace server
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
 
-        
+        public int SarashiCount() { return _tehai.SarashiCount(); }
     }
 }

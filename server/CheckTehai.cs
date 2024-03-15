@@ -21,7 +21,6 @@ namespace server
         private List<Chi> _chis;
         private List<Pon> _pons;
         private List<Kan> _kans;
-
         private List<Hai> _hais;
 
         private Hai _atariHai;
@@ -31,12 +30,13 @@ namespace server
         private List<IMentsu> _mentsus = new List<IMentsu>();
 
         private ulong _yakuMask = 0;
+        private ulong _undecidedMask = 0;
 
         private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
 
-        public CheckTehai(Tehai tehai, Hai? add = null)
+        public CheckTehai(Tehai tehai, ulong undecidedMask, Hai? add = null)
         {
             this._toitsu = new List<Toitsu>();
             this._kotsu = new List<Kotsu>();
@@ -49,12 +49,16 @@ namespace server
 
             if (add != null)
             {
+                // ロンと重複しない天和、地和を消す
+                _undecidedMask = undecidedMask & ~(Yaku.Tenho.Mask | Yaku.Chiho.Mask);
                 _ronAgari = true;
                 _atariHai = add;
                 this._hais.Add(add);
             }
             else
             {
+                // ツモと重複しない人和を消す
+                _undecidedMask = undecidedMask & ~(Yaku.Renho.Mask);
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
@@ -74,8 +78,10 @@ namespace server
             this._kans = new List<Kan>(checkTehai._kans);
             this._hais = new List<Hai>(checkTehai._hais);
 
+            this._undecidedMask = checkTehai._undecidedMask;
             this._ronAgari = checkTehai._ronAgari;
             this._atariHai = checkTehai._atariHai;
+
             init();
         }
 
@@ -190,6 +196,10 @@ namespace server
                             {
                                 _yakuMask |= Kokushimuso.Mask;
                             }
+
+                            // 天和、地和、人和
+                            _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
+
                             return true;
                         }
                     }
@@ -221,6 +231,10 @@ namespace server
                         _hais.Count(e => e.Number == Hai.eNumber.Num9 && _atariHai != e) >= 3)
                     {
                         _yakuMask |= Junseichuren.Mask;
+
+                        // 天和、地和、人和
+                        _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
+
                         return true;
                     }
                     // 九蓮宝燈
@@ -235,6 +249,9 @@ namespace server
                         _hais.Count(e => e.Number == Hai.eNumber.Num9) >= 3)
                     {
                         _yakuMask |= Churempoto.Mask;
+
+                        // 天和、地和、人和
+                        _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
 
                         return true;
                     }
@@ -306,14 +323,11 @@ namespace server
 
             }
 
-            //bool menzen = true;
-            //_mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
-
-            ////門前
-            //if (menzen)
-            //{
-
-            //}
+            if (_yakuMask != 0)
+            {
+                // 天和、地和、人和
+                _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
+            }
 
             return _yakuMask != 0;
         }
@@ -363,6 +377,9 @@ namespace server
                     _yakuMask |= Chiniso.Mask;
                 }
 
+                // 天和、地和、人和
+                _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
+
                 return true;
             }
 
@@ -384,12 +401,13 @@ namespace server
             }
         }
 
-        private void yakuhantei(Ba ba)
+        private void yakuhantei()
         {
             if (Yakumanhantei())
             {
                 return;
             }
+
             // タンヤオ
             if (HaiState.IsTanyao(_state))
             {
@@ -511,9 +529,6 @@ namespace server
                 }
             }
 
-            Ba.eKaze _ziKaze = ba.ZiKaze(_id);
-
-
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
             if (menzen)
@@ -538,6 +553,12 @@ namespace server
                 {
                     _yakuMask |= Pinfu.Mask;
                 }
+            }
+
+            if (_yakuMask != 0)
+            {
+                // 天和、地和、人和
+                _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
             }
         }
 

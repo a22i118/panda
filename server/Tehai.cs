@@ -22,6 +22,8 @@ namespace server
         public List<Pon> Pons { get { return _pons; } }
         public List<Kan> Kans { get { return _kans; } }
 
+        public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
+
         public Tehai() { }
 
         public void Init()

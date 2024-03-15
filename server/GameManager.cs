@@ -133,7 +133,7 @@ namespace server
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
                     {
@@ -162,7 +162,7 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
                     {
@@ -311,7 +311,7 @@ namespace server
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].Ron(hai, shimocha == 1);
+                            _players[player].Ron(hai, yakuMask(player), shimocha == 1);
                         }
                     }
                 }
@@ -341,6 +341,54 @@ namespace server
                     }
                 }
             }
+        }
+
+        // 場で決まる役
+        private ulong yakuMask(int player)
+        {
+            ulong yakuMask = 0;
+
+            Ba.eKaze bakaze = _ba.BaKaze;
+            Ba.eKaze jikaze = _ba.ZiKaze(player);
+
+            if (bakaze == jikaze)
+            {
+                yakuMask |= bakaze == Ba.eKaze.Ton ? Yaku.DabuTon.Mask : 0; // ダブ東
+                yakuMask |= bakaze == Ba.eKaze.Nan ? Yaku.DabuNan.Mask : 0; // ダブ南
+                yakuMask |= bakaze == Ba.eKaze.Sha ? Yaku.DabuSha.Mask : 0; // ダブ西
+                yakuMask |= bakaze == Ba.eKaze.Pei ? Yaku.DabuPei.Mask : 0; // ダブ北
+            }
+            else
+            {
+                yakuMask |= bakaze == Ba.eKaze.Ton ? Yaku.Yakuhai_Ton.Mask : 0; // 東
+                yakuMask |= bakaze == Ba.eKaze.Nan ? Yaku.Yakuhai_Nan.Mask : 0; // 南
+                yakuMask |= bakaze == Ba.eKaze.Sha ? Yaku.Yakuhai_Sha.Mask : 0; // 西
+                yakuMask |= bakaze == Ba.eKaze.Pei ? Yaku.Yakuhai_Pei.Mask : 0; // 北
+                yakuMask |= jikaze == Ba.eKaze.Ton ? Yaku.Yakuhai_Ton.Mask : 0; // 東
+                yakuMask |= jikaze == Ba.eKaze.Nan ? Yaku.Yakuhai_Nan.Mask : 0; // 南
+                yakuMask |= jikaze == Ba.eKaze.Sha ? Yaku.Yakuhai_Sha.Mask : 0; // 西
+                yakuMask |= jikaze == Ba.eKaze.Pei ? Yaku.Yakuhai_Pei.Mask : 0; // 北
+            }
+
+            // 誰も鳴いていない
+            int sarashiPlayerNum = _players.Count(e => e.SarashiCount() > 0);
+            if (sarashiPlayerNum == 0)
+            {
+                // 天和
+                if (_yama.TsumoCount == 1 && jikaze == Ba.eKaze.Ton) { yakuMask |= Yaku.Tenho.Mask; }
+
+                // 地和
+                if (_yama.TsumoCount == 2 && jikaze == Ba.eKaze.Nan ||
+                    _yama.TsumoCount == 3 && jikaze == Ba.eKaze.Sha ||
+                    _yama.TsumoCount == 4 && jikaze == Ba.eKaze.Pei) { yakuMask |= Yaku.Chiho.Mask; }
+
+                // 人和
+                if (_yama.TsumoCount < 2 && jikaze == Ba.eKaze.Nan ||
+                    _yama.TsumoCount < 3 && jikaze == Ba.eKaze.Sha ||
+                    _yama.TsumoCount < 4 && jikaze == Ba.eKaze.Pei) { yakuMask |= Yaku.Renho.Mask; }
+            }
+
+            return yakuMask;
         }
 
         public void Draw(Graphics g)
