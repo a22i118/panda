@@ -26,6 +26,10 @@ namespace server
         // すべて三元牌（対子、刻子）
         public bool IsSangempai() { return Hai.HaiState.IsAll(_state, eState.Haku | eState.Hatu | eState.Thun); }
 
+        public bool IsTon() { return Hai.HaiState.IsAll(_state, eState.Ton); }      // 東
+        public bool IsNan() { return Hai.HaiState.IsAll(_state, eState.Nan); }      // 南
+        public bool IsSha() { return Hai.HaiState.IsAll(_state, eState.Sha); }      // 西
+        public bool IsPei() { return Hai.HaiState.IsAll(_state, eState.Pei); }      // 北
         public bool IsHaku() { return Hai.HaiState.IsAll(_state, eState.Haku); }    // 白
         public bool IsHatu() { return Hai.HaiState.IsAll(_state, eState.Hatu); }    // 発
         public bool IsThun() { return Hai.HaiState.IsAll(_state, eState.Thun); }    // 中

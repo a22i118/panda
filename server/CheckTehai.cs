@@ -528,7 +528,69 @@ namespace server
                     _yakuMask |= Sananko.Mask;
                 }
             }
-
+            // 約牌：東南西北
+            bool is_pinfu = true;
+            ulong kaze_mask;
+            if ((kaze_mask = _undecidedMask & (DabuTon.Mask | Yakuhai_Ton.Mask)) != 0)
+            {
+                if (_mentsus.Count(e => e.IsTon()) != 0)
+                {
+                    if (!_toitsu[0].IsTon())
+                    {
+                        _yakuMask |= kaze_mask;
+                    }
+                    is_pinfu = false;
+                }
+            }
+            if ((kaze_mask = _undecidedMask & (DabuNan.Mask | Yakuhai_Nan.Mask)) != 0)
+            {
+                if (_mentsus.Count(e => e.IsNan()) != 0)
+                {
+                    if (!_toitsu[0].IsNan())
+                    {
+                        _yakuMask |= kaze_mask;
+                    }
+                    is_pinfu = false;
+                }
+            }
+            if ((kaze_mask = _undecidedMask & (DabuSha.Mask | Yakuhai_Sha.Mask)) != 0)
+            {
+                if (_mentsus.Count(e => e.IsSha()) != 0)
+                {
+                    if (!_toitsu[0].IsSha())
+                    {
+                        _yakuMask |= kaze_mask;
+                    }
+                    is_pinfu = false;
+                }
+            }
+            if ((kaze_mask = _undecidedMask & (DabuPei.Mask | Yakuhai_Pei.Mask)) != 0)
+            {
+                if (_mentsus.Count(e => e.IsPei()) != 0)
+                {
+                    if (!_toitsu[0].IsPei())
+                    {
+                        _yakuMask |= kaze_mask;
+                    }
+                    is_pinfu = false;
+                }
+            }
+            //if (_mentsus.Count(e => e.IsTon()) != 0 && !_toitsu[0].IsTon())
+            //{
+            //    _yakuMask |= _undecidedMask & (DabuTon.Mask | Yakuhai_Ton.Mask);
+            //}
+            //if (_mentsus.Count(e => e.IsNan()) != 0 && !_toitsu[0].IsNan())
+            //{
+            //    _yakuMask |= _undecidedMask & (DabuNan.Mask | Yakuhai_Nan.Mask);
+            //}
+            //if (_mentsus.Count(e => e.IsSha()) != 0 && !_toitsu[0].IsSha())
+            //{
+            //    _yakuMask |= _undecidedMask & (DabuSha.Mask | Yakuhai_Sha.Mask);
+            //}
+            //if (_mentsus.Count(e => e.IsPei()) != 0 && !_toitsu[0].IsPei())
+            //{
+            //    _yakuMask |= _undecidedMask & (DabuPei.Mask | Yakuhai_Pei.Mask);
+            //}
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
             if (menzen)
@@ -545,11 +607,9 @@ namespace server
                 }
 
 
-                // 平和　?
-                // todo:_toitsu 風牌
-
+                // 平和
                 if (_toitsu.Count == 1 && _shuntsu.Count == 4
-                    && !_toitsu[0].IsSangempai() && _machi == eMachi.Ryammen)
+                    && !_toitsu[0].IsSangempai() && is_pinfu && _machi == eMachi.Ryammen)
                 {
                     _yakuMask |= Pinfu.Mask;
                 }
@@ -573,7 +633,6 @@ namespace server
                     result.Add(yaku.Name);
                 }
             }
-
             return result.ToArray();
         }
     }

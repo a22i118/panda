@@ -99,6 +99,10 @@ namespace server
             Haku = 1 << 10,     // 白
             Hatu = 1 << 11,     // 發
             Thun = 1 << 12,     // 中
+            Ton = 1 << 13,      // 東
+            Nan = 1 << 14,      // 南
+            Sha = 1 << 15,      // 西
+            Pei = 1 << 16,      // 北
 
             All = uint.MaxValue
         }
@@ -193,10 +197,10 @@ namespace server
         public static HaiState Souzu8 = new HaiState(eType.Souzu, eNumber.Num8, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
         public static HaiState Souzu9 = new HaiState(eType.Souzu, eNumber.Num9, eState.Yaochu | eState.Shupai | eState.Souzu);
 
-        public static HaiState Ton = new HaiState(eType.Zihai, eNumber.Ton, eState.Yaochu | eState.Tsupai | eState.Fuampai);
-        public static HaiState Nan = new HaiState(eType.Zihai, eNumber.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai);
-        public static HaiState Sha = new HaiState(eType.Zihai, eNumber.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai);
-        public static HaiState Pei = new HaiState(eType.Zihai, eNumber.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai);
+        public static HaiState Ton = new HaiState(eType.Zihai, eNumber.Ton, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Ton);
+        public static HaiState Nan = new HaiState(eType.Zihai, eNumber.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Nan);
+        public static HaiState Sha = new HaiState(eType.Zihai, eNumber.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Sha);
+        public static HaiState Pei = new HaiState(eType.Zihai, eNumber.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Pei);
         public static HaiState Haku = new HaiState(eType.Zihai, eNumber.Haku, eState.Yaochu | eState.Tsupai | eState.Haku);
         public static HaiState Hatu = new HaiState(eType.Zihai, eNumber.Hatu, eState.Yaochu | eState.Tsupai | eState.Hatu | eState.Ryuiso);
         public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Thun, eState.Yaochu | eState.Tsupai | eState.Thun);
