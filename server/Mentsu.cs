@@ -23,19 +23,21 @@ namespace server
         // virtual : 基底クラスに実装を持たせて継承先でoverrideする場合に付ける修飾子
         public virtual bool IsMenzen() { return true; }
 
-        // すべて三元牌（対子、刻子）
-        public bool IsSangempai() { return Hai.HaiState.IsAll(_state, eState.Haku | eState.Hatu | eState.Thun); }
+        public bool IsAll(eState mask) { return Hai.HaiState.IsAll(_state, mask); }
 
-        public bool IsTon() { return Hai.HaiState.IsAll(_state, eState.Ton); }      // 東
-        public bool IsNan() { return Hai.HaiState.IsAll(_state, eState.Nan); }      // 南
-        public bool IsSha() { return Hai.HaiState.IsAll(_state, eState.Sha); }      // 西
-        public bool IsPei() { return Hai.HaiState.IsAll(_state, eState.Pei); }      // 北
-        public bool IsHaku() { return Hai.HaiState.IsAll(_state, eState.Haku); }    // 白
-        public bool IsHatu() { return Hai.HaiState.IsAll(_state, eState.Hatu); }    // 発
-        public bool IsThun() { return Hai.HaiState.IsAll(_state, eState.Thun); }    // 中
+        // すべて三元牌（対子、刻子）
+        public bool IsSangempai() { return IsAll(eState.Haku | eState.Hatu | eState.Thun); }
+
+        public bool IsTon() { return IsAll(eState.Ton); }      // 東
+        public bool IsNan() { return IsAll(eState.Nan); }      // 南
+        public bool IsSha() { return IsAll(eState.Sha); }      // 西
+        public bool IsPei() { return IsAll(eState.Pei); }      // 北
+        public bool IsHaku() { return IsAll(eState.Haku); }    // 白
+        public bool IsHatu() { return IsAll(eState.Hatu); }    // 発
+        public bool IsThun() { return IsAll(eState.Thun); }    // 中
 
         // すべて風牌
-        public bool IsFuampai() { return Hai.HaiState.IsAll(_state, eState.Fuampai); }
+        public bool IsFuampai() { return IsAll(eState.Fuampai); }
 
         // 1つでも幺九牌（１、９、字牌）がある
         public bool IsYaochu() { return Hai.HaiState.IsOr(_state, eState.Yaochu); }

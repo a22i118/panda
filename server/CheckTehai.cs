@@ -528,69 +528,33 @@ namespace server
                     _yakuMask |= Sananko.Mask;
                 }
             }
-            // 約牌：東南西北
+            // 風牌：東南西北
             bool is_pinfu = true;
-            ulong kaze_mask;
-            if ((kaze_mask = _undecidedMask & (DabuTon.Mask | Yakuhai_Ton.Mask)) != 0)
+            Action<ulong, eState> TonNanShaPei = (yakuTarget, state) =>
             {
-                if (_mentsus.Count(e => e.IsTon()) != 0)
+                // _undecidedMaskから対象の役をyakuFuampaiに取り出す
+                ulong yakuFuampai = _undecidedMask & yakuTarget;
+                if (yakuFuampai != 0)
                 {
-                    if (!_toitsu[0].IsTon())
+                    // 風牌の面子があれば
+                    if (_mentsus.Count(e => e.IsAll(state)) != 0)
                     {
-                        _yakuMask |= kaze_mask;
+                        // 平和は成立しない
+                        is_pinfu = false;
+
+                        // 風牌の面子が対子でないならば役が成立
+                        if (!_toitsu[0].IsAll(state))
+                        {
+                            _yakuMask |= yakuFuampai;
+                        }
                     }
-                    is_pinfu = false;
                 }
-            }
-            if ((kaze_mask = _undecidedMask & (DabuNan.Mask | Yakuhai_Nan.Mask)) != 0)
-            {
-                if (_mentsus.Count(e => e.IsNan()) != 0)
-                {
-                    if (!_toitsu[0].IsNan())
-                    {
-                        _yakuMask |= kaze_mask;
-                    }
-                    is_pinfu = false;
-                }
-            }
-            if ((kaze_mask = _undecidedMask & (DabuSha.Mask | Yakuhai_Sha.Mask)) != 0)
-            {
-                if (_mentsus.Count(e => e.IsSha()) != 0)
-                {
-                    if (!_toitsu[0].IsSha())
-                    {
-                        _yakuMask |= kaze_mask;
-                    }
-                    is_pinfu = false;
-                }
-            }
-            if ((kaze_mask = _undecidedMask & (DabuPei.Mask | Yakuhai_Pei.Mask)) != 0)
-            {
-                if (_mentsus.Count(e => e.IsPei()) != 0)
-                {
-                    if (!_toitsu[0].IsPei())
-                    {
-                        _yakuMask |= kaze_mask;
-                    }
-                    is_pinfu = false;
-                }
-            }
-            //if (_mentsus.Count(e => e.IsTon()) != 0 && !_toitsu[0].IsTon())
-            //{
-            //    _yakuMask |= _undecidedMask & (DabuTon.Mask | Yakuhai_Ton.Mask);
-            //}
-            //if (_mentsus.Count(e => e.IsNan()) != 0 && !_toitsu[0].IsNan())
-            //{
-            //    _yakuMask |= _undecidedMask & (DabuNan.Mask | Yakuhai_Nan.Mask);
-            //}
-            //if (_mentsus.Count(e => e.IsSha()) != 0 && !_toitsu[0].IsSha())
-            //{
-            //    _yakuMask |= _undecidedMask & (DabuSha.Mask | Yakuhai_Sha.Mask);
-            //}
-            //if (_mentsus.Count(e => e.IsPei()) != 0 && !_toitsu[0].IsPei())
-            //{
-            //    _yakuMask |= _undecidedMask & (DabuPei.Mask | Yakuhai_Pei.Mask);
-            //}
+            };
+            TonNanShaPei(DabuTon.Mask | Yakuhai_Ton.Mask, eState.Ton);  // 東
+            TonNanShaPei(DabuNan.Mask | Yakuhai_Nan.Mask, eState.Nan);  // 南
+            TonNanShaPei(DabuSha.Mask | Yakuhai_Sha.Mask, eState.Sha);  // 西
+            TonNanShaPei(DabuPei.Mask | Yakuhai_Pei.Mask, eState.Pei);  // 北
+
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
             if (menzen)
