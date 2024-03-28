@@ -11,7 +11,6 @@ namespace server
     internal class Toitsu : IMentsu
     {
         private Hai[] _hais = new Hai[2];
-
         public Toitsu(Hai hai0, Hai hai1)
         {
             _hais[0] = hai0;

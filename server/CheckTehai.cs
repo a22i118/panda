@@ -31,7 +31,8 @@ namespace server
 
         private ulong _yakuMask = 0;
         private ulong _undecidedMask = 0;
-
+        private int _fu = 0;
+        public int Fu { get { return _fu; } }
         private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
@@ -102,7 +103,6 @@ namespace server
             {
                 _state.all &= mentsu.StateAll;
                 _state.any |= mentsu.StateAny;
-
             }
             foreach (var hai in _hais)
             {

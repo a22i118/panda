@@ -11,6 +11,7 @@ namespace server
     {
         private Hai[] _hais = new Hai[4];
 
+        public override int Fu { get { return IsYaochu() ? (_from == 0 ? 32 : 16) : (_from == 0 ? 16 : 8); } }
         public Kan(Hai hai0, Hai hai1, Hai hai2, Hai hai3, int from)
         {
             _from = from;

@@ -15,6 +15,8 @@ namespace server
         public eState StateAll { get { return _state.all; } }
         public eState StateAny { get { return _state.any; } }
 
+        public virtual int Fu { get { return 0; }  }
+
         // 待ちを返す
         // abstract : 基底クラスに実装を持たせないで継承先でoverrideする場合に付ける修飾子
         public abstract eMachi Machi(Hai hai);
