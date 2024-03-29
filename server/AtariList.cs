@@ -10,7 +10,7 @@ namespace server
     internal class AtariList
     {
         private CheckTehai checkTehai = null;
-        private Result result = null;
+        //private Result result = null;
         private List<CheckTehai> checktehais = new List<CheckTehai>();
 
         public AtariList(Tehai tehai, ulong yakuMask)

@@ -22,6 +22,7 @@ namespace server
         private List<Pon> _pons;
         private List<Kan> _kans;
         private List<Hai> _hais;
+        private List<Result> _result;
 
         private Hai _atariHai;
         private bool _ronAgari;
@@ -396,7 +397,10 @@ namespace server
                 _machi = mentsu.Machi(_atariHai);
                 if (_machi != eMachi.None)
                 {
+                    _yakuMask = 0;
+                    _fu = 0;
                     yakuhantei();
+                    Result _result = new Result(_fu, _yakuMask);
                 }
             }
         }
