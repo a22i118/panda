@@ -26,15 +26,35 @@ namespace server
 
         private static int Ten(int _fu, int _han)
         {
-            var oyaTenTumo = new Dictionary<Tuple<int, int>, int>();
-            oyaTenTumo.Add(new Tuple<int, int>(20, 2), 700);
-            oyaTenTumo.Add(new Tuple<int, int>(20, 3), 1300);
-            oyaTenTumo.Add(new Tuple<int, int>(20, 4), 2600);
+            // 点数表作成
+            var oyaTsumoTen = new Dictionary<Tuple<int, int>, int>();
+            oyaTsumoTen.Add(new Tuple<int, int>(20, 2), 700);
+            oyaTsumoTen.Add(new Tuple<int, int>(20, 3), 1300);
+            oyaTsumoTen.Add(new Tuple<int, int>(20, 4), 2600);
 
-            oyaTenTumo.Add(new Tuple<int, int>(25, 3), 1600);
+            oyaTsumoTen.Add(new Tuple<int, int>(25, 3), 1600);
+            oyaTsumoTen.Add(new Tuple<int, int>(25, 4), 3200);
+
+            oyaTsumoTen.Add(new Tuple<int, int>(30, 1), 500);
+            oyaTsumoTen.Add(new Tuple<int, int>(30, 2), 1000);
+            oyaTsumoTen.Add(new Tuple<int, int>(30, 3), 2000);
+            oyaTsumoTen.Add(new Tuple<int, int>(30, 4), 3900);
+
+            oyaTsumoTen.Add(new Tuple<int, int>(40, 1), 700);
+            oyaTsumoTen.Add(new Tuple<int, int>(40, 2), 1300);
+            oyaTsumoTen.Add(new Tuple<int, int>(40, 3), 2600);
+            oyaTsumoTen.Add(new Tuple<int, int>(40, 4), 4000);
+
+            oyaTsumoTen.Add(new Tuple<int, int>(50, 1), 800);
+            oyaTsumoTen.Add(new Tuple<int, int>(50, 2), 1600);
+            oyaTsumoTen.Add(new Tuple<int, int>(50, 3), 3200);
+            oyaTsumoTen.Add(new Tuple<int, int>(50, 4), 4000);
+
+            oyaTsumoTen.Add(new Tuple<int, int>(60, 1), 1000);
 
 
-            int ten = oyaTenTumo[new Tuple<int, int>(_fu, _han)];
+
+            int ten = oyaTsumoTen[new Tuple<int, int>(_fu, _han)];
 
             return ten;
         }
