@@ -165,7 +165,7 @@ namespace server
         }
 
         // 国士無双
-        public bool IsKokushimuso()
+        public bool IsKokushimuso(List<Result> results)
         {
             if (_hais.Count >= 14)
             {
@@ -200,7 +200,8 @@ namespace server
 
                             // 天和、地和、人和
                             _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-
+                            results.Add(new Result(0, _yakuMask));
+                            _yakuMask = 0;
                             return true;
                         }
                     }
@@ -209,7 +210,7 @@ namespace server
             return false;
         }
 
-        public bool IsChurempoto()
+        public bool IsChurempoto(List<Result> results)
         {
             bool menzen = true;
             _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
@@ -235,7 +236,8 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-
+                        results.Add(new Result(0, _yakuMask));
+                        _yakuMask = 0;
                         return true;
                     }
                     // 九蓮宝燈
@@ -253,7 +255,8 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-
+                        results.Add(new Result(0, _yakuMask));
+                        _yakuMask = 0;
                         return true;
                     }
 
@@ -333,7 +336,7 @@ namespace server
             return _yakuMask != 0;
         }
 
-        public bool IsChitoitsu()
+        public bool IsChitoitsu(List<Result> results)
         {
             // 鳴いてはいけない
             if (_hais.Count < 14) { return false; }
@@ -355,6 +358,8 @@ namespace server
                 if (HaiState.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
+                    results.Add(new Result(0, _yakuMask));
+                    _yakuMask = 0;
                     return true;
                 }
 
@@ -380,7 +385,8 @@ namespace server
 
                 // 天和、地和、人和
                 _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-
+                results.Add(new Result(0, _yakuMask));
+                _yakuMask = 0;
                 return true;
             }
 

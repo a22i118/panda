@@ -10,7 +10,7 @@ namespace server
     internal class AtariList
     {
         private CheckTehai checkTehai = null;
-        //private Result result = null;
+        private List<Result> _results = new List<Result>();
         private List<CheckTehai> checktehais = new List<CheckTehai>();
 
         public AtariList(Tehai tehai, ulong yakuMask)
@@ -32,17 +32,17 @@ namespace server
 
         private void check()
         {
-            if (checkTehai.IsKokushimuso())
+            if (checkTehai.IsKokushimuso(_results))
             {
                 checktehais.Add(checkTehai);
             }
-            else if (checkTehai.IsChurempoto())
+            else if (checkTehai.IsChurempoto(_results))
             {
                 checktehais.Add(checkTehai);
             }
             else
             {
-                if (checkTehai.IsChitoitsu())
+                if (checkTehai.IsChitoitsu(_results))
                 {
                     checktehais.Add(checkTehai);
                 }
