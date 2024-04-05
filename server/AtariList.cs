@@ -81,7 +81,7 @@ namespace server
 
             if (checkTehai.IsAgari())
             {
-                checkTehai.Yakuhantei();
+                checkTehai.Yakuhantei(_results);
                 checktehais.Add(checkTehai);
             }
         }
@@ -90,7 +90,7 @@ namespace server
         {
             List<string> result = new List<string>();
 
-            foreach (var item in checktehais)
+            foreach (var item in _results)
             {
                 result.AddRange(item.YakuString());
             }

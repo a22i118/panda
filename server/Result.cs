@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static server.Yaku;
 
 namespace server
 {
@@ -12,45 +13,62 @@ namespace server
         private int _fu = 0;
         private int _han = 0;
         const int bazoro = 2;
-        //private ulong _yakuMask = 0;
+        private ulong _yakuMask = 0;
         public int Fu { get { return _fu; } }
 
-        public Result(int _fu, ulong _yakumask)
+        public Result(int fu, ulong yakumask)
         {
+            _yakuMask = yakumask;
 
 
 
 
-
-            _fu = (_fu + 9) / 10 * 10;
+            _fu = (fu + 9) / 10 * 10;
 
         }
-
-        private static int Ten(int _fu, int _han)
+        public string[] YakuString()
         {
+            List<string> result = new List<string>();
+
+            foreach (var yaku in sYakuTables)
+            {
+                if ((yaku.Mask & _yakuMask) != 0)
+                {
+                    result.Add(yaku.Name);
+                }
+            }
+            return result.ToArray();
+        }
+            private static int Ten(int _fu, int _han)
+        {
+            bool oya = false;
             //親の点数 = 符 * 4 * 2の翻数乗 * 1.5
             //子の点数 = 符 * 4 * 2の翻数乗
             //下二桁は切り上げ
 
-            //親
-            int _ten = 0;
-            if (_han >= 13) { _ten = 48000; }
-            else if (_han == 11 || _han == 12) { _ten = 36000; }
-            else if (_han == 8 || _han == 9 || _han == 10) { _ten = 24000; }
-            else if (_han == 6 || _han == 7) { _ten = 18000; }
-            else if (_han == 5) { _ten = 12000; }
+            int ten = 0;
+            int tmp = 0;
+            if (_han >= 13) { tmp = 32000; }
+            else if (_han == 11 || _han == 12) { tmp = 24000; }
+            else if (_han == 8 || _han == 9 || _han == 10) { tmp = 16000; }
+            else if (_han == 6 || _han == 7) { tmp = 12000; }
+            else if (_han == 5) { tmp = 8000; }
             else
             {
-                _ten = (_fu * 6 * (int)Math.Pow(2, _han + bazoro) + 90) / 100 * 100;
-                if (_ten > 11600)
+                tmp = _fu * 4 * (int)Math.Pow(2, _han + bazoro);
+                if (tmp > 7700)
                 {
-                    _ten = 12000;
+                    tmp = 8000;
                 }
             }
+            // 親
+            if (oya)
+            {
+                tmp += tmp / 2;
+            }
+            ten = (tmp + 90) / 100 * 100;
 
-
-
-            return _ten;
+            return ten;
         }
     }
     //対応表：https://00m.in/gLZbi
