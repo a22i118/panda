@@ -310,7 +310,7 @@ namespace server
                 }
 
                 // 暗刻＋暗槓が４個
-                if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 4)
+                if (_kotsu.Count(e => e.IsMenzen()) + _kans.Count(e => e.IsMenzen()) == 4)
                 {
                     // 四暗刻単騎（単騎待ち）
                     if (_machi == eMachi.Tanki)
@@ -403,9 +403,46 @@ namespace server
                 if (_machi != eMachi.None)
                 {
                     _yakuMask = 0;
-                    _fu = 0;
+                    _fu = 20;
+                    if (_machi == eMachi.Shampon && _ronAgari)
+                    {
+                        mentsu.IsMenzen(false);
+                    }
+
                     yakuhantei();
+                    //メンツ
+                    foreach (var mentsu2 in _mentsus)
+                    {
+                        _fu += mentsu2.Fu;
+
+                    }
+                    //ロン上がり
+                    if (_ronAgari)
+                    {
+                        _fu += 10;
+                    }
+                    //ツモ
+                    else
+                    {
+                        _fu += 2;
+                    }
+                    if (_toitsu[0].IsSangempai())
+                    {
+                        _fu += 2;
+                    }
+                    //待ち
+                    if (_machi == eMachi.Kanchan || _machi == eMachi.Penchan || _machi == eMachi.Tanki)
+                    {
+                        _fu += 2;
+                    }
+
+                    _fu = (_fu + 9) / 10 * 10;
+
                     results.Add(new Result(_fu, _yakuMask));
+
+
+                    mentsu.IsMenzen(true);
+
                 }
             }
         }
@@ -530,7 +567,7 @@ namespace server
             }
 
             // 三暗刻
-            if (_kotsu.Count + _kans.Count(e => e.IsMenzen()) == 3)
+            if (_kotsu.Count(e => e.IsMenzen()) + _kans.Count(e => e.IsMenzen()) == 3)
             {
                 if (!(_machi == eMachi.Shampon && _ronAgari))
                 {

@@ -23,7 +23,6 @@ namespace server
 
 
 
-            _fu = (fu + 9) / 10 * 10;
 
         }
         public string[] YakuString()

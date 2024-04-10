@@ -10,9 +10,14 @@ namespace server
 {
     internal class Kotsu : IMentsu
     {
+        private bool _isMenzen = true;
+        //public bool IsMenzen { set { _isMenzen = value; } }
+        public override bool IsMenzen() { return _isMenzen; }
+        public override void IsMenzen(bool flag) { _isMenzen = flag; }
+
         private Hai[] _hais = new Hai[3];
 
-        public override int Fu { get { return IsYaochu() ? 8 : 4; } }
+        public override int Fu { get { return IsYaochu() ? (_isMenzen ? 8 : 4) : (_isMenzen ? 4 : 2); } }
 
         public Kotsu(Hai hai0, Hai hai1, Hai hai2)
         {

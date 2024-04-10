@@ -24,6 +24,7 @@ namespace server
         // 面前
         // virtual : 基底クラスに実装を持たせて継承先でoverrideする場合に付ける修飾子
         public virtual bool IsMenzen() { return true; }
+        public virtual void IsMenzen(bool flag) { }
 
         public bool IsAll(eState mask) { return Hai.HaiState.IsAll(_state, mask); }
 
