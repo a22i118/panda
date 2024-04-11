@@ -19,7 +19,7 @@ namespace server
         public Result(int fu, ulong yakumask)
         {
             _yakuMask = yakumask;
-
+            _fu = fu;
 
 
 
@@ -38,7 +38,11 @@ namespace server
             }
             return result.ToArray();
         }
-            private static int Ten(int _fu, int _han)
+        public string FuString()
+        {
+            return _fu.ToString();
+        }
+        private static int Ten(int _fu, int _han)
         {
             bool oya = false;
             //親の点数 = 符 * 4 * 2の翻数乗 * 1.5

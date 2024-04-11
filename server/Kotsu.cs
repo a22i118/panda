@@ -17,7 +17,7 @@ namespace server
 
         private Hai[] _hais = new Hai[3];
 
-        public override int Fu { get { return IsYaochu() ? (_isMenzen ? 8 : 4) : (_isMenzen ? 4 : 2); } }
+        public override int Fu(ulong undecidedMask) { return IsYaochu() ? (_isMenzen ? 8 : 4) : (_isMenzen ? 4 : 2); }
 
         public Kotsu(Hai hai0, Hai hai1, Hai hai2)
         {

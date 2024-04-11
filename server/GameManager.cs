@@ -412,6 +412,8 @@ namespace server
                 g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
 
                 string[] yakus = _players[_turn].YakuString();
+                string[] fus = _players[_turn].FuString();
+
                 List<string> list = new List<string>();
 
                 foreach (var yaku in yakus)
@@ -421,6 +423,12 @@ namespace server
                         list.Add(yaku);
                     }
                 }
+
+                foreach (var fu in fus)
+                {
+                    list.Add(fu);
+                }
+
 
                 for (int i = 0; i < list.Count; i++)
                 {

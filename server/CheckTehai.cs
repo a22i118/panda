@@ -414,7 +414,7 @@ namespace server
                     //メンツ
                     foreach (var mentsu2 in _mentsus)
                     {
-                        _fu += mentsu2.Fu;
+                        _fu += mentsu2.Fu(_undecidedMask);
 
                     }
                     //ロン上がり
@@ -428,7 +428,7 @@ namespace server
                         _fu += 2;
                     }
                     //頭
-                    if (_toitsu[0].IsSangempai() )
+                    if (_toitsu[0].IsSangempai())
                     {
                         _fu += 2;
                     }
@@ -647,5 +647,6 @@ namespace server
             }
             return result.ToArray();
         }
+
     }
 }

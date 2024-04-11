@@ -164,6 +164,10 @@ namespace server
         {
             return _atariList.YakuString();
         }
+        public string[] FuString()
+        {
+            return _atariList.FuString();
+        } 
 
         public bool CommandUpdate(int x, int y)
         {

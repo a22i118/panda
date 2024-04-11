@@ -96,6 +96,18 @@ namespace server
             }
 
             return result.ToArray();
+                    
+        }
+        public string[] FuString()
+        {
+            List<string> result = new List<string>();
+
+            foreach (var item in _results)
+            {
+                result.Add(item.FuString());
+            }
+
+            return result.ToArray();  
         }
     }
 }
