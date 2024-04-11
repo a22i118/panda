@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
 using static server.Yaku;
+using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace server
@@ -426,7 +427,8 @@ namespace server
                     {
                         _fu += 2;
                     }
-                    if (_toitsu[0].IsSangempai())
+                    //頭
+                    if (_toitsu[0].IsSangempai() )
                     {
                         _fu += 2;
                     }

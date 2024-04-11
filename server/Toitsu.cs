@@ -10,6 +10,7 @@ namespace server
 {
     internal class Toitsu : IMentsu
     {
+        public override int Fu { get { return IsSangempai() ? 2 : 0; } }
         private Hai[] _hais = new Hai[2];
         public Toitsu(Hai hai0, Hai hai1)
         {
