@@ -215,9 +215,6 @@ namespace server
 
         public bool IsChurempoto(List<Result> results)
         {
-            //bool menzen = true;
-            _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
-
             //門前
             if (_menzen)
             {
@@ -606,8 +603,6 @@ namespace server
             TonNanShaPei(DabuSha.Mask | Yakuhai_Sha.Mask, eState.Sha);  // 西
             TonNanShaPei(DabuPei.Mask | Yakuhai_Pei.Mask, eState.Pei);  // 北
 
-            //bool menzen = true;
-            _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
             if (_menzen)
             {
                 // 二盃口
