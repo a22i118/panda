@@ -12,18 +12,27 @@ namespace server
     {
         private int _fu = 0;
         private int _han = 0;
+        private int _ten = 0;
         const int bazoro = 2;
         private ulong _yakuMask = 0;
         public int Fu { get { return _fu; } }
+        public int Han { get { return _han; } }
+        public int Ten { get { return _ten; } }
 
-        public Result(int fu, ulong yakumask)
+        public Result(int fu, ulong yakumask, bool isMenzen)
         {
             _yakuMask = yakumask;
             _fu = fu;
 
 
-
-
+            foreach (var yaku in sYakuTables)
+            {
+                if ((yaku.Mask & _yakuMask) != 0)
+                {
+                    _han += isMenzen ? yaku.Han : yaku.NakiHan;
+                }
+            }
+            TenCalc(_fu, _han);
         }
         public string[] YakuString()
         {
@@ -38,27 +47,34 @@ namespace server
             }
             return result.ToArray();
         }
+
         public string FuString()
         {
             return _fu.ToString();
         }
-        private static int Ten(int _fu, int _han)
+        public string HanString()
+        {
+            return _han.ToString();
+        }
+        public string TenString()
+        {
+            return _ten.ToString();
+        }
+        private void TenCalc(int fu, int han)
         {
             bool oya = false;
             //親の点数 = 符 * 4 * 2の翻数乗 * 1.5
             //子の点数 = 符 * 4 * 2の翻数乗
             //下二桁は切り上げ
-
-            int ten = 0;
-            int tmp = 0;
-            if (_han >= 13) { tmp = 32000; }
-            else if (_han == 11 || _han == 12) { tmp = 24000; }
-            else if (_han == 8 || _han == 9 || _han == 10) { tmp = 16000; }
-            else if (_han == 6 || _han == 7) { tmp = 12000; }
-            else if (_han == 5) { tmp = 8000; }
+            int tmp;
+            if (han >= 13) { tmp = 32000; }
+            else if (han == 11 || han == 12) { tmp = 24000; }
+            else if (han == 8 || han == 9 || han == 10) { tmp = 16000; }
+            else if (han == 6 || han == 7) { tmp = 12000; }
+            else if (han == 5) { tmp = 8000; }
             else
             {
-                tmp = _fu * 4 * (int)Math.Pow(2, _han + bazoro);
+                tmp = fu * 4 * (int)Math.Pow(2, han + bazoro);
                 if (tmp > 7700)
                 {
                     tmp = 8000;
@@ -69,9 +85,7 @@ namespace server
             {
                 tmp += tmp / 2;
             }
-            ten = (tmp + 90) / 100 * 100;
-
-            return ten;
+            _ten = (tmp + 90) / 100 * 100;
         }
     }
     //対応表：https://00m.in/gLZbi

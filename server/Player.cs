@@ -168,7 +168,14 @@ namespace server
         {
             return _atariList.FuString();
         } 
-
+        public string[] HanString()
+        {
+            return _atariList.HanString();
+        }
+        public string[] TenString()
+        {
+            return _atariList.TenString();
+        }
         public bool CommandUpdate(int x, int y)
         {
             return _actionCommand.Click(x, y);

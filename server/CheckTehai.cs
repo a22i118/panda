@@ -27,6 +27,7 @@ namespace server
         private Hai _atariHai;
         private bool _ronAgari;
         private eMachi _machi = eMachi.None;
+        private bool _menzen = true;
 
         private List<IMentsu> _mentsus = new List<IMentsu>();
 
@@ -110,6 +111,8 @@ namespace server
                 _state.all &= hai.State;
                 _state.any |= hai.State;
             }
+            _menzen = true;
+            _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
         }
 
         public CheckTehai AddToitsu(bool isToitsu)
@@ -200,7 +203,7 @@ namespace server
 
                             // 天和、地和、人和
                             _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                            results.Add(new Result(0, _yakuMask));
+                            results.Add(new Result(0, _yakuMask, _menzen));
                             _yakuMask = 0;
                             return true;
                         }
@@ -212,11 +215,11 @@ namespace server
 
         public bool IsChurempoto(List<Result> results)
         {
-            bool menzen = true;
-            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
+            //bool menzen = true;
+            _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
 
             //門前
-            if (menzen)
+            if (_menzen)
             {
                 // 清一色チェック
                 if (HaiState.IsChiniso(_state))
@@ -236,7 +239,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask));
+                        results.Add(new Result(0, _yakuMask, _menzen));
                         _yakuMask = 0;
                         return true;
                     }
@@ -255,7 +258,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask));
+                        results.Add(new Result(0, _yakuMask, _menzen));
                         _yakuMask = 0;
                         return true;
                     }
@@ -358,7 +361,7 @@ namespace server
                 if (HaiState.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
-                    results.Add(new Result(0, _yakuMask));
+                    results.Add(new Result(0, _yakuMask, _menzen));
                     _yakuMask = 0;
                     return true;
                 }
@@ -385,7 +388,7 @@ namespace server
 
                 // 天和、地和、人和
                 _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                results.Add(new Result(0, _yakuMask));
+                results.Add(new Result(0, _yakuMask, _menzen));
                 _yakuMask = 0;
                 return true;
             }
@@ -440,7 +443,7 @@ namespace server
 
                     _fu = (_fu + 9) / 10 * 10;
 
-                    results.Add(new Result(_fu, _yakuMask));
+                    results.Add(new Result(_fu, _yakuMask, _menzen));
 
 
                     mentsu.IsMenzen(true);
@@ -603,9 +606,9 @@ namespace server
             TonNanShaPei(DabuSha.Mask | Yakuhai_Sha.Mask, eState.Sha);  // 西
             TonNanShaPei(DabuPei.Mask | Yakuhai_Pei.Mask, eState.Pei);  // 北
 
-            bool menzen = true;
-            _mentsus.ForEach(e => { menzen &= e.IsMenzen(); });
-            if (menzen)
+            //bool menzen = true;
+            _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
+            if (_menzen)
             {
                 // 二盃口
                 if (Shuntsu.IsRyampeiko(_shuntsu))

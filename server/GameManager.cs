@@ -413,6 +413,8 @@ namespace server
 
                 string[] yakus = _players[_turn].YakuString();
                 string[] fus = _players[_turn].FuString();
+                string[] hans = _players[_turn].HanString();
+                string[] tens = _players[_turn].TenString();
 
                 List<string> list = new List<string>();
 
@@ -427,6 +429,14 @@ namespace server
                 foreach (var fu in fus)
                 {
                     list.Add(fu);
+                }
+                foreach(var han in hans)
+                {
+                    list.Add(han);
+                }
+                foreach (var ten in tens)
+                {
+                    list.Add(ten);
                 }
 
 

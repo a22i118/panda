@@ -109,5 +109,30 @@ namespace server
 
             return result.ToArray();  
         }
+
+        public string[] HanString()
+        {
+            List<string> result = new List<string>();
+
+            foreach (var item in _results)
+            {
+                result.Add(item.HanString());
+            }
+
+            return result.ToArray();
+        }
+
+        public string[] TenString()
+        {
+            List<string> result = new List<string>();
+
+            foreach (var item in _results)
+            {
+                result.Add(item.TenString());
+            }
+
+            return result.ToArray();
+
+        }
     }
 }
