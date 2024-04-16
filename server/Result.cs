@@ -13,6 +13,7 @@ namespace server
         private int _fu = 0;
         private int _han = 0;
         private int _ten = 0;
+        private string _str = "";
         const int bazoro = 2;
         private ulong _yakuMask = 0;
         public int Fu { get { return _fu; } }
@@ -84,8 +85,76 @@ namespace server
             if (oya)
             {
                 tmp += tmp / 2;
+                _ten = (tmp + 90) / 100 * 100;
+                if (_ten == 12000)
+                {
+                    _str = "満貫";
+                }
+                else if (_ten == 18000)
+                {
+                    _str = "跳満";
+                }
+                else if (_ten == 24000)
+                {
+                    _str = "倍満";
+                }
+                else if (_ten == 32000)
+                {
+                    _str = "三倍満";
+                }
+                else if (_ten == 48000)
+                {
+                    _str = "数え役満";
+                }
             }
-            _ten = (tmp + 90) / 100 * 100;
+            else
+            {
+                _ten = (tmp + 90) / 100 * 100;
+                if (_ten == 8000)
+                {
+                    _str = "満貫";
+                }
+                else if (_ten == 12000)
+                {
+                    _str = "跳満";
+                }
+                else if (_ten == 16000)
+                {
+                    _str = "倍満";
+                }
+                else if (_ten == 24000)
+                {
+                    _str = "三倍満";
+                }
+                else if (_ten == 32000)
+                {
+                    _str = "数え役満";
+                }
+            }
+        }
+
+        public void Draw(Graphics g, PointF pos)
+        {
+            string str = "";
+            Font font_small = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
+            foreach (var yaku in sYakuTables)
+            {
+                if ((yaku.Mask & _yakuMask) != 0)
+                {
+                    str += yaku.Name;
+                    str += " ";
+                }
+            }
+
+
+            str += _fu.ToString();
+            str += " 符 ";
+            str += _han.ToString();
+            str += " 翻 ";
+            str += _ten.ToString();
+            str += " ";
+            str += _str;
+            g.DrawString(str, font_small, Brushes.White, pos);
         }
     }
     //対応表：https://00m.in/gLZbi

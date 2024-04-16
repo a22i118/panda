@@ -18,6 +18,7 @@ namespace server
         private WanPai _wanPai = new WanPai();
         private Ba _ba = new Ba();
 
+
         // これらをPlayerクラスに移行すること
         //private Tehai[] tehais = new Tehai[Player.Num] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
         //private Kawa[] kawas = new Kawa[Player.Num] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
@@ -404,45 +405,15 @@ namespace server
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
-            Font font_small = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
 
             if (_tsumo || _ron)
             {
                 g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
-
-                string[] yakus = _players[_turn].YakuString();
-                string[] fus = _players[_turn].FuString();
-                string[] hans = _players[_turn].HanString();
-                string[] tens = _players[_turn].TenString();
-
-                List<string> list = new List<string>();
-
-                foreach (var yaku in yakus)
+                List<Result> results = _players[_turn].Results;
+                int index = 0;
+                foreach (Result result in results)
                 {
-                    if (list.Find(e => e == yaku) == null)
-                    {
-                        list.Add(yaku);
-                    }
-                }
-
-                foreach (var fu in fus)
-                {
-                    list.Add(fu);
-                }
-                foreach(var han in hans)
-                {
-                    list.Add(han);
-                }
-                foreach (var ten in tens)
-                {
-                    list.Add(ten);
-                }
-
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    g.DrawString($"{list[i]}", font_small, Brushes.White, new PointF(32, 64 + 32 * i));
+                    result.Draw(g, new PointF(32, 64 + 32 * index++));
                 }
             }
             if (_ryukyoku)

@@ -12,17 +12,19 @@ namespace server
         private CheckTehai checkTehai = null;
         private List<Result> _results = new List<Result>();
         private List<CheckTehai> checktehais = new List<CheckTehai>();
-
+        public List<Result> Results { get { return _results; } }
         public AtariList(Tehai tehai, ulong yakuMask)
         {
             this.checkTehai = new CheckTehai(tehai, yakuMask);
             check();
+            _results.Sort((a, b) => b.Ten - a.Ten);
         }
 
         public AtariList(Tehai tehai, ulong yakuMask, Hai hai)
         {
             this.checkTehai = new CheckTehai(tehai, yakuMask, hai);
             check();
+            _results.Sort((a, b) => b.Ten - a.Ten);
         }
 
         public bool IsAtari()
@@ -96,7 +98,7 @@ namespace server
             }
 
             return result.ToArray();
-                    
+
         }
         public string[] FuString()
         {
@@ -107,7 +109,7 @@ namespace server
                 result.Add(item.FuString());
             }
 
-            return result.ToArray();  
+            return result.ToArray();
         }
 
         public string[] HanString()
@@ -130,7 +132,6 @@ namespace server
             {
                 result.Add(item.TenString());
             }
-
             return result.ToArray();
 
         }

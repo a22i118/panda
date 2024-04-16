@@ -24,6 +24,7 @@ namespace server
         private Kawa _kawa = new Kawa();
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
+        public List<Result> Results { get { return _atariList.Results; } }
         public int Id { get { return _id; } }
         public Player(int id)
         {
