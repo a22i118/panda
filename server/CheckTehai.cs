@@ -34,7 +34,10 @@ namespace server
         private ulong _yakuMask = 0;
         private ulong _undecidedMask = 0;
         private int _fu = 0;
-        public int Fu { get { return _fu; } }
+
+        //private Tehai _tehai = new Tehai();
+        //public Tehai Tehai { get { return _tehai; } }
+
         private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
@@ -65,6 +68,7 @@ namespace server
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
+            //_tehai =tehai;
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
 
             init();

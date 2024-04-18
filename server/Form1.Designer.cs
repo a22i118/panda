@@ -30,9 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             pictureBox1 = new PictureBox();
-            button1 = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
-            textBox1 = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -48,36 +47,26 @@
             pictureBox1.Paint += pictureBox1_Paint;
             pictureBox1.MouseDown += pictureBox1_MouseDown;
             // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(1774, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 1;
-            button1.Text = "はじめから";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // timer1
             // 
             timer1.Enabled = true;
             timer1.Tick += timer1_Tick;
             // 
-            // textBox1
+            // label1
             // 
-            textBox1.Location = new Point(12, 15);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 2;
+            label1.AutoSize = true;
+            label1.Location = new Point(611, 373);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 25);
+            label1.TabIndex = 1;
+            label1.Click += label1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1898, 1024);
-            Controls.Add(textBox1);
-            Controls.Add(button1);
+            Controls.Add(label1);
             Controls.Add(pictureBox1);
             Name = "Form1";
             Text = "Panda";
@@ -90,8 +79,7 @@
         #endregion
 
         private PictureBox pictureBox1;
-        private Button button1;
         private System.Windows.Forms.Timer timer1;
-        private TextBox textBox1;
+        private Label label1;
     }
 }

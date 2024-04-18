@@ -16,9 +16,13 @@ namespace server
         private string _str = "";
         const int bazoro = 2;
         private ulong _yakuMask = 0;
+        //private Tehai _tehai;
+        
+
         public int Fu { get { return _fu; } }
         public int Han { get { return _han; } }
         public int Ten { get { return _ten; } }
+
 
         public Result(int fu, ulong yakumask, bool isMenzen)
         {

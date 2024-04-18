@@ -18,6 +18,7 @@ namespace server
             this.checkTehai = new CheckTehai(tehai, yakuMask);
             check();
             _results.Sort((a, b) => b.Ten - a.Ten);
+            //todo:Hanでソート
         }
 
         public AtariList(Tehai tehai, ulong yakuMask, Hai hai)
@@ -25,6 +26,7 @@ namespace server
             this.checkTehai = new CheckTehai(tehai, yakuMask, hai);
             check();
             _results.Sort((a, b) => b.Ten - a.Ten);
+            //todo:Hanでソート
         }
 
         public bool IsAtari()

@@ -408,13 +408,19 @@ namespace server
 
             if (_tsumo || _ron)
             {
+                //Brush brush = Brushes.Black;
+                SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
                 List<Result> results = _players[_turn].Results;
                 int index = 0;
+                g.FillRectangle(brush, 25, 40, 1200, 1200);
+
                 foreach (Result result in results)
                 {
-                    result.Draw(g, new PointF(32, 64 + 32 * index++));
+
+                    result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
+                //Result.tehai.Draw(g,_turn);
             }
             if (_ryukyoku)
             {
