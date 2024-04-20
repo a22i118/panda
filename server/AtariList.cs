@@ -17,16 +17,18 @@ namespace server
         {
             this.checkTehai = new CheckTehai(tehai, yakuMask);
             check();
-            _results.Sort((a, b) => b.Ten - a.Ten);
-            //todo:Hanでソート
+            //_results.Sort((a, b) => b.Ten - a.Ten);
+            _results.OrderBy(a => a.Ten).ThenBy(a => a.Han).ToList();
+
         }
 
         public AtariList(Tehai tehai, ulong yakuMask, Hai hai)
         {
             this.checkTehai = new CheckTehai(tehai, yakuMask, hai);
             check();
-            _results.Sort((a, b) => b.Ten - a.Ten);
-            //todo:Hanでソート
+            //_results.Sort((a, b) => b.Ten - a.Ten);
+            _results.OrderBy(a => a.Ten).ThenBy(a => a.Han).ToList();
+
         }
 
         public bool IsAtari()

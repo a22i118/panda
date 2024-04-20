@@ -17,14 +17,14 @@ namespace server
         const int bazoro = 2;
         private ulong _yakuMask = 0;
         //private Tehai _tehai;
-        
+
 
         public int Fu { get { return _fu; } }
         public int Han { get { return _han; } }
         public int Ten { get { return _ten; } }
 
 
-        public Result(int fu, ulong yakumask, bool isMenzen)
+        public Result(int fu, ulong yakumask, bool isMenzen, bool isoya)
         {
             _yakuMask = yakumask;
             _fu = fu;
@@ -37,7 +37,7 @@ namespace server
                     _han += isMenzen ? yaku.Han : yaku.NakiHan;
                 }
             }
-            TenCalc(_fu, _han);
+            TenCalc(_fu, _han, isoya);
         }
         public string[] YakuString()
         {
@@ -65,9 +65,9 @@ namespace server
         {
             return _ten.ToString();
         }
-        private void TenCalc(int fu, int han)
+        private void TenCalc(int fu, int han, bool isoya)
         {
-            bool oya = false;
+            //bool isoya = false;
             //親の点数 = 符 * 4 * 2の翻数乗 * 1.5
             //子の点数 = 符 * 4 * 2の翻数乗
             //下二桁は切り上げ
@@ -86,7 +86,7 @@ namespace server
                 }
             }
             // 親
-            if (oya)
+            if (isoya)
             {
                 tmp += tmp / 2;
                 _ten = (tmp + 90) / 100 * 100;

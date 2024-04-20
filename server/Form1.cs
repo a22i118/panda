@@ -70,7 +70,7 @@ namespace reversi
                 tehais[i].Sort();
             }
 
-            //確認用手牌をつくるぜ
+            //確認用手牌
 
             //tehai.Add(yama.List[0]);
             //yama.List.RemoveAt(0);

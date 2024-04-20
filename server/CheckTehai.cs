@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +35,10 @@ namespace server
         private ulong _yakuMask = 0;
         private ulong _undecidedMask = 0;
         private int _fu = 0;
+        private bool _isoya = false;
+        private bool _isChitoitsu = false;
 
-        //private Tehai _tehai = new Tehai();
+        //private List<Hai> agaritehai = new List<Hai>();
         //public Tehai Tehai { get { return _tehai; } }
 
         private (eState all, eState any) _state = (eState.All, 0);
@@ -68,8 +71,10 @@ namespace server
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
-            //_tehai =tehai;
+            //agaritehai.Add(tehai._hais);
+
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
+
 
             init();
         }
@@ -117,6 +122,7 @@ namespace server
             }
             _menzen = true;
             _mentsus.ForEach(e => { _menzen &= e.IsMenzen(); });
+            isoya();
         }
 
         public CheckTehai AddToitsu(bool isToitsu)
@@ -171,6 +177,17 @@ namespace server
             return null;
         }
 
+
+        private void isoya()
+        {
+            Ba oya = new Ba();
+            Player player = new Player(0);
+
+
+            if (oya.ZiKaze(player.Id) == Ba.eKaze.Ton) { _isoya = true; }
+            else { _isoya = false; }
+        }
+
         // 国士無双
         public bool IsKokushimuso(List<Result> results)
         {
@@ -207,7 +224,7 @@ namespace server
 
                             // 天和、地和、人和
                             _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                            results.Add(new Result(0, _yakuMask, _menzen));
+                            results.Add(new Result(0, _yakuMask, _menzen, _isoya));
                             _yakuMask = 0;
                             return true;
                         }
@@ -240,7 +257,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask, _menzen));
+                        results.Add(new Result(0, _yakuMask, _menzen, _isoya));
                         _yakuMask = 0;
                         return true;
                     }
@@ -259,8 +276,9 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask, _menzen));
+                        results.Add(new Result(0, _yakuMask, _menzen, _isoya));
                         _yakuMask = 0;
+
                         return true;
                     }
 
@@ -362,12 +380,13 @@ namespace server
                 if (HaiState.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
-                    results.Add(new Result(0, _yakuMask, _menzen));
+                    results.Add(new Result(0, _yakuMask, _menzen, _isoya));
                     _yakuMask = 0;
                     return true;
                 }
 
                 _yakuMask |= Chitoitsu.Mask;
+                _isChitoitsu = true;
 
                 // 混老頭
                 if (HaiState.IsHonroto(_state))
@@ -389,7 +408,7 @@ namespace server
 
                 // 天和、地和、人和
                 _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                results.Add(new Result(0, _yakuMask, _menzen));
+                results.Add(new Result(0, _yakuMask, _menzen, _isoya));
                 _yakuMask = 0;
                 return true;
             }
@@ -441,10 +460,15 @@ namespace server
                     {
                         _fu += 2;
                     }
-
+                    
                     _fu = (_fu + 9) / 10 * 10;
-
-                    results.Add(new Result(_fu, _yakuMask, _menzen));
+                    
+                    //例外：七対子
+                    if (_isChitoitsu)
+                    {
+                        _fu = 25;
+                    }
+                    results.Add(new Result(_fu, _yakuMask, _menzen, _isoya));
 
 
                     mentsu.IsMenzen(true);

@@ -22,7 +22,6 @@ namespace server
 
         public Ba() { }
 
-
         public eKaze BaKaze { get { return _baKaze; } }
         public eKaze ZiKaze(int player)
         {
