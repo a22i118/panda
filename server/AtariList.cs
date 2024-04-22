@@ -13,22 +13,20 @@ namespace server
         private List<Result> _results = new List<Result>();
         private List<CheckTehai> checktehais = new List<CheckTehai>();
         public List<Result> Results { get { return _results; } }
-        public AtariList(Tehai tehai, ulong yakuMask)
+        public AtariList(Tehai tehai, bool isoya, ulong yakuMask)
         {
-            this.checkTehai = new CheckTehai(tehai, yakuMask);
+            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask);
             check();
-            //_results.Sort((a, b) => b.Ten - a.Ten);
-            _results.OrderBy(a => a.Ten).ThenBy(a => a.Han).ToList();
+            _results.Sort((a, b) => b.Ten == a.Ten ? b.Han - a.Han : b.Ten - a.Ten);
+
 
         }
 
-        public AtariList(Tehai tehai, ulong yakuMask, Hai hai)
+        public AtariList(Tehai tehai, bool isoya, ulong yakuMask, Hai hai)
         {
-            this.checkTehai = new CheckTehai(tehai, yakuMask, hai);
+            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask, hai);
             check();
-            //_results.Sort((a, b) => b.Ten - a.Ten);
-            _results.OrderBy(a => a.Ten).ThenBy(a => a.Han).ToList();
-
+            _results.Sort((a, b) => b.Ten == a.Ten ? b.Han - a.Han : b.Ten - a.Ten);
         }
 
         public bool IsAtari()

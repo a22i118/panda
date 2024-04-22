@@ -19,6 +19,8 @@ namespace server
         private int _y;
 
         private int _id;
+        private bool _isOya;
+        public bool IsOya { get { return _isOya; } set { _isOya = value; } }
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
@@ -35,6 +37,7 @@ namespace server
         {
             _tehai.Init();
             _kawa.Init();
+            _isOya = false;
         }
         public void Sort()
         {
@@ -49,7 +52,7 @@ namespace server
         {
             _tehai.Add(hai);
 
-            _atariList = new AtariList(_tehai, yakuMask);
+            _atariList = new AtariList(_tehai, _isOya, yakuMask);
 
             if (_atariList.IsAtari())
             {
@@ -65,7 +68,7 @@ namespace server
         }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {
-            _atariList = new AtariList(_tehai, yakuMask, hai);
+            _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
 
             if (_atariList.IsAtari())
             {
@@ -168,7 +171,7 @@ namespace server
         public string[] FuString()
         {
             return _atariList.FuString();
-        } 
+        }
         public string[] HanString()
         {
             return _atariList.HanString();
