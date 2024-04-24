@@ -70,7 +70,12 @@ namespace server
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
-            //agaritehai.Add(tehai._hais);
+
+            //foreach(Hai hai in tehai.Hais)
+            //{
+            //    agaritehai.Add(hai);
+            //}
+            
 
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
 
