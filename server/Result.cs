@@ -228,8 +228,8 @@ namespace server
             }
             else
             {
-                _ten *= yakuman;
-                yakumanstr += _ten.ToString();
+
+                yakumanstr += (_ten * yakuman).ToString();
                 yakumanstr += " ";
                 _str = "";
                 if (yakuman == 2)
