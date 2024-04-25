@@ -140,6 +140,8 @@ namespace server
         public void Draw(Graphics g, PointF pos)
         {
             string str = "";
+            string yakumanstr = "";
+            int yakuman = 0;
             Font font_small = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
             foreach (var yaku in sYakuTables)
             {
@@ -149,15 +151,114 @@ namespace server
                     str += " ";
                 }
             }
+            if (str.Contains("国士無双十三面待ち"))
+            {
+                yakuman += 2; yakumanstr += "国士無双十三面待ち ";
+            }
+            else if (str.Contains("国士無双"))
+            {
+                yakuman++; yakumanstr += "国士無双 ";
+            }
+            if (str.Contains("大四喜"))
+            {
+                yakuman += 2; yakumanstr += "大四喜 ";
+            }
+            if (str.Contains("小四喜"))
+            {
+                yakuman++; yakumanstr += "小四喜 ";
+            }
+            if (str.Contains("純正九蓮宝燈"))
+            {
+                yakuman += 2; yakumanstr += "純正九蓮宝燈 ";
+            }
+            else if (str.Contains("九蓮宝燈"))
+            {
+                yakuman++; yakumanstr += "九蓮宝燈 ";
+            }
+            if (str.Contains("四暗刻単騎"))
+            {
+                yakuman += 2; yakumanstr += "四暗刻単騎 ";
+            }
+            else if (str.Contains("四暗刻"))
+            {
+                yakuman++; yakumanstr += "四暗刻 ";
+            }
+            if (str.Contains("清老頭"))
+            {
+                yakuman++; yakumanstr += "清老頭 ";
+            }
+            if (str.Contains("大三元"))
+            {
+                yakuman++; yakumanstr += "大三元 ";
+            }
+            if (str.Contains("緑一色"))
+            {
+                yakuman++; yakumanstr += "緑一色 ";
+            }
+            if (str.Contains("字一色"))
+            {
+                yakuman++; yakumanstr += "字一色 ";
+            }
+            if (str.Contains("四槓子"))
+            {
+                yakuman++; yakumanstr += "四槓子 ";
+            }
+            if (str.Contains("天和"))
+            {
+                yakuman++; yakumanstr += "天和 ";
+            }
+            if (str.Contains("地和"))
+            {
+                yakuman++; yakumanstr += "地和 ";
+            }
+            if (str.Contains("人和"))
+            {
+                yakuman++; yakumanstr += "人和 ";
+            }
+
+            if (yakuman == 0)
+            {
+                str += _fu.ToString();
+                str += " 符 ";
+                str += _han.ToString();
+                str += " 翻 ";
+                str += _ten.ToString();
+                str += " ";
+                str += _str;
+            }
+            else
+            {
+
+                yakumanstr += (_ten * yakuman).ToString();
+                yakumanstr += " ";
+                _str = "";
+                if (yakuman == 2)
+                {
+                    _str += "二倍";
+                }
+                else if (yakuman == 3)
+                {
+                    _str += "三倍";
+                }
+                else if (yakuman == 4)
+                {
+                    _str += "四倍";
+                }
+                else if (yakuman == 5)
+                {
+                    _str += "五倍";
+                }
+                else if (yakuman == 6)
+                {
+                    _str += "六倍";
+                }
+
+                _str += "役満";
+                yakumanstr += _str;
+                str = yakumanstr;
+            }
 
 
-            str += _fu.ToString();
-            str += " 符 ";
-            str += _han.ToString();
-            str += " 翻 ";
-            str += _ten.ToString();
-            str += " ";
-            str += _str;
             g.DrawString(str, font_small, Brushes.White, pos);
         }
     }
