@@ -68,6 +68,15 @@ namespace server
                 x = _naki[i].Draw(g, x, players * 200);
             }
         }
+        public void AgariDraw(Graphics g, int players)
+        {
+            int x = 300 - 48;
+            for (int i = 0; i < _hais.Count; i++)
+            {
+                _hais[i].SetPos(x += 48, 800);
+                _hais[i].Draw(g);
+            }
+        }
 
         public Hai Click(int x, int y)
         {
