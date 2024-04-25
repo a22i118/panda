@@ -163,6 +163,10 @@ namespace server
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
         }
+        public void Draw(Graphics g, bool teban,Hai hai)
+        {
+
+        }
 
         public string[] YakuString()
         {
