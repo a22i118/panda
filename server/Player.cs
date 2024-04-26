@@ -28,6 +28,7 @@ namespace server
         private AtariList? _atariList = null;
         public List<Result> Results { get { return _atariList.Results; } }
         public int Id { get { return _id; } }
+        public Tehai Tehai {  get { return _tehai; } }
         public Player(int id)
         {
             _id = id;
@@ -163,10 +164,9 @@ namespace server
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
         }
-        public void Draw(Graphics g)
+        public void AgariDraw(Graphics g,Hai hai)
         {
-            _tehai.AgariDraw(g, _id);
-            //_hai.Draw(g,_id);
+            _tehai.AgariDraw(g,hai);
         }
 
         public string[] YakuString()

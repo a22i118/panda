@@ -36,8 +36,6 @@ namespace server
         private ulong _undecidedMask = 0;
         private int _fu = 0;
         private bool _isOya;
-        //private List<Hai> agaritehai = new List<Hai>();
-        //public Tehai Tehai { get { return _tehai; } }
 
         private (eState all, eState any) _state = (eState.All, 0);
 
@@ -70,11 +68,6 @@ namespace server
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
-
-            //foreach(Hai hai in tehai.Hais)
-            //{
-            //    agaritehai.Add(hai);
-            //}
             
 
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);

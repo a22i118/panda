@@ -34,7 +34,7 @@ namespace server
 
         int _turn = 0;
 
-        Hai _sutehai = null;
+        private Hai _sutehai = null;
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
@@ -88,11 +88,12 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu5, Manzu6, Manzu7, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5, Souzu6 });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
+            _yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
             _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu4, Manzu4, Ton, Nan, Sha, Pei, Thun });
             _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
             _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
 
-            _yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun }); 
+
 
 
             //王牌
@@ -412,20 +413,39 @@ namespace server
 
             if (_tsumo || _ron)
             {
-                //Brush brush = Brushes.Black;
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
                 List<Result> results = _players[_turn].Results;
                 int index = 0;
-                g.FillRectangle(brush, 25, 40, 1200, 1200);
+                g.FillRectangle(brush, 25, 40, 1500, 900);
 
                 foreach (Result result in results)
                 {
 
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
-                _players[_turn].Draw(g);
-                //todo:泣き表示、上がり牌表示
+
+                Hai agariHai;
+                List<Hai> agariTehai = null;
+
+                //ロンの場合は_sutehaiをDraw
+                //ツモの場合は手牌の牌を_players[_turn].Tehai.Hais.Count - 1個agariTehaiに入れ、
+                //ツモった牌(14番目)をagariHaiに入れDraw
+                for (int i = 0; i < _players[_turn].Tehai.Hais.Count - 1; i++)
+                {
+                    agariTehai[i] = _players[_turn].Tehai.Hais[i];
+                }
+
+                if (_tsumo)
+                {
+                    agariHai = agariTehai[_players[_turn].Tehai.Hais.Count];
+                }
+                else
+                {
+                    agariHai = _sutehai;
+                }
+                //_players[_turn].AgariDraw(g, _tsumo ? _sutehai = null : _sutehai);
+                _players[_turn].AgariDraw(g, agariHai);
             }
             if (_ryukyoku)
             {
