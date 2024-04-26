@@ -70,25 +70,33 @@ namespace server
         }
         public void AgariDraw(Graphics g, Hai hai)
         {
+            var haisCcount = _hais.Count;
+
+            if (hai == null)
+            {
+                // あたり牌の指定が無いときは最後の牌
+                hai = _hais[--haisCcount];
+            }
+
             int x = 300 - 48;
-            for (int i = 0; i < _hais.Count; i++)
+            for (int i = 0; i < haisCcount; i++)
             {
                 _hais[i].SetPos(x += 48, 800);
                 _hais[i].Draw(g);
             }
-            x += 72;
+
+            x += 6;
+
+            hai.SetPos(x += 48, 800);
+            hai.Draw(g);
+
+            x += 48 + 6 + 6;
+
             for (int i = _naki.Count - 1; i >= 0; i--)
             {
                 x += 6;
                 x = _naki[i].Draw(g, x, 800);
             }
-            if (hai != null)
-            {
-
-                hai.SetPos(x += 24, 800);
-                hai.Draw(g);
-            }
-
         }
 
         public Hai Click(int x, int y)

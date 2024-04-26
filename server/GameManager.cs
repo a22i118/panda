@@ -425,27 +425,28 @@ namespace server
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
 
-                Hai agariHai;
-                List<Hai> agariTehai = null;
+                //Hai agariHai;
+                //List<Hai> agariTehai = null;
 
                 //ロンの場合は_sutehaiをDraw
                 //ツモの場合は手牌の牌を_players[_turn].Tehai.Hais.Count - 1個agariTehaiに入れ、
                 //ツモった牌(14番目)をagariHaiに入れDraw
-                for (int i = 0; i < _players[_turn].Tehai.Hais.Count - 1; i++)
-                {
-                    agariTehai[i] = _players[_turn].Tehai.Hais[i];
-                }
+                //for (int i = 0; i < _players[_turn].Tehai.Hais.Count - 1; i++)
+                //{
+                //    agariTehai[i] = _players[_turn].Tehai.Hais[i];
+                //}
 
-                if (_tsumo)
-                {
-                    agariHai = agariTehai[_players[_turn].Tehai.Hais.Count];
-                }
-                else
-                {
-                    agariHai = _sutehai;
-                }
-                //_players[_turn].AgariDraw(g, _tsumo ? _sutehai = null : _sutehai);
-                _players[_turn].AgariDraw(g, agariHai);
+                //if (_tsumo)
+                //{
+                //    //agariHai = agariTehai[_players[_turn].Tehai.Hais.Count];
+                //    agariHai = _players[_turn].Tehai.Hais[i];
+                //}
+                //else
+                //{
+                //    agariHai = _sutehai;
+                //}
+                _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
+                //_players[_turn].AgariDraw(g, agariHai);
             }
             if (_ryukyoku)
             {
