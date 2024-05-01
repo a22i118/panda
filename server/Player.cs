@@ -24,11 +24,12 @@ namespace server
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
+        private TempaiCheck _tempaiCheck = null;
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
         public List<Result> Results { get { return _atariList.Results; } }
         public int Id { get { return _id; } }
-        public Tehai Tehai {  get { return _tehai; } }
+        public Tehai Tehai { get { return _tehai; } }
         public Player(int id)
         {
             _id = id;
@@ -164,9 +165,13 @@ namespace server
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
         }
-        public void AgariDraw(Graphics g,Hai hai)
+        public void AgariDraw(Graphics g, Hai hai)
         {
-            _tehai.AgariDraw(g,hai);
+            _tehai.AgariDraw(g, hai);
+        }
+        public void TempaiDraw(Graphics g, Tehai tehai)
+        {
+            _tempaiCheck.Draw(g,_id);
         }
 
         public string[] YakuString()

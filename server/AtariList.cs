@@ -34,6 +34,7 @@ namespace server
             return checktehais.Count > 0;
         }
 
+        
         private void check()
         {
             if (checkTehai.IsKokushimuso(_results))

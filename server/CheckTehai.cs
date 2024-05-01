@@ -76,6 +76,7 @@ namespace server
             init();
         }
 
+
         public CheckTehai(CheckTehai checkTehai)
         {
             this._toitsu = new List<Toitsu>(checkTehai._toitsu);
