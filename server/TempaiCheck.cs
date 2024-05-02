@@ -11,6 +11,7 @@ namespace server
         public CheckTehai checkTehai = null;
         private List<Result> _results = new List<Result>();
         private List<Hai> _atariHais = new List<Hai>();
+        public List<Hai> AtariHais { get { return _atariHais; } }
         Hai _tmp = null;
 
         public TempaiCheck(Tehai tehai, bool isoya, ulong yakumask)

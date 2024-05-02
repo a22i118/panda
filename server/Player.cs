@@ -28,6 +28,7 @@ namespace server
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
         public List<Result> Results { get { return _atariList.Results; } }
+        public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
         public int Id { get { return _id; } }
         public Tehai Tehai { get { return _tehai; } }
         public Player(int id)
