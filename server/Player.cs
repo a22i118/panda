@@ -69,6 +69,11 @@ namespace server
             }
 
         }
+        public void Tempai(Tehai tehai, ulong yakumask)
+        {
+            _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
+
+        }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
@@ -172,7 +177,7 @@ namespace server
         }
         public void TempaiDraw(Graphics g, Tehai tehai)
         {
-            _tempaiCheck.Draw(g,_id);
+            _tempaiCheck.Draw(g, _id);
         }
 
         public string[] YakuString()
