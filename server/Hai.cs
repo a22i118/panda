@@ -81,7 +81,8 @@ namespace server
             Hatu,
             Thun,
 
-            Null
+            Null,
+            Num = Null
         }
 
         [Flags]
@@ -323,6 +324,8 @@ namespace server
                 _bmpRect = new Rectangle(((int)num - top) * w, 0, w, h);
             }
         }
+
+        public Hai(eName name) : this(NameToType(name), NameToNumber(name)) { }
         public eState State
         {
             get { return sHaiStates[(int)this.Name].State; }
@@ -330,6 +333,16 @@ namespace server
         public eName Name
         {
             get { return (eName)((int)_type * 9 + (int)_num); }
+        }
+        static public eType NameToType(eName name)
+        {
+            return (eType)((int)name / 9);
+
+        }
+        static public eNumber NameToNumber(eName name)
+        {
+            return (eNumber)((int)name % 9);
+
         }
 
         private static eName name(eType type, eNumber number)

@@ -14,36 +14,19 @@ namespace server
         public List<Hai> AtariHais { get { return _atariHais; } }
         public TempaiCheck(Tehai tehai, bool isoya, ulong yakumask)
         {
-            for (int i = 0; i < 4; i++)
+            if (tehai.Hais.Count == 13)
             {
-                if (i < 3)
+                for (int i = 0; i < (int)Hai.eName.Num; i++)
                 {
-                    for (int j = 0; j < 9; j++)
+                    Hai tmp = new Hai((Hai.eName)i);
+                    checkTehai = new CheckTehai(tehai, isoya, yakumask, tmp);
+                    if (check())
                     {
-                        Hai tmp = new Hai((Hai.eType)i, (Hai.eNumber)j);
-                        checkTehai = new CheckTehai(tehai, isoya, yakumask, tmp);
-                        if (check())
-                        {
-                            _atariHais.Add(tmp);
-                        }
+                        _atariHais.Add(tmp);
                     }
                 }
-                else
-                {
-                    for (int j = 0; j < 7; j++)
-                    {
-                        Hai tmp = new Hai((Hai.eType)i, (Hai.eNumber)j);
-                        checkTehai = new CheckTehai(tehai, isoya, yakumask, tmp);
-                        if (check())
-                        {
-                            _atariHais.Add(tmp);
-                        }
-                    }
-                }
+                init();
             }
-
-            init();
-
         }
         public void Draw(Graphics g, int players)
         {
@@ -51,7 +34,7 @@ namespace server
 
             for (int i = 0; i < _atariHais.Count; i++)
             {
-                _atariHais[i].SetPos(x += 48, players * 200 - 50);
+                _atariHais[i].SetPos(x += 48, players * 200 + 50);
                 _atariHais[i].Draw(g);
             }
         }

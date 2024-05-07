@@ -188,10 +188,17 @@ namespace server
             {
                 if (_players[_turn].IsCanTsumo())
                 {
+                    _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
+
                     _mode = eMode.Tsumo;
                 }
                 //tehais[turn_].Click(x, y);
             }
+        }
+
+        public void ClickChoice(int x, int y)
+        {
+
         }
 
         public void ClickCheck(int x, int y)
@@ -219,6 +226,7 @@ namespace server
             //for (int i = 0; i < _actionCommand.Length; i++)
             foreach (var player in _players)
             {
+
                 //var cmd = _actionCommand[i];
                 // コマンドが選択された
                 if (player.CommandUpdate(x, y))
@@ -311,6 +319,9 @@ namespace server
                 }
                 else
                 {
+                    _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
+
+
                     Hai hai = _players[_turn].Throw(x, y);
                     if (hai != null)
                     {
@@ -407,6 +418,7 @@ namespace server
             for (int i = 0; i < Player.Num; i++)
             {
                 _players[i].Draw(g, i == _turn);
+                _players[i].TempaiDraw(g);
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
@@ -424,29 +436,7 @@ namespace server
 
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
-
-                //Hai agariHai;
-                //List<Hai> agariTehai = null;
-
-                //ロンの場合は_sutehaiをDraw
-                //ツモの場合は手牌の牌を_players[_turn].Tehai.Hais.Count - 1個agariTehaiに入れ、
-                //ツモった牌(14番目)をagariHaiに入れDraw
-                //for (int i = 0; i < _players[_turn].Tehai.Hais.Count - 1; i++)
-                //{
-                //    agariTehai[i] = _players[_turn].Tehai.Hais[i];
-                //}
-
-                //if (_tsumo)
-                //{
-                //    //agariHai = agariTehai[_players[_turn].Tehai.Hais.Count];
-                //    agariHai = _players[_turn].Tehai.Hais[i];
-                //}
-                //else
-                //{
-                //    agariHai = _sutehai;
-                //}
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
-                //_players[_turn].AgariDraw(g, agariHai);
             }
             if (_ryukyoku)
             {

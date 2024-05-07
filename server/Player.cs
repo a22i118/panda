@@ -175,9 +175,13 @@ namespace server
         {
             _tehai.AgariDraw(g, hai);
         }
-        public void TempaiDraw(Graphics g, Tehai tehai)
+        public void TempaiDraw(Graphics g)
         {
-            _tempaiCheck.Draw(g, _id);
+            if (_tempaiCheck != null)
+            {
+                _tempaiCheck.Draw(g, _id);
+            }
+
         }
 
         public string[] YakuString()
