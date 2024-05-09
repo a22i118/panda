@@ -34,12 +34,13 @@ namespace server
         public Player(int id)
         {
             _id = id;
-            _actionCommand = new ActionCommand(300, _id * 200 + 74, 64, 32);
+            _actionCommand = new ActionCommand(300, _id * 200 + 74 + 50, 64, 32);
         }
         public void Init()
         {
             _tehai.Init();
             _kawa.Init();
+            if (_tempaiCheck != null) { _tempaiCheck.Init(); }
             _isOya = false;
         }
         public void Sort()
@@ -72,7 +73,6 @@ namespace server
         public void Tempai(Tehai tehai, ulong yakumask)
         {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
-
         }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {

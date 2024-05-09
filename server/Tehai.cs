@@ -51,7 +51,7 @@ namespace server
 
             for (int i = 0; i < _hais.Count; i++)
             {
-                _hais[i].SetPos(x += 48, players * 200);
+                _hais[i].SetPos(x += 48, players * 200 +50);
                 _hais[i].Draw(g);
             }
 

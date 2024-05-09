@@ -319,9 +319,6 @@ namespace server
                 }
                 else
                 {
-                    _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
-
-
                     Hai hai = _players[_turn].Throw(x, y);
                     if (hai != null)
                     {
