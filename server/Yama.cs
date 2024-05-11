@@ -21,26 +21,34 @@ namespace server
         {
             _hais.Clear();
 
-            for (int k = 0; k < 4; k++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int i = 0; i < 4; i++)
+                for (int j = 0; j < (int)Hai.eName.Num; j++)
                 {
-                    if (i < 3)
-                    {
-                        for (int j = 0; j < 9; j++)
-                        {
-                            _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < 7; j++)
-                        {
-                            _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
-                        }
-                    }
+                    _hais.Add(new Hai((Hai.eName)j));
                 }
             }
+
+            //for (int k = 0; k < 4; k++)
+            //{
+            //    for (int i = 0; i < 4; i++)
+            //    {
+            //        if (i < 3)
+            //        {
+            //            for (int j = 0; j < 9; j++)
+            //            {
+            //                _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
+            //            }
+            //        }
+            //        else
+            //        {
+            //            for (int j = 0; j < 7; j++)
+            //            {
+            //                _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
+            //            }
+            //        }
+            //    }
+            //}
 
             // シャッフルする
             Shuffle();

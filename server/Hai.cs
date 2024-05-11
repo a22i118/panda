@@ -237,7 +237,12 @@ namespace server
             get { return _nakichoice; }
             set { _nakichoice = value; }
         }
-
+        private bool _throwchoice;
+        public bool Throwchois
+        {
+            get { return _throwchoice; }
+            set { _throwchoice = value; }
+        }
         public void ResetNakikouho()
         {
             _nakikouho = false;
@@ -422,8 +427,17 @@ namespace server
                 g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
                 return s_height;
             }
+            //else if (_throwchoice)
+            //{
+            //    int ofs = -s_height / 4;
+            //    Point[] tmp = getOffsetPos(ofs);
+            //    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+            //    return s_width;
+            //}
             else
             {
+
+                _throwchoice = false;
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
@@ -443,7 +457,7 @@ namespace server
                 ymin = Math.Min(ymin, point.Y);
                 ymax = Math.Max(ymax, point.Y);
             }
-
+            
 
             return (xmin < x && x < xmax) && (ymin < y && y < ymax);
 

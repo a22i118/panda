@@ -51,7 +51,7 @@ namespace server
 
             for (int i = 0; i < _hais.Count; i++)
             {
-                _hais[i].SetPos(x += 48, players * 200 +50);
+                _hais[i].SetPos(x += 48, players * 200 + 50);
                 _hais[i].Draw(g);
             }
 
@@ -65,7 +65,7 @@ namespace server
             for (int i = _naki.Count - 1; i >= 0; i--)
             {
                 x += 6;
-                x = _naki[i].Draw(g, x, players * 200);
+                x = _naki[i].Draw(g, x, players * 200 + 50);
             }
         }
         public void AgariDraw(Graphics g, Hai hai)
@@ -114,7 +114,7 @@ namespace server
         public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
-
+            bool a = false;
             for (int i = 0; i < _hais.Count; i++)
             {
                 if (_hais[i].IsClick(x, y))
@@ -128,7 +128,7 @@ namespace server
                 }
             }
 
-            if (del != null)
+                if (del != null)
             {
                 _hais.Remove(del);
 
