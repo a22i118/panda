@@ -114,7 +114,7 @@ namespace server
         public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
-            bool a = false;
+
             for (int i = 0; i < _hais.Count; i++)
             {
                 if (_hais[i].IsClick(x, y))
@@ -128,12 +128,45 @@ namespace server
                 }
             }
 
-                if (del != null)
+            if (del != null)
             {
                 _hais.Remove(del);
 
             }
 
+
+            //Hai throwhai = null;
+            //Hai tmp = null;
+
+            //for (int i = 0; i < _hais.Count; i++)
+            //{
+
+            //    if (_hais[i].IsClick(x, y))
+            //    {
+            //        throwhai = _hais[i];
+            //        throwhai.Throwchois = true;
+            //        one = true;
+            //    }
+            //    else
+            //    {
+            //        _hais[i].Throwchois = false;
+            //    }
+            //}
+
+
+
+            //kawas.Add(throwhai);
+
+            //del = throwhai;
+
+
+
+
+            //if (del != null)
+            //{
+            //    _hais.Remove(del);
+
+            //}
             return del;
         }
 

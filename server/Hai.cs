@@ -427,17 +427,15 @@ namespace server
                 g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
                 return s_height;
             }
-            //else if (_throwchoice)
-            //{
-            //    int ofs = -s_height / 4;
-            //    Point[] tmp = getOffsetPos(ofs);
-            //    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-            //    return s_width;
-            //}
+            else if (_throwchoice)
+            {
+                int ofs = -s_height / 4;
+                Point[] tmp = getOffsetPos(ofs);
+                g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+                return s_width;
+            }
             else
             {
-
-                _throwchoice = false;
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
@@ -457,7 +455,6 @@ namespace server
                 ymin = Math.Min(ymin, point.Y);
                 ymax = Math.Max(ymax, point.Y);
             }
-            
 
             return (xmin < x && x < xmax) && (ymin < y && y < ymax);
 
