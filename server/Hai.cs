@@ -238,7 +238,7 @@ namespace server
             set { _nakichoice = value; }
         }
         private bool _throwchoice;
-        public bool Throwchois
+        public bool Throwchoice
         {
             get { return _throwchoice; }
             set { _throwchoice = value; }
