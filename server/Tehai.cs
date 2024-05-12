@@ -22,6 +22,11 @@ namespace server
         public List<Pon> Pons { get { return _pons; } }
         public List<Kan> Kans { get { return _kans; } }
 
+        //private Tehai _tempai = new Tehai();
+        //public Tehai Tempai { get { return _tempai; } }
+        private List<Hai> _tempai = new List<Hai>();
+
+        public List<Hai> Tempai { get { return _tempai; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
 
         public Tehai() { }
@@ -114,12 +119,12 @@ namespace server
         public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
-
+            bool one = false;
             for (int i = 0; i < _hais.Count; i++)
             {
-                if (_hais[i].IsClick(x, y))
+                if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
                 {
-
+                    one = true;
                     kawas.Add(_hais[i]);
 
                     del = _hais[i];
@@ -128,45 +133,37 @@ namespace server
                 }
             }
 
+            for (int i = 0; i < _hais.Count; i++)
+            {
+                if (_hais[i].IsClick(x, y))
+                {
+                    _hais[i].ThrowChoice = true;
+                    for (int j = 0; j < _hais.Count; j++)
+                    {
+                        if (j != i && one == false)
+                        {
+
+                            //_tempai.Add(_hais[j]);
+                            _tempai.Add(_hais[j]);
+
+
+                        }
+                    }
+                }
+                else
+                {
+                    _hais[i].ThrowChoice = false;
+                    //_tempai.Clear();
+                }
+            }
+
+
+
             if (del != null)
             {
                 _hais.Remove(del);
 
             }
-
-
-            //Hai throwhai = null;
-            //Hai tmp = null;
-
-            //for (int i = 0; i < _hais.Count; i++)
-            //{
-
-            //    if (_hais[i].IsClick(x, y))
-            //    {
-            //        throwhai = _hais[i];
-            //        throwhai.Throwchois = true;
-            //        one = true;
-            //    }
-            //    else
-            //    {
-            //        _hais[i].Throwchois = false;
-            //    }
-            //}
-
-
-
-            //kawas.Add(throwhai);
-
-            //del = throwhai;
-
-
-
-
-            //if (del != null)
-            //{
-            //    _hais.Remove(del);
-
-            //}
             return del;
         }
 

@@ -73,6 +73,16 @@ namespace server
         public void Tempai(Tehai tehai, ulong yakumask)
         {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
+            Tehai tmp=new Tehai();
+            if (tehai.Tempai != null)
+            {
+                for(int i = 0; i < tehai.Tempai.Count; i++)
+                {
+                    tmp.Hais.Add(tehai.Tempai[i]);
+                }
+                _tempaiCheck = new TempaiCheck(tmp, _isOya, yakumask);
+            }
+
         }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {

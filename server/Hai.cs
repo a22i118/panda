@@ -237,11 +237,11 @@ namespace server
             get { return _nakichoice; }
             set { _nakichoice = value; }
         }
-        private bool _throwchoice;
-        public bool Throwchoice
+        private bool _throwChoice;
+        public bool ThrowChoice
         {
-            get { return _throwchoice; }
-            set { _throwchoice = value; }
+            get { return _throwChoice; }
+            set { _throwChoice = value; }
         }
         public void ResetNakikouho()
         {
@@ -427,7 +427,7 @@ namespace server
                 g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
                 return s_height;
             }
-            else if (_throwchoice)
+            else if (_throwChoice)
             {
                 int ofs = -s_height / 4;
                 Point[] tmp = getOffsetPos(ofs);
