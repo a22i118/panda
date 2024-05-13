@@ -27,10 +27,12 @@ namespace server
         private TempaiCheck _tempaiCheck = null;
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
+        public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
         public int Id { get { return _id; } }
         public Tehai Tehai { get { return _tehai; } }
+        public List<Hai> Hais { get { return _tehai.Hais; } }
         public Player(int id)
         {
             _id = id;
@@ -71,18 +73,8 @@ namespace server
 
         }
         public void Tempai(Tehai tehai, ulong yakumask)
-        {
+        {   
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
-            Tehai tmp=new Tehai();
-            if (tehai.Tempai != null)
-            {
-                for(int i = 0; i < tehai.Tempai.Count; i++)
-                {
-                    tmp.Hais.Add(tehai.Tempai[i]);
-                }
-                _tempaiCheck = new TempaiCheck(tmp, _isOya, yakumask);
-            }
-
         }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {

@@ -12,13 +12,13 @@ namespace server
         private List<Result> _results = new List<Result>();
         private List<Hai> _atariHais = new List<Hai>();
         public List<Hai> AtariHais { get { return _atariHais; } }
-        public TempaiCheck(Tehai tehai, bool isoya, ulong yakumask)
+        public TempaiCheck(Tehai tehai, bool isOya, ulong yakumask)
         {
             Init();
             for (int i = 0; i < (int)Hai.eName.Num; i++)
             {
                 Hai tmp = new Hai((Hai.eName)i);
-                checkTehai = new CheckTehai(tehai, isoya, yakumask, tmp);
+                checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
                 if (check())
                 {
                     _atariHais.Add(tmp);

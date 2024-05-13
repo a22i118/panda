@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -317,6 +318,25 @@ namespace server
                 else
                 {
                     Hai hai = _players[_turn].Throw(x, y);
+                    Tehai tehai = new Tehai(_players[_turn].Tehai);
+                    for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
+                    {
+                        if (_players[_turn].Hais[i].ThrowChoice)
+                        {
+                            tehai.Hais.Remove(tehai.Hais[i]);
+                            break;
+                        }
+                        //else
+                        //{
+                        //    //if (_players[_turn].TempaiCheck != null)
+                        //    //{
+                        //    //    _players[_turn].AtariHais.Clear();
+                        //    //}
+                        //    ////_players[_turn].AtariHais.Clear();
+                        //}
+                    }
+                    _players[_turn].Tempai(tehai, yakuMask(_turn));
+
                     if (hai != null)
                     {
                         _sutehai = hai;

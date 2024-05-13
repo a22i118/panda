@@ -22,14 +22,19 @@ namespace server
         public List<Pon> Pons { get { return _pons; } }
         public List<Kan> Kans { get { return _kans; } }
 
-        //private Tehai _tempai = new Tehai();
-        //public Tehai Tempai { get { return _tempai; } }
         private List<Hai> _tempai = new List<Hai>();
 
         public List<Hai> Tempai { get { return _tempai; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
-
         public Tehai() { }
+        public Tehai(Tehai tehai)
+        {
+            this._hais = new List<Hai>(tehai._hais);
+            this._chis = new List<Chi>(tehai._chis);
+            this._pons = new List<Pon>(tehai._pons);
+            this._kans = new List<Kan>(tehai._kans);
+            this._naki = new List<INaki>(tehai._naki);
+        }
 
         public void Init()
         {
@@ -119,12 +124,11 @@ namespace server
         public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
-            bool one = false;
             for (int i = 0; i < _hais.Count; i++)
             {
                 if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
                 {
-                    one = true;
+
                     kawas.Add(_hais[i]);
 
                     del = _hais[i];
@@ -138,22 +142,11 @@ namespace server
                 if (_hais[i].IsClick(x, y))
                 {
                     _hais[i].ThrowChoice = true;
-                    for (int j = 0; j < _hais.Count; j++)
-                    {
-                        if (j != i && one == false)
-                        {
-
-                            //_tempai.Add(_hais[j]);
-                            _tempai.Add(_hais[j]);
-
-
-                        }
-                    }
                 }
                 else
                 {
+
                     _hais[i].ThrowChoice = false;
-                    //_tempai.Clear();
                 }
             }
 
