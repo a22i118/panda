@@ -272,12 +272,11 @@ namespace server
                     }
                     //振聴チェック
                     //player.Idではなくコマンドを押したplayer
-                    if (_players[player.Id].AtariHais != null)
+                    if (player.AtariHais != null)
                     {
-                        for (int i = 0; i < _players[player.Id].AtariHais.Count; i++)
+                        for (int i = 0; i < player.AtariHais.Count; i++)
                         {
-                            if (_players[player.Id].Kawa.Hais.Find(hais => hais == _players[player.Id].AtariHais[i]) != null
-                                )
+                            if (player.Kawa.Hais.Find(hais => hais == player.AtariHais[i]) != null)
                             {
                                 if (player.IsCallRon())
                                 {
@@ -288,7 +287,7 @@ namespace server
                             }
                             else
                             {
-                                _players[player.Id].Huriten = true;
+                                player.Huriten = true;
                             }
                         }
                     }
@@ -462,7 +461,7 @@ namespace server
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
-            
+
 
 
             if (_tsumo || _ron)
