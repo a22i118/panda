@@ -272,23 +272,33 @@ namespace server
                     }
                     //振聴チェック
                     //player.Idではなくコマンドを押したplayer
-                    if (player.AtariHais != null)
                     {
-                        for (int i = 0; i < player.AtariHais.Count; i++)
+                        var isHuriten = false;
+
+                        if (player.AtariHais != null)
                         {
-                            if (player.Kawa.Hais.Find(hais => hais == player.AtariHais[i]) != null)
+                            foreach (var atariHai in player.AtariHais)
                             {
-                                if (player.IsCallRon())
+                                if (player.Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                                 {
-                                    _turn = player.Id;
-                                    _mode = eMode.Wait;
-                                    _ron = true;
+                                    isHuriten = true;
+                                    break;
                                 }
                             }
-                            else
+                        }
+
+                        if (!isHuriten)
+                        {
+                            if (player.IsCallRon())
                             {
-                                player.Huriten = true;
+                                _turn = player.Id;
+                                _mode = eMode.Wait;
+                                _ron = true;
                             }
+                        }
+                        else
+                        {
+                            player.Huriten = true;
                         }
                     }
                     //これをDrawしたい
@@ -297,14 +307,6 @@ namespace server
                     //{
                     //    g.DrawString("振聴", font2, Brushes.Red, new PointF(150, _turn * 200 + 50));
                     //}
-
-                    if (player.IsCallRon())
-                    {
-                        _turn = player.Id;
-                        _mode = eMode.Wait;
-                        _ron = true;
-                    }
-
 
                     if (player.IsCallTsumo())
                     {
