@@ -271,26 +271,34 @@ namespace server
                         }
                     }
                     //振聴チェック
-                    //if (_players[_turn].AtariHais != null)
+                    //player.Idではなくコマンドを押したplayer
+                    if (_players[player.Id].AtariHais != null)
+                    {
+                        for (int i = 0; i < _players[player.Id].AtariHais.Count; i++)
+                        {
+                            if (_players[player.Id].Kawa.Hais.Find(hais => hais == _players[player.Id].AtariHais[i]) != null
+                                )
+                            {
+                                if (player.IsCallRon())
+                                {
+                                    _turn = player.Id;
+                                    _mode = eMode.Wait;
+                                    _ron = true;
+                                }
+                            }
+                            else
+                            {
+                                _players[player.Id].Huriten = true;
+                            }
+                        }
+                    }
+                    //これをDrawしたい
+                    //Font font2 = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
+                    //if (_players[_turn].Huriten)
                     //{
-                    //    for (int i = 0; i < _players[_turn].AtariHais.Count; i++)
-                    //    {
-                    //        if (_players[_turn].Kawa.Hais.Find(hais => hais == _players[_turn].AtariHais[i]) != null
-                    //            )
-                    //        {
-                    //            if (player.IsCallRon())
-                    //            {
-                    //                _turn = player.Id;
-                    //                _mode = eMode.Wait;
-                    //                _ron = true;
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            _players[_turn].Huriten = true;
-                    //        }
-                    //    }
+                    //    g.DrawString("振聴", font2, Brushes.Red, new PointF(150, _turn * 200 + 50));
                     //}
+
                     if (player.IsCallRon())
                     {
                         _turn = player.Id;
@@ -343,6 +351,7 @@ namespace server
                 {
                     Hai hai = _players[_turn].Throw(x, y);
                     Tehai tehai = new Tehai(_players[_turn].Tehai);
+
                     for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
                     {
                         if (_players[_turn].Hais[i].ThrowChoice)
@@ -352,6 +361,7 @@ namespace server
                         }
                     }
                     _players[_turn].Tempai(tehai, yakuMask(_turn));
+
 
                     if (hai != null)
                     {
@@ -452,7 +462,7 @@ namespace server
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
-            Font font2 = new Font(new FontFamily("Arial"), 25, FontStyle.Bold);
+            
 
 
             if (_tsumo || _ron)
@@ -470,10 +480,7 @@ namespace server
                 }
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
             }
-            if (_players[_turn].Huriten)
-            {
-                g.DrawString("振聴",font2, Brushes.Red, new PointF(150, _turn * 200 + 50));
-            }
+
             if (_ryukyoku)
             {
                 g.DrawString("流局", font, Brushes.White, new PointF(512, 304));

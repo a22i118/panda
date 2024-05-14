@@ -22,7 +22,7 @@ namespace server
         public void Draw(Graphics g, int players)
         {
             int x = 1100 - 48;
-            int y = players * 200 + 64;
+            int y = players * 200 + 50;
 
             for (int i = 0; i < _hais.Count; i++)
             {
@@ -31,6 +31,7 @@ namespace server
                     x = 1100 - 48;
                     y += 64;
                 }
+                _hais[i].ThrowChoice = false;
                 _hais[i].SetPos(x += 48, y);
                 _hais[i].Draw(g);
             }

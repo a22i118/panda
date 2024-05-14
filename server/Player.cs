@@ -34,6 +34,7 @@ namespace server
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
+        public List<List<Hai>> atariHaisList = new List<List<Hai>>();
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public int Id { get { return _id; } }
@@ -222,7 +223,7 @@ namespace server
         public bool IsCallTsumo() { return _actionCommand.IsCallTsumo(); }
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
-        public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
+        //public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
     }

@@ -27,8 +27,6 @@ namespace server
                     }
                 }
             }
-            
-
         }
         public void Draw(Graphics g, int players)
         {

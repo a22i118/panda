@@ -140,6 +140,7 @@ namespace reversi
             // ‚±‚±‚ÅgameManager‚ÌExec‚ğŒÄ‚Ño‚·
             gameManager.Exec();
 
+
             pictureBox1.Invalidate();
         }
 
