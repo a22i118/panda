@@ -234,7 +234,7 @@ namespace server
                         if (player.Chi(_sutehai))
                         {
                             //TODO：チーをしたらチー以外できないようにする。
-                            //pushcancelで_nakikouhoをfalseに変える
+                            //_players[_turn].ActionCommand;
                             _mode = eMode.Wait;
                             _turn = player.Id;
                         }
@@ -270,12 +270,35 @@ namespace server
                             }
                         }
                     }
+                    //振聴チェック
+                    //if (_players[_turn].AtariHais != null)
+                    //{
+                    //    for (int i = 0; i < _players[_turn].AtariHais.Count; i++)
+                    //    {
+                    //        if (_players[_turn].Kawa.Hais.Find(hais => hais == _players[_turn].AtariHais[i]) != null
+                    //            )
+                    //        {
+                    //            if (player.IsCallRon())
+                    //            {
+                    //                _turn = player.Id;
+                    //                _mode = eMode.Wait;
+                    //                _ron = true;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            _players[_turn].Huriten = true;
+                    //        }
+                    //    }
+                    //}
                     if (player.IsCallRon())
                     {
                         _turn = player.Id;
                         _mode = eMode.Wait;
                         _ron = true;
                     }
+
+
                     if (player.IsCallTsumo())
                     {
                         _turn = player.Id;
@@ -429,6 +452,8 @@ namespace server
             }
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
+            Font font2 = new Font(new FontFamily("Arial"), 25, FontStyle.Bold);
+
 
             if (_tsumo || _ron)
             {
@@ -444,6 +469,10 @@ namespace server
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
+            }
+            if (_players[_turn].Huriten)
+            {
+                g.DrawString("振聴",font2, Brushes.Red, new PointF(150, _turn * 200 + 50));
             }
             if (_ryukyoku)
             {

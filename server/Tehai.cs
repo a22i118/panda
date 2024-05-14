@@ -204,6 +204,7 @@ namespace server
 
         public bool Chi(Hai hai)
         {
+            
             Hai[] choice =
             {
                 _hais.Find(value => value.Name == hai.Next(-2) && value.Nakichoice),

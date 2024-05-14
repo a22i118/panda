@@ -21,6 +21,8 @@ namespace server
         private int _id;
         private bool _isOya;
         public bool IsOya { get { return _isOya; } set { _isOya = value; } }
+        private bool _huriten = false;
+        public bool Huriten { get { return _huriten; } set { _huriten = value; } }
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
@@ -31,6 +33,7 @@ namespace server
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
         public ActionCommand ActionCommand { get { return _actionCommand; } }
+        public Kawa Kawa { get { return _kawa; } }
         public int Id { get { return _id; } }
         public Tehai Tehai { get { return _tehai; } }
         public List<Hai> Hais { get { return _tehai.Hais; } }
@@ -74,7 +77,7 @@ namespace server
 
         }
         public void Tempai(Tehai tehai, ulong yakumask)
-        {   
+        {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
         }
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
@@ -205,6 +208,7 @@ namespace server
         }
         public bool CommandUpdate(int x, int y)
         {
+            
             return _actionCommand.Click(x, y);
         }
         public bool IsCallKan() { return _actionCommand.IsCallKan(); }

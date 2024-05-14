@@ -231,13 +231,13 @@ namespace server
                 {
                     // 純正九蓮宝燈
                     if (_hais.Count(e => e.Number == Hai.eNumber.Num1 && _atariHai != e) >= 3 &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num2 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num3 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num4 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num5 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num6 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num7 && _atariHai != e) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num8 && _atariHai != e) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num2 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num3 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num4 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num5 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num6 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num7 && _atariHai != e) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num8 && _atariHai != e) != 0 &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num9 && _atariHai != e) >= 3)
                     {
                         _yakuMask |= Junseichuren.Mask;
@@ -250,13 +250,13 @@ namespace server
                     }
                     // 九蓮宝燈
                     else if (_hais.Count(e => e.Number == Hai.eNumber.Num1) >= 3 &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num2) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num3) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num4) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num5) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num6) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num7) != null &&
-                        _hais.Count(e => e.Number == Hai.eNumber.Num8) != null &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num2) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num3) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num4) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num5) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num6) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num7) != 0 &&
+                        _hais.Count(e => e.Number == Hai.eNumber.Num8) != 0 &&
                         _hais.Count(e => e.Number == Hai.eNumber.Num9) >= 3)
                     {
                         _yakuMask |= Churempoto.Mask;

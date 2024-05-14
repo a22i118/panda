@@ -10,7 +10,8 @@ namespace server
 {
     internal class Kawa
     {
-        List<Hai> _hais = new List<Hai>();
+        private List<Hai> _hais = new List<Hai>();
+        public List<Hai> Hais { get { return _hais; } }
 
         public Kawa() { }
 

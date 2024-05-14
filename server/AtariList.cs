@@ -9,7 +9,7 @@ namespace server
 {
     internal class AtariList
     {
-        private CheckTehai checkTehai = null;
+        private CheckTehai? checkTehai = null;
         private List<Result> _results = new List<Result>();
         private List<CheckTehai> checktehais = new List<CheckTehai>();
         public List<Result> Results { get { return _results; } }
