@@ -76,11 +76,11 @@ namespace server
             // 鳴きのテストのために積み込み
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
-            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  // 国士無双十三面
+            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  // 国士無双十三面
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Nan, Nan, Sha, Sha, Pei, Pei, Haku, Haku, Hatu, Hatu, Thun, Thun });   // 七対子
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu1, Souzu1, Souzu9, Souzu9 });  // 清老頭
             //_yama.Tsumikomi(0, new Hai.eName[] { Pei, Pei, Pei, Haku, Haku, Haku, Hatu, Hatu, Thun, Thun, Thun, Souzu9, Souzu9 });  // 大三元
-            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9, Manzu9, Manzu9 }); // 純正九蓮宝燈
+            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9, Manzu9, Manzu9 }); // 純正九蓮宝燈
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Thun }); // 一気通貫
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Pinzu1, Pinzu2, Pinzu3, Souzu1, Souzu2, Souzu3, Haku, Haku, Haku, Thun }); // 三色同順
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu6, Souzu7, Souzu8, Souzu9, Souzu9, Souzu9, Thun }); // 三色同刻
@@ -234,6 +234,7 @@ namespace server
                         if (player.Chi(_sutehai))
                         {
                             //TODO：チーをしたらチー以外できないようにする。
+                            //pushcancelで_nakikouhoをfalseに変える
                             _mode = eMode.Wait;
                             _turn = player.Id;
                         }
@@ -326,14 +327,6 @@ namespace server
                             tehai.Hais.Remove(tehai.Hais[i]);
                             break;
                         }
-                        //else
-                        //{
-                        //    //if (_players[_turn].TempaiCheck != null)
-                        //    //{
-                        //    //    _players[_turn].AtariHais.Clear();
-                        //    //}
-                        //    ////_players[_turn].AtariHais.Clear();
-                        //}
                     }
                     _players[_turn].Tempai(tehai, yakuMask(_turn));
 
@@ -440,7 +433,7 @@ namespace server
             if (_tsumo || _ron)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
-                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.White, new PointF(512, 304));
+                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(512, _turn * 200 + 50));
                 List<Result> results = _players[_turn].Results;
                 int index = 0;
                 g.FillRectangle(brush, 25, 40, 1500, 900);

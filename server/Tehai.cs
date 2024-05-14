@@ -91,12 +91,14 @@ namespace server
             int x = 300 - 48;
             for (int i = 0; i < haisCcount; i++)
             {
+                _hais[i].ThrowChoice = false;
                 _hais[i].SetPos(x += 48, 800);
                 _hais[i].Draw(g);
             }
 
             x += 6;
 
+            hai.ThrowChoice = false;
             hai.SetPos(x += 48, 800);
             hai.Draw(g);
 

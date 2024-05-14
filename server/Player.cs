@@ -30,6 +30,7 @@ namespace server
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
+        public ActionCommand ActionCommand { get { return _actionCommand; } }
         public int Id { get { return _id; } }
         public Tehai Tehai { get { return _tehai; } }
         public List<Hai> Hais { get { return _tehai.Hais; } }

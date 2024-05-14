@@ -15,15 +15,19 @@ namespace server
         public TempaiCheck(Tehai tehai, bool isOya, ulong yakumask)
         {
             Init();
-            for (int i = 0; i < (int)Hai.eName.Num; i++)
+            if (tehai.Hais.Count + (tehai.Chis.Count + tehai.Pons.Count + tehai.Kans.Count) * 3 == 13)
             {
-                Hai tmp = new Hai((Hai.eName)i);
-                checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
-                if (check())
+                for (int i = 0; i < (int)Hai.eName.Num; i++)
                 {
-                    _atariHais.Add(tmp);
+                    Hai tmp = new Hai((Hai.eName)i);
+                    checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
+                    if (check())
+                    {
+                        _atariHais.Add(tmp);
+                    }
                 }
             }
+            
 
         }
         public void Draw(Graphics g, int players)
