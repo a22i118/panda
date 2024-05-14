@@ -8,7 +8,7 @@ namespace server
 {
     internal class TempaiCheck
     {
-        public CheckTehai checkTehai = null;
+        public CheckTehai? checkTehai = null;
         private List<Result> _results = new List<Result>();
         private List<Hai> _atariHais = new List<Hai>();
         public List<Hai> AtariHais { get { return _atariHais; } }

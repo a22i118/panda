@@ -23,6 +23,8 @@ namespace server
         public bool IsOya { get { return _isOya; } set { _isOya = value; } }
         private bool _huriten = false;
         public bool Huriten { get { return _huriten; } set { _huriten = value; } }
+        private bool _isTempai = false;
+        public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
@@ -106,6 +108,11 @@ namespace server
                 _actionCommand.CanKan = true;
             }
         }
+
+        //public bool Richi()
+        //{
+        //    return ;
+        //}
         public bool Chi(Hai _sutehai)
         {
             return _tehai.Chi(_sutehai);
@@ -187,7 +194,6 @@ namespace server
             {
                 _tempaiCheck.Draw(g, _id);
             }
-
         }
 
         public string[] YakuString()
@@ -208,14 +214,15 @@ namespace server
         }
         public bool CommandUpdate(int x, int y)
         {
-            
+
             return _actionCommand.Click(x, y);
         }
         public bool IsCallKan() { return _actionCommand.IsCallKan(); }
         public bool IsCallRon() { return _actionCommand.IsCallRon(); }
-        public bool IsCallTsumo() { return (_actionCommand.IsCallTsumo()); }
+        public bool IsCallTsumo() { return _actionCommand.IsCallTsumo(); }
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
+        public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
     }
