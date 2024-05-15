@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -34,7 +35,8 @@ namespace server
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
-        public List<List<Hai>> atariHaisList = new List<List<Hai>>();
+        public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
+
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public int Id { get { return _id; } }
@@ -109,11 +111,36 @@ namespace server
                 _actionCommand.CanKan = true;
             }
         }
+        //リーチできるかどうか
+        public bool IsRichi(Tehai tehai, ulong yakumask)
+        {
+            bool isRichi = false;
+            _atariHaisList.Clear();
 
-        //public bool Richi()
-        //{
-        //    return ;
-        //}
+            for (int i = 0; i < tehai.Hais.Count; i++)
+            {
+                Tehai tmp = new Tehai(tehai);
+                tmp.Hais.Remove(tmp.Hais[i]);
+                Tempai(tmp, yakumask);
+                if (AtariHais != null)
+                {
+                    _atariHaisList.Add(AtariHais);
+                    tehai.Hais[i].IsRichi = true;
+                    isRichi =true;
+                }
+
+            }
+            if (isRichi)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public void Richi()
+        {
+
+        }
         public bool Chi(Hai _sutehai)
         {
             return _tehai.Chi(_sutehai);
@@ -184,6 +211,7 @@ namespace server
             _tehai.Draw(g, _id);
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
+
         }
         public void AgariDraw(Graphics g, Hai hai)
         {
@@ -194,6 +222,14 @@ namespace server
             if (_tempaiCheck != null)
             {
                 _tempaiCheck.Draw(g, _id);
+            }
+        }
+        public void HuritenDraw(Graphics g)
+        {
+            Font font2 = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
+            if (_huriten)
+            {
+                g.DrawString("振聴", font2, Brushes.Red, new PointF(150, Id * 200 + 50));
             }
         }
 

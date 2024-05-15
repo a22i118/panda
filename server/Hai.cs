@@ -243,6 +243,12 @@ namespace server
             get { return _throwChoice; }
             set { _throwChoice = value; }
         }
+        private bool _isRichi;
+        public bool IsRichi
+        {
+            get { return _isRichi; }
+            set { _isRichi = value; }
+        }
         public void ResetNakikouho()
         {
             _nakikouho = false;
@@ -434,6 +440,13 @@ namespace server
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
+            //else if (_isRichi)
+            //{
+            //    int ofs = -s_height / 4;
+            //    Point[] tmp = getOffsetPos(ofs);
+            //    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+            //    return s_width;
+            //}
             else
             {
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);

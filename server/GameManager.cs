@@ -282,6 +282,8 @@ namespace server
                                 if (player.Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                                 {
                                     isHuriten = true;
+                                    player.Huriten = true;
+
                                     break;
                                 }
                             }
@@ -301,12 +303,7 @@ namespace server
                             player.Huriten = true;
                         }
                     }
-                    //これをDrawしたい
-                    //Font font2 = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
-                    //if (_players[_turn].Huriten)
-                    //{
-                    //    g.DrawString("振聴", font2, Brushes.Red, new PointF(150, _turn * 200 + 50));
-                    //}
+
 
                     if (player.IsCallTsumo())
                     {
@@ -326,6 +323,8 @@ namespace server
             }
             if (!_players[_turn].IsCanTsumo())
             {
+
+
                 if (_players[_turn].IsCallKan())
                 {
                     Hai hai = _players[_turn].Click(x, y);
@@ -350,6 +349,9 @@ namespace server
                 }
                 else
                 {
+                    //_players[_turn].IsRichi(_players[_turn].Tehai, yakuMask(_turn));
+
+
                     Hai hai = _players[_turn].Throw(x, y);
                     Tehai tehai = new Tehai(_players[_turn].Tehai);
 
@@ -456,11 +458,15 @@ namespace server
 
         public void Draw(Graphics g)
         {
+
             for (int i = 0; i < Player.Num; i++)
             {
                 _players[i].Draw(g, i == _turn);
                 _players[i].TempaiDraw(g);
+                _players[i].HuritenDraw(g);
+
             }
+
 
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
 
