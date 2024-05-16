@@ -35,7 +35,7 @@ namespace server
 
         int _turn = 0;
 
-        private Hai _sutehai = null;
+        private Hai? _sutehai = null;
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
@@ -123,6 +123,13 @@ namespace server
             {
                 _players[i].Sort();
             }
+
+
+            //for(int i=0; i < Player.Num; i++)
+            //{
+            //    _players[i].Tempai(_players[i].Tehai, yakuMask(i));
+            //}
+
         }
 
         //async Task Restart(int sec)
@@ -273,23 +280,7 @@ namespace server
                     //振聴チェック
                     //player.Idではなくコマンドを押したplayer
                     {
-                        var isHuriten = false;
-
-                        if (player.AtariHais != null)
-                        {
-                            foreach (var atariHai in player.AtariHais)
-                            {
-                                if (player.Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
-                                {
-                                    isHuriten = true;
-                                    player.Huriten = true;
-
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!isHuriten)
+                        if (!player.HuritenCheck())
                         {
                             if (player.IsCallRon())
                             {
@@ -349,7 +340,6 @@ namespace server
                 }
                 else
                 {
-                    //_players[_turn].IsRichi(_players[_turn].Tehai, yakuMask(_turn));
 
 
                     Hai hai = _players[_turn].Throw(x, y);
@@ -365,6 +355,8 @@ namespace server
                     }
                     _players[_turn].Tempai(tehai, yakuMask(_turn));
 
+                    //振聴チェック
+                    _players[_turn].HuritenCheck();
 
                     if (hai != null)
                     {
@@ -462,15 +454,8 @@ namespace server
             for (int i = 0; i < Player.Num; i++)
             {
                 _players[i].Draw(g, i == _turn);
-                _players[i].TempaiDraw(g);
-                _players[i].HuritenDraw(g);
-
             }
-
-
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
-
-
 
             if (_tsumo || _ron)
             {

@@ -34,7 +34,7 @@ namespace server
         private AtariList? _atariList = null;
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
-        public List<Hai> AtariHais { get { return _tempaiCheck.AtariHais; } }
+        public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
         public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
 
         public ActionCommand ActionCommand { get { return _actionCommand; } }
@@ -85,6 +85,26 @@ namespace server
         {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
         }
+        public bool HuritenCheck()
+        {
+            Huriten = false;
+
+            if (AtariHais != null)
+            {
+                foreach (var atariHai in AtariHais)
+                {
+                    if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
+                    {
+                        Huriten = true;
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
         public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
         {
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
@@ -126,7 +146,7 @@ namespace server
                 {
                     _atariHaisList.Add(AtariHais);
                     tehai.Hais[i].IsRichi = true;
-                    isRichi =true;
+                    isRichi = true;
                 }
 
             }
@@ -211,26 +231,19 @@ namespace server
             _tehai.Draw(g, _id);
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
-
-        }
-        public void AgariDraw(Graphics g, Hai hai)
-        {
-            _tehai.AgariDraw(g, hai);
-        }
-        public void TempaiDraw(Graphics g)
-        {
             if (_tempaiCheck != null)
             {
                 _tempaiCheck.Draw(g, _id);
             }
-        }
-        public void HuritenDraw(Graphics g)
-        {
             Font font2 = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
             if (_huriten)
             {
                 g.DrawString("振聴", font2, Brushes.Red, new PointF(150, Id * 200 + 50));
             }
+        }
+        public void AgariDraw(Graphics g, Hai hai)
+        {
+            _tehai.AgariDraw(g, hai);
         }
 
         public string[] YakuString()
