@@ -22,13 +22,13 @@ namespace server
             Kan,
             Ron,
             Tsumo,
-            //Richi,
+            Richi,
             Cancel,
             Num = Cancel
         };
 
-        //private static string[] s_string = new string[] { "チー", "ポン", "カン","ロン", "ツモ", "リーチ", "キャンセル" };
-        private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "ツモ",  "キャンセル" };
+        private static string[] s_string = new string[] { "チー", "ポン", "カン","ロン", "ツモ", "リーチ", "キャンセル" };
+        //private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "ツモ",  "キャンセル" };
 
         public ActionCommand(int x, int y, int w, int h)
         {
@@ -60,7 +60,7 @@ namespace server
         public bool CanKan { set { _can[(int)eCommand.Kan] = value; } }
         public bool CanRon { set { _can[(int)eCommand.Ron] = value; } }
         public bool CanTsumo { set { _can[(int)eCommand.Tsumo] = value; } }
-        //public bool CanRichi { set { _can[(int)eCommand.Richi] = value; } }
+        public bool CanRichi { set { _can[(int)eCommand.Richi] = value; } }
 
 
         public bool IsCallChi() { return _call[(int)eCommand.Chi]; }
@@ -69,7 +69,7 @@ namespace server
         public bool IsCallRon() { return _call[(int)eCommand.Ron]; }
         public bool IsCallTsumo() { return _call[(int)eCommand.Tsumo]; }
 
-        //public bool IsCallRichi() { return _call[(int)(eCommand.Richi)]; }
+        public bool IsCallRichi() { return _call[(int)(eCommand.Richi)]; }
         public bool Click(int x, int y)
         {
             if (_y <= y && y <= _y + _h)

@@ -36,7 +36,6 @@ namespace server
         public List<Result> Results { get { return _atariList.Results; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
         public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
-
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public int Id { get { return _id; } }
@@ -63,7 +62,7 @@ namespace server
         {
             _tehai.Add(hai);
         }
-        public void Tsumo(Hai hai, ulong yakuMask)
+        public void Tsumo(Hai hai, Tehai tehai, ulong yakuMask)
         {
             _tehai.Add(hai);
 
@@ -78,6 +77,10 @@ namespace server
             if (IsCanAnKan() || IsCanKaKan())
             {
                 _actionCommand.CanKan = true;
+            }
+            if (IsRichi(tehai, yakuMask))
+            {
+                _actionCommand.CanRichi = true;
             }
 
         }
@@ -104,12 +107,11 @@ namespace server
             return false;
         }
 
-
-        public void Ron(Hai hai, ulong yakuMask, bool isCanChi)
+        public void CommandValid(Hai hai, ulong yakuMask, bool isCanChi)
         {
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
 
-            if (_atariList.IsAtari())
+            if (_huriten == false && _atariList.IsAtari())
             {
                 _actionCommand.CanRon = true;
             }
@@ -131,6 +133,49 @@ namespace server
                 _actionCommand.CanKan = true;
             }
         }
+        public void Richi(Tehai tehai,int x,int y)
+        {
+            for (int i = 0; i < tehai.Hais.Count; i++)
+            {
+                tehai.Hais[i].RichiThrowChoice = true;
+            }
+            Hai del = null;
+            for (int i = 0; i < tehai.Hais.Count; i++)
+            {
+                if (tehai.Hais[i].IsClick(x, y) && tehai.Hais[i].ThrowChoice
+                    && tehai.Hais[i].IsRichi)
+                {
+
+                    _kawa.Add(tehai.Hais[i]);
+
+                    del = tehai.Hais[i];
+                    break;
+
+                }
+            }
+
+            for (int i = 0; i < tehai.Hais.Count; i++)
+            {
+                if (tehai.Hais[i].IsClick(x, y)&& tehai.Hais[i].IsRichi)
+                {
+                    tehai.Hais[i].ThrowChoice = true;
+                }
+                else
+                {
+
+                    tehai.Hais[i].ThrowChoice = false;
+                }
+            }
+
+
+
+            if (del != null)
+            {
+                tehai.Hais.Remove(del);
+
+            }
+
+        }
         //リーチできるかどうか
         public bool IsRichi(Tehai tehai, ulong yakumask)
         {
@@ -142,7 +187,7 @@ namespace server
                 Tehai tmp = new Tehai(tehai);
                 tmp.Hais.Remove(tmp.Hais[i]);
                 Tempai(tmp, yakumask);
-                if (AtariHais != null)
+                if (AtariHais.Count != 0)
                 {
                     _atariHaisList.Add(AtariHais);
                     tehai.Hais[i].IsRichi = true;
@@ -150,6 +195,8 @@ namespace server
                 }
 
             }
+            AtariHais.Clear();
+
             if (isRichi)
             {
                 return true;
@@ -157,10 +204,7 @@ namespace server
 
             return false;
         }
-        public void Richi()
-        {
 
-        }
         public bool Chi(Hai _sutehai)
         {
             return _tehai.Chi(_sutehai);
@@ -272,7 +316,7 @@ namespace server
         public bool IsCallTsumo() { return _actionCommand.IsCallTsumo(); }
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
-        //public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
+        public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
     }

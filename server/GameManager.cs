@@ -90,7 +90,7 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu4, Manzu4, Ton, Nan, Sha, Pei, Thun });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu4, Ton, Nan, Sha, Pei, Thun });
             _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
             _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
 
@@ -123,13 +123,6 @@ namespace server
             {
                 _players[i].Sort();
             }
-
-
-            //for(int i=0; i < Player.Num; i++)
-            //{
-            //    _players[i].Tempai(_players[i].Tehai, yakuMask(i));
-            //}
-
         }
 
         //async Task Restart(int sec)
@@ -152,7 +145,7 @@ namespace server
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, _players[_turn].Tehai, yakuMask(_turn));
                     }
                     else
                     {
@@ -181,7 +174,7 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, _players[_turn].Tehai, yakuMask(_turn));
                     }
                     else
                     {
@@ -238,10 +231,10 @@ namespace server
                     bool init = true;
                     if (player.IsCallChi())
                     {
+                        player.ActionCommand.CanPon = false;
+                        player.ActionCommand.CanKan = false;
                         if (player.Chi(_sutehai))
                         {
-                            //TODO：チーをしたらチー以外できないようにする。
-                            //_players[_turn].ActionCommand;
                             _mode = eMode.Wait;
                             _turn = player.Id;
                         }
@@ -279,22 +272,28 @@ namespace server
                     }
                     //振聴チェック
                     //player.Idではなくコマンドを押したplayer
+
+                    if (!player.HuritenCheck())
                     {
-                        if (!player.HuritenCheck())
+                        if (player.IsCallRon())
                         {
-                            if (player.IsCallRon())
-                            {
-                                _turn = player.Id;
-                                _mode = eMode.Wait;
-                                _ron = true;
-                            }
-                        }
-                        else
-                        {
-                            player.Huriten = true;
+                            _turn = player.Id;
+                            _mode = eMode.Wait;
+                            _ron = true;
                         }
                     }
+                    else
+                    {
+                        player.Huriten = true;
+                    }
 
+                    if (player.IsCallRichi())
+                    {
+                        player.Richi(player.Tehai,x,y);
+                        _turn = player.Id;
+                        _mode = eMode.Wait;
+
+                    }
 
                     if (player.IsCallTsumo())
                     {
@@ -368,7 +367,7 @@ namespace server
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].Ron(hai, yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, yakuMask(player), shimocha == 1);
                         }
                     }
                 }

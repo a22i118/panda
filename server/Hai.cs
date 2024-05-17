@@ -249,6 +249,12 @@ namespace server
             get { return _isRichi; }
             set { _isRichi = value; }
         }
+        private bool _richiThrowChoice;
+        public bool RichiThrowChoice
+        {
+            get { return _richiThrowChoice; }
+            set { _richiThrowChoice = value; }
+        }
         public void ResetNakikouho()
         {
             _nakikouho = false;
@@ -435,18 +441,29 @@ namespace server
             }
             else if (_throwChoice)
             {
+                if (_richiThrowChoice)
+                {
+                    int ofs = -s_height / 2;
+                    Point[] tmp = getOffsetPos(ofs);
+                    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+                    return s_width;
+                }
+                else
+                {
+                    int ofs = -s_height / 4;
+                    Point[] tmp = getOffsetPos(ofs);
+                    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+                    return s_width;
+                }
+
+            }
+            else if (_isRichi && _richiThrowChoice)
+            {
                 int ofs = -s_height / 4;
                 Point[] tmp = getOffsetPos(ofs);
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
-            //else if (_isRichi)
-            //{
-            //    int ofs = -s_height / 4;
-            //    Point[] tmp = getOffsetPos(ofs);
-            //    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-            //    return s_width;
-            //}
             else
             {
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
