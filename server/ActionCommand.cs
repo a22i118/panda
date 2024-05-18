@@ -54,6 +54,7 @@ namespace server
             {
                 _can[i] = false;
             }
+
         }
         public bool CanChi { set { _can[(int)eCommand.Chi] = value; } }
         public bool CanPon { set { _can[(int)eCommand.Pon] = value; } }

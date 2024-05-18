@@ -123,32 +123,74 @@ namespace server
             return null;
         }
 
-        public Hai Throw(int x, int y, Kawa kawas)
+        public Hai Throw(int x, int y, Kawa kawas, bool declareRichi, bool nowRichi)
         {
             Hai del = null;
-            for (int i = 0; i < _hais.Count; i++)
+            //if (nowRichi)
+            //{
+
+            //    for (int i = 0; i < _hais.Count; i++)
+            //    {
+            //        if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
+            //        {
+            //            kawas.Add(_hais[i]);
+            //            del = _hais[i];
+            //            break;
+            //        }
+            //    }
+            //    _hais[_hais.Count - 1].ThrowChoice = true;
+            //}
+            //else
             {
-                if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
+                if (declareRichi)
                 {
+                    for (int i = 0; i < _hais.Count; i++)
+                    {
+                        if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice && _hais[i].IsRichi)
+                        {
+                            kawas.Add(_hais[i]);
+                            del = _hais[i];
+                            //nowRichi = true;
+                            break;
+                        }
+                    }
 
-                    kawas.Add(_hais[i]);
-
-                    del = _hais[i];
-                    break;
-
-                }
-            }
-
-            for (int i = 0; i < _hais.Count; i++)
-            {
-                if (_hais[i].IsClick(x, y))
-                {
-                    _hais[i].ThrowChoice = true;
+                    for (int i = 0; i < _hais.Count; i++)
+                    {
+                        if (_hais[i].IsClick(x, y) && _hais[i].IsRichi)
+                        {
+                            _hais[i].ThrowChoice = true;
+                        }
+                        else
+                        {
+                            _hais[i].ThrowChoice = false;
+                        }
+                    }
                 }
                 else
                 {
+                    for (int i = 0; i < _hais.Count; i++)
+                    {
+                        if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
+                        {
+                            kawas.Add(_hais[i]);
+                            del = _hais[i];
 
-                    _hais[i].ThrowChoice = false;
+                            break;
+                        }
+                    }
+
+                    for (int i = 0; i < _hais.Count; i++)
+                    {
+                        if (_hais[i].IsClick(x, y))
+                        {
+                            _hais[i].ThrowChoice = true;
+                        }
+                        else
+                        {
+                            _hais[i].ThrowChoice = false;
+                        }
+                    }
                 }
             }
 
@@ -156,8 +198,12 @@ namespace server
 
             if (del != null)
             {
+                for (int j = 0; j < _hais.Count; j++)
+                {
+                    _hais[j].RichiThrowChoice = false;
+                    _hais[j].IsRichi = false;
+                }
                 _hais.Remove(del);
-
             }
             return del;
         }
@@ -204,7 +250,7 @@ namespace server
 
         public bool Chi(Hai hai)
         {
-            
+
             Hai[] choice =
             {
                 _hais.Find(value => value.Name == hai.Next(-2) && value.Nakichoice),

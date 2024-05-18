@@ -26,6 +26,9 @@ namespace server
         public bool Huriten { get { return _huriten; } set { _huriten = value; } }
         private bool _isTempai = false;
         public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
+        private bool _nowRichi = false;
+        public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
+        private bool _declareRichi = false;
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
@@ -78,7 +81,7 @@ namespace server
             {
                 _actionCommand.CanKan = true;
             }
-            if (IsRichi(tehai, yakuMask))
+            if (IsRichi(tehai, yakuMask) && _nowRichi == false)
             {
                 _actionCommand.CanRichi = true;
             }
@@ -133,47 +136,15 @@ namespace server
                 _actionCommand.CanKan = true;
             }
         }
-        public void Richi(Tehai tehai,int x,int y)
+        public void Richi(Tehai tehai, int x, int y)
         {
             for (int i = 0; i < tehai.Hais.Count; i++)
             {
+                tehai.Hais[i].ThrowChoice = false;
                 tehai.Hais[i].RichiThrowChoice = true;
             }
-            Hai del = null;
-            for (int i = 0; i < tehai.Hais.Count; i++)
-            {
-                if (tehai.Hais[i].IsClick(x, y) && tehai.Hais[i].ThrowChoice
-                    && tehai.Hais[i].IsRichi)
-                {
-
-                    _kawa.Add(tehai.Hais[i]);
-
-                    del = tehai.Hais[i];
-                    break;
-
-                }
-            }
-
-            for (int i = 0; i < tehai.Hais.Count; i++)
-            {
-                if (tehai.Hais[i].IsClick(x, y)&& tehai.Hais[i].IsRichi)
-                {
-                    tehai.Hais[i].ThrowChoice = true;
-                }
-                else
-                {
-
-                    tehai.Hais[i].ThrowChoice = false;
-                }
-            }
-
-
-
-            if (del != null)
-            {
-                tehai.Hais.Remove(del);
-
-            }
+            _declareRichi = true;
+            //_nowRichi = true;
 
         }
         //リーチできるかどうか
@@ -251,7 +222,7 @@ namespace server
         }
         public Hai Throw(int x, int y)
         {
-            return _tehai.Throw(x, y, _kawa);
+            return _tehai.Throw(x, y, _kawa, _declareRichi,_nowRichi);
         }
         public void ResetNakikouho()
         {

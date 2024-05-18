@@ -287,13 +287,15 @@ namespace server
                         player.Huriten = true;
                     }
 
+
                     if (player.IsCallRichi())
                     {
-                        player.Richi(player.Tehai,x,y);
+                        player.Richi(player.Tehai, x, y);
                         _turn = player.Id;
                         _mode = eMode.Wait;
-
                     }
+
+
 
                     if (player.IsCallTsumo())
                     {
@@ -342,6 +344,7 @@ namespace server
 
 
                     Hai hai = _players[_turn].Throw(x, y);
+                    //, _players[_turn].NowRichi
                     Tehai tehai = new Tehai(_players[_turn].Tehai);
 
                     for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
