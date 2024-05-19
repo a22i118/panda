@@ -12,7 +12,8 @@ namespace server
     {
         private List<Hai> _hais = new List<Hai>();
         public List<Hai> Hais { get { return _hais; } }
-
+        private bool _richiSet = false;
+        public bool RichiSet { get { return _richiSet; } set { _richiSet = value; } }
         public Kawa() { }
 
         public void Init() { _hais.Clear(); }
@@ -31,9 +32,22 @@ namespace server
                     x = 1100 - 48;
                     y += 64;
                 }
-                _hais[i].ThrowChoice = false;
-                _hais[i].SetPos(x += 48, y);
-                _hais[i].Draw(g);
+                if (_richiSet)
+                {
+                    //90度回転させる
+                    _hais[i].ThrowChoice = false;
+                    _hais[i].SetPos(x += 48, y);
+                    _hais[i].Draw(g);
+                    _richiSet = false;
+                }
+                else
+                {
+                    _hais[i].ThrowChoice = false;
+                    _hais[i].SetPos(x += 48, y);
+                    _hais[i].Draw(g);
+
+                }
+
             }
         }
     }

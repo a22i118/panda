@@ -25,6 +25,10 @@ namespace server
         private List<Hai> _tempai = new List<Hai>();
 
         public List<Hai> Tempai { get { return _tempai; } }
+        private bool _nowRichi = false;
+        public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
+        private bool _declareRichi = false;
+        public bool DeclareRichi { get { return _declareRichi; } set { _declareRichi = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
         public Tehai() { }
         public Tehai(Tehai tehai)
@@ -43,6 +47,8 @@ namespace server
             _chis.Clear();
             _kans.Clear();
             _naki.Clear();
+            _declareRichi = false;
+            _nowRichi = false;
         }
 
         public void Add(Hai hai)
@@ -123,26 +129,26 @@ namespace server
             return null;
         }
 
-        public Hai Throw(int x, int y, Kawa kawas, bool declareRichi, bool nowRichi)
+        public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
-            //if (nowRichi)
-            //{
-
-            //    for (int i = 0; i < _hais.Count; i++)
-            //    {
-            //        if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
-            //        {
-            //            kawas.Add(_hais[i]);
-            //            del = _hais[i];
-            //            break;
-            //        }
-            //    }
-            //    _hais[_hais.Count - 1].ThrowChoice = true;
-            //}
-            //else
+            if (_nowRichi)
             {
-                if (declareRichi)
+
+                for (int i = 0; i < _hais.Count; i++)
+                {
+                    if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)
+                    {
+                        kawas.Add(_hais[i]);
+                        del = _hais[i];
+                        break;
+                    }
+                }
+                _hais[_hais.Count - 1].ThrowChoice = true;
+            }
+            else
+            {
+                if (_declareRichi)
                 {
                     for (int i = 0; i < _hais.Count; i++)
                     {
@@ -150,7 +156,8 @@ namespace server
                         {
                             kawas.Add(_hais[i]);
                             del = _hais[i];
-                            //nowRichi = true;
+                            kawas.RichiSet = true;
+                            _nowRichi = true;
                             break;
                         }
                     }

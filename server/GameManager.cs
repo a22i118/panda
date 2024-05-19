@@ -189,7 +189,11 @@ namespace server
             {
                 if (_players[_turn].IsCanTsumo())
                 {
-                    _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
+                    if (_players[_turn].Tehai.NowRichi == false)
+                    {
+                        _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
+                    }
+
 
                     _mode = eMode.Tsumo;
                 }
@@ -287,12 +291,15 @@ namespace server
                         player.Huriten = true;
                     }
 
-
-                    if (player.IsCallRichi())
+                    if (player.Tehai.NowRichi == false)
                     {
-                        player.Richi(player.Tehai, x, y);
-                        _turn = player.Id;
-                        _mode = eMode.Wait;
+                        if (player.IsCallRichi())
+                        {
+                            player.Richi(player.Tehai);
+                            _turn = player.Id;
+                            _mode = eMode.Wait;
+
+                        }
                     }
 
 
@@ -341,10 +348,15 @@ namespace server
                 }
                 else
                 {
-
-
                     Hai hai = _players[_turn].Throw(x, y);
-                    //, _players[_turn].NowRichi
+
+                    //リーチ中はあたり牌表示を固定
+                    if (_players[_turn].Tehai.DeclareRichi && _players[_turn].Tehai.NowRichi)
+                    {
+                        _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].AtariHais);
+                        _players[_turn].Tehai.DeclareRichi = false;
+                    }
+
                     Tehai tehai = new Tehai(_players[_turn].Tehai);
 
                     for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
@@ -355,7 +367,12 @@ namespace server
                             break;
                         }
                     }
-                    _players[_turn].Tempai(tehai, yakuMask(_turn));
+                    if (_players[_turn].Tehai.NowRichi == false)
+                    {
+                        _players[_turn].Tempai(tehai, yakuMask(_turn));
+
+                    }
+
 
                     //振聴チェック
                     _players[_turn].HuritenCheck();
@@ -370,7 +387,7 @@ namespace server
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].CommandValid(hai, yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, _players[player].Tehai, yakuMask(player), shimocha == 1);
                         }
                     }
                 }
