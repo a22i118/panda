@@ -33,6 +33,7 @@ namespace server
         private List<IMentsu> _mentsus = new List<IMentsu>();
 
         private ulong _yakuMask = 0;
+        
         private ulong _undecidedMask = 0;
         private int _fu = 0;
         private bool _isOya;
@@ -68,7 +69,7 @@ namespace server
                 _ronAgari = false;
                 _atariHai = tehai.Hais.Last();
             }
-            
+
 
             this._hais.Sort((a, b) => (int)a.Name - (int)b.Name);
 

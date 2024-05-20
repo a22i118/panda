@@ -27,6 +27,10 @@ namespace server
 
             for (int i = 0; i < _hais.Count; i++)
             {
+                if (i > 0 && _hais[i - 1].Lay)
+                {
+                    x += 15;
+                }
                 if (i == 6 || i == 12)
                 {
                     x = 1100 - 48;
@@ -34,20 +38,13 @@ namespace server
                 }
                 if (_richiSet)
                 {
-                    //90度回転させる
-                    _hais[i].ThrowChoice = false;
-                    _hais[i].SetPos(x += 48, y);
-                    _hais[i].Draw(g);
+                    _hais[_hais.Count - 1].Lay = true;
+
                     _richiSet = false;
                 }
-                else
-                {
-                    _hais[i].ThrowChoice = false;
-                    _hais[i].SetPos(x += 48, y);
-                    _hais[i].Draw(g);
-
-                }
-
+                _hais[i].ThrowChoice = false;
+                _hais[i].SetPos(x += 48, y);
+                _hais[i].Draw(g);
             }
         }
     }

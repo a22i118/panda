@@ -260,6 +260,8 @@ namespace server
             _nakikouho = false;
             _nakichoice = false;
         }
+        private bool _lay;
+        public bool Lay { get { return _lay; } set { _lay = value; } }
 
         static Int32 s_width = 48;
         static Int32 s_height = 64;
@@ -419,7 +421,7 @@ namespace server
             this._rot = rot;
             SetPos(_points[0].X, _points[0].Y);
         }
-        
+
 
         public int Draw(Graphics g, bool isYoko = false, bool isUra = false)
         {
@@ -435,7 +437,7 @@ namespace server
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
-            else if (isYoko)
+            else if (isYoko||_lay)
             {
                 g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
                 return s_height;

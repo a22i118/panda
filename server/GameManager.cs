@@ -168,6 +168,11 @@ namespace server
                 }
 
                 _turn = (_turn + 1) % 4;
+                //リーチ後のフリテンチェック
+                foreach (var player in _players)
+                {
+                    player.HuritenCheck(_sutehai);
+                }
 
                 if (_players[_turn].IsCanTsumo())
                 {
@@ -277,7 +282,8 @@ namespace server
                     //振聴チェック
                     //player.Idではなくコマンドを押したplayer
 
-                    if (!player.HuritenCheck())
+                    //ロン
+                    if (player.Huriten == false)
                     {
                         if (player.IsCallRon())
                         {
@@ -286,11 +292,6 @@ namespace server
                             _ron = true;
                         }
                     }
-                    else
-                    {
-                        player.Huriten = true;
-                    }
-
                     if (player.Tehai.NowRichi == false)
                     {
                         if (player.IsCallRichi())
@@ -350,7 +351,7 @@ namespace server
                 {
                     Hai hai = _players[_turn].Throw(x, y);
 
-                    //リーチ中はあたり牌表示を固定
+                    //リーチ中は待ち表示を固定
                     if (_players[_turn].Tehai.DeclareRichi && _players[_turn].Tehai.NowRichi)
                     {
                         _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].AtariHais);
@@ -375,7 +376,7 @@ namespace server
 
 
                     //振聴チェック
-                    _players[_turn].HuritenCheck();
+                    _players[_turn].HuritenCheck(hai);
 
                     if (hai != null)
                     {

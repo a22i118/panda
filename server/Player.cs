@@ -26,10 +26,13 @@ namespace server
         public bool Huriten { get { return _huriten; } set { _huriten = value; } }
         private bool _isTempai = false;
         public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
+        private bool _richiHuriten = false;
         //private bool _nowRichi = false;
         //public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
         //private bool _declareRichi = false;
         //public bool DeclarRichi { get { return _declareRichi; } set { _declareRichi = value; } }
+
+
 
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
@@ -39,6 +42,7 @@ namespace server
         private AtariList? _atariList = null;
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
+        //public ulong YakuMask { get { return YakuMask; } set { _yakuMask = value; } }
         private List<Hai> _richiAtariHais;
         public List<Hai> RichiAtariHais { get { return _richiAtariHais; } set { _richiAtariHais = value; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
@@ -60,7 +64,7 @@ namespace server
             if (_tempaiCheck != null) { _tempaiCheck.Init(); }
             if (_richiAtariHais != null) { _richiAtariHais.Clear(); }
             _isOya = false;
-
+            _richiHuriten = false;
         }
         public void Sort()
         {
@@ -97,14 +101,46 @@ namespace server
         {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
         }
-        public bool HuritenCheck()
+        public bool HuritenCheck(Hai suteHai)
         {
-            Huriten = false;
-
+            Huriten = _richiHuriten;
+            if (Huriten)
+            {
+                return true;
+            }
+            if (_richiAtariHais != null)
+            {
+                foreach (var atariHai in _richiAtariHais)
+                {
+                    if (suteHai != null)
+                    {
+                        if (suteHai.Name == atariHai.Name)
+                        {
+                            _richiHuriten = true;
+                            Huriten = true;
+                            return true;
+                        }
+                    }
+                    if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
+                    {
+                        _richiHuriten = true;
+                        Huriten = true;
+                        return true;
+                    }
+                }
+            }
             if (AtariHais != null)
             {
                 foreach (var atariHai in AtariHais)
                 {
+                    if (suteHai != null)
+                    {
+                        if (suteHai.Name == atariHai.Name)
+                        {
+                            Huriten = true;
+                            return true;
+                        }
+                    }
                     if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                     {
                         Huriten = true;
