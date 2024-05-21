@@ -18,8 +18,6 @@ namespace server
             this.checkTehai = new CheckTehai(tehai, isoya, yakuMask);
             check();
             _results.Sort((a, b) => b.Ten == a.Ten ? b.Han - a.Han : b.Ten - a.Ten);
-
-
         }
 
         public AtariList(Tehai tehai, bool isoya, ulong yakuMask, Hai hai)

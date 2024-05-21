@@ -145,7 +145,7 @@ namespace server
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, _players[_turn].Tehai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
                     {
@@ -179,7 +179,7 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, _players[_turn].Tehai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
                     {
@@ -296,7 +296,8 @@ namespace server
                     {
                         if (player.IsCallRichi())
                         {
-                            player.Richi(player.Tehai);
+
+                            player.Richi();
                             _turn = player.Id;
                             _mode = eMode.Wait;
 
@@ -358,21 +359,48 @@ namespace server
                         _players[_turn].Tehai.DeclareRichi = false;
                     }
 
-                    Tehai tehai = new Tehai(_players[_turn].Tehai);
+                    //Tehai tehai = new Tehai(_players[_turn].Tehai);
 
-                    for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
-                    {
-                        if (_players[_turn].Hais[i].ThrowChoice)
-                        {
-                            tehai.Hais.Remove(tehai.Hais[i]);
-                            break;
-                        }
-                    }
+                    //for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
+                    //{
+                    //    if (_players[_turn].Hais[i].ThrowChoice)
+                    //    {
+                    //        tehai.Hais.Remove(tehai.Hais[i]);
+                    //        break;
+                    //    }
+                    //}
+
                     if (_players[_turn].Tehai.NowRichi == false)
                     {
-                        _players[_turn].Tempai(tehai, yakuMask(_turn));
+                        _players[_turn].ChoiceTempai();
+                        //_players[_turn].Tempai(tehai, yakuMask(_turn));
 
                     }
+
+                    //foreach (var choiceHai in _players[_turn].Tehai.Hais)
+                    //{
+                    //    if (choiceHai.ThrowChoice)
+                    //    {
+                    //        if (_players[_turn].)
+                    //        {
+
+                    //        }
+
+                    //        if (_players[_turn].AtariHaisDic(_players[_turn].Tehai.Hais[i]))
+                    //        {
+
+                    //        }
+                    //        _players[_turn].Tehai.Hais[i]
+
+                    //        break;
+                    //    }
+                    //}
+
+
+
+
+
+
 
 
                     //振聴チェック

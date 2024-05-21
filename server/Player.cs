@@ -44,9 +44,12 @@ namespace server
         public List<Result> Results { get { return _atariList.Results; } }
         //public ulong YakuMask { get { return YakuMask; } set { _yakuMask = value; } }
         private List<Hai> _richiAtariHais;
+        private List<Hai> _choiceAtariHais;
         public List<Hai> RichiAtariHais { get { return _richiAtariHais; } set { _richiAtariHais = value; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
-        public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
+        //public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
+        private Dictionary<Hai, List<Hai>> AtariHaisDic = new Dictionary<Hai, List<Hai>>();
+
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public int Id { get { return _id; } }
@@ -75,7 +78,7 @@ namespace server
         {
             _tehai.Add(hai);
         }
-        public void Tsumo(Hai hai, Tehai tehai, ulong yakuMask)
+        public void Tsumo(Hai hai, ulong yakuMask)
         {
             _tehai.Add(hai);
 
@@ -91,7 +94,7 @@ namespace server
             {
                 _actionCommand.CanKan = true;
             }
-            if (IsRichi(tehai, yakuMask) && tehai.NowRichi == false)
+            if (IsRichi(yakuMask) && _tehai.NowRichi == false)
             {
                 _actionCommand.CanRichi = true;
             }
@@ -101,10 +104,24 @@ namespace server
         {
             _tempaiCheck = new TempaiCheck(tehai, _isOya, yakumask);
         }
+
+        public void ChoiceTempai()
+        {
+            foreach (var choiceHai in _tehai.Hais)
+            {
+                if (AtariHaisDic != null && choiceHai.ThrowChoice)
+                {
+                    _choiceAtariHais = AtariHaisDic[choiceHai];
+                }
+            }
+        }
+
+
         public bool HuritenCheck(Hai suteHai)
         {
-            Huriten = _richiHuriten;
-            if (Huriten)
+
+            _huriten = _richiHuriten;
+            if (_huriten)
             {
                 return true;
             }
@@ -117,14 +134,14 @@ namespace server
                         if (suteHai.Name == atariHai.Name)
                         {
                             _richiHuriten = true;
-                            Huriten = true;
+                            _huriten = true;
                             return true;
                         }
                     }
                     if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                     {
                         _richiHuriten = true;
-                        Huriten = true;
+                        _huriten = true;
                         return true;
                     }
                 }
@@ -137,13 +154,13 @@ namespace server
                     {
                         if (suteHai.Name == atariHai.Name)
                         {
-                            Huriten = true;
+                            _huriten = true;
                             return true;
                         }
                     }
                     if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                     {
-                        Huriten = true;
+                        _huriten = true;
 
                         return true;
                     }
@@ -156,6 +173,7 @@ namespace server
         {
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
 
+            //ロンのコマンドを有効にする
             if (_huriten == false && _atariList.IsAtari())
             {
                 _actionCommand.CanRon = true;
@@ -178,32 +196,33 @@ namespace server
                 _actionCommand.CanKan = true;
             }
         }
-        public void Richi(Tehai tehai)
+        public void Richi()
         {
-            for (int i = 0; i < tehai.Hais.Count; i++)
+            for (int i = 0; i < _tehai.Hais.Count; i++)
             {
-                tehai.Hais[i].ThrowChoice = false;
-                tehai.Hais[i].RichiThrowChoice = true;
+                _tehai.Hais[i].ThrowChoice = false;
+                _tehai.Hais[i].RichiThrowChoice = true;
             }
 
-            tehai.DeclareRichi = true;
+            _tehai.DeclareRichi = true;
 
         }
         //リーチできるかどうか
-        public bool IsRichi(Tehai tehai, ulong yakumask)
+        public bool IsRichi(ulong yakumask)
         {
             bool isRichi = false;
-            _atariHaisList.Clear();
-
-            for (int i = 0; i < tehai.Hais.Count; i++)
+            //_atariHaisList.Clear();
+            AtariHaisDic.Clear();
+            for (int i = 0; i < _tehai.Hais.Count; i++)
             {
-                Tehai tmp = new Tehai(tehai);
+                Tehai tmp = new Tehai(_tehai);
                 tmp.Hais.Remove(tmp.Hais[i]);
                 Tempai(tmp, yakumask);
                 if (AtariHais.Count != 0)
                 {
-                    _atariHaisList.Add(AtariHais);
-                    tehai.Hais[i].IsRichi = true;
+                    AtariHaisDic.Add(tmp.Hais[i], AtariHais);
+                    //_atariHaisList.Add(AtariHais);
+                    _tehai.Hais[i].IsRichi = true;
                     isRichi = true;
                 }
 
@@ -300,6 +319,16 @@ namespace server
                 {
                     _richiAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 50);
                     _richiAtariHais[i].Draw(g);
+                }
+            }
+            if (_choiceAtariHais != null)
+            {
+                int x = 300 - 48;
+
+                for (int i = 0; i < _choiceAtariHais.Count; i++)
+                {
+                    _choiceAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 50);
+                    _choiceAtariHais[i].Draw(g);
                 }
             }
             Font font2 = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
