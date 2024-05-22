@@ -355,7 +355,8 @@ namespace server
                     //リーチ中は待ち表示を固定
                     if (_players[_turn].Tehai.DeclareRichi && _players[_turn].Tehai.NowRichi)
                     {
-                        _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].AtariHais);
+                        _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].ChoiceAtariHais);
+                        _players[_turn].ChoiceAtariHais.Clear();
                         _players[_turn].Tehai.DeclareRichi = false;
                     }
 

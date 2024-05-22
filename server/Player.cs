@@ -45,6 +45,7 @@ namespace server
         //public ulong YakuMask { get { return YakuMask; } set { _yakuMask = value; } }
         private List<Hai> _richiAtariHais;
         private List<Hai> _choiceAtariHais;
+        public List<Hai> ChoiceAtariHais { get { return _choiceAtariHais; } }
         public List<Hai> RichiAtariHais { get { return _richiAtariHais; } set { _richiAtariHais = value; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
         //public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
@@ -107,9 +108,9 @@ namespace server
 
         public void ChoiceTempai()
         {
-            foreach (var choiceHai in _tehai.Hais)
+            foreach (Hai choiceHai in _tehai.Hais)
             {
-                if (AtariHaisDic != null && choiceHai.ThrowChoice)
+                if (AtariHaisDic != null && choiceHai.ThrowChoice && AtariHaisDic.ContainsKey(choiceHai))
                 {
                     _choiceAtariHais = AtariHaisDic[choiceHai];
                 }
@@ -213,21 +214,35 @@ namespace server
             bool isRichi = false;
             //_atariHaisList.Clear();
             AtariHaisDic.Clear();
+
+            Hai hai = null;
             for (int i = 0; i < _tehai.Hais.Count; i++)
             {
                 Tehai tmp = new Tehai(_tehai);
-                tmp.Hais.Remove(tmp.Hais[i]);
-                Tempai(tmp, yakumask);
+                if (i == 0 || i != 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
+                {
+                    hai = tmp.Hais[i];
+                    tmp.Hais.Remove(tmp.Hais[i]);
+                    Tempai(tmp, yakumask);
+                    List<Hai> list = new List<Hai>(AtariHais);
+                    AtariHaisDic.Add(hai, list);
+                }
+                else
+                {
+                    hai = tmp.Hais[i];
+                    List<Hai> list = new List<Hai>(AtariHais);
+                    AtariHaisDic.Add(hai, list);
+                }
+
                 if (AtariHais.Count != 0)
                 {
-                    AtariHaisDic.Add(tmp.Hais[i], AtariHais);
-                    //_atariHaisList.Add(AtariHais);
                     _tehai.Hais[i].IsRichi = true;
                     isRichi = true;
                 }
-
             }
+
             AtariHais.Clear();
+
 
             if (isRichi)
             {

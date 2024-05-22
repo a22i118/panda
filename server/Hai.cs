@@ -113,6 +113,9 @@ namespace server
             private eType _type;
             private eNumber _number;
             private eState _state;
+            private eName _name;
+            private ulong _nameMask;
+            //ulong kokushi_mask = (1 << eName.Manzu1) | (1 << eName.Manzu9);
 
             public eType Type { get { return _type; } }
             public eNumber Number { get { return _number; } }
@@ -123,6 +126,9 @@ namespace server
                 this._type = type;
                 this._number = number;
                 this._state = state;
+
+                this._name = Hai.GetName(type, number);
+                this._nameMask = 1UL << (int)_name;
             }
 
             public static bool IsTsuiso((eState all, eState any) state) { return (state.any & eState.Shupai) == 0; }
@@ -218,7 +224,7 @@ namespace server
         {
             int n = (int)Number + idx;
             if (Type == eType.Zihai || n < (int)eNumber.Num1 || (int)eNumber.Num9 < n) { return eName.Null; }
-            return name(_type, (eNumber)n);
+            return GetName(_type, (eNumber)n);
         }
 
         private eType _type;
@@ -364,7 +370,7 @@ namespace server
 
         }
 
-        private static eName name(eType type, eNumber number)
+        public static eName GetName(eType type, eNumber number)
         {
             return (eName)((int)type * 9 + (int)number);
         }
@@ -437,7 +443,7 @@ namespace server
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
-            else if (isYoko||_lay)
+            else if (isYoko || _lay)
             {
                 g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
                 return s_height;

@@ -30,6 +30,11 @@ namespace server
         private bool _declareRichi = false;
         public bool DeclareRichi { get { return _declareRichi; } set { _declareRichi = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
+
+
+
+
+
         public Tehai() { }
         public Tehai(Tehai tehai)
         {
