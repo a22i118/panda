@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static server.Hai;
@@ -30,8 +31,34 @@ namespace server
         private bool _declareRichi = false;
         public bool DeclareRichi { get { return _declareRichi; } set { _declareRichi = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
+        private static ulong s_kokushi =
+            (1UL << (int)eName.Manzu1) |
+            (1UL << (int)eName.Manzu9) |
+            (1UL << (int)eName.Pinzu1) |
+            (1UL << (int)eName.Pinzu9) |
+            (1UL << (int)eName.Souzu1) |
+            (1UL << (int)eName.Souzu9) |
+            (1UL << (int)eName.Ton) |
+            (1UL << (int)eName.Nan) |
+            (1UL << (int)eName.Sha) |
+            (1UL << (int)eName.Pei) |
+            (1UL << (int)eName.Haku) |
+            (1UL << (int)eName.Hatu) |
+            (1UL << (int)eName.Thun);
 
 
+        //public bool Kokushi()
+        //{
+        //    ulong mask = 0;
+        //    foreach (Hai hai in _hais)
+        //    {
+        //        mask |= 1UL << (int)hai.Name;
+        //        if(hai.)
+        //    }
+        //    mask &= s_kokushi;
+        //    if(BitOperations.PopCount(mask)>=12)
+
+        //}
 
 
 

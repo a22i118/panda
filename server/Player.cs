@@ -27,13 +27,6 @@ namespace server
         private bool _isTempai = false;
         public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
         private bool _richiHuriten = false;
-        //private bool _nowRichi = false;
-        //public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
-        //private bool _declareRichi = false;
-        //public bool DeclarRichi { get { return _declareRichi; } set { _declareRichi = value; } }
-
-
-
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
         //private CheckTehai _checkTehai = new CheckTehai(_tehai,_isOya,);
@@ -67,8 +60,12 @@ namespace server
             _kawa.Init();
             if (_tempaiCheck != null) { _tempaiCheck.Init(); }
             if (_richiAtariHais != null) { _richiAtariHais.Clear(); }
+            if (_choiceAtariHais != null) { _choiceAtariHais.Clear(); }
+            if (AtariHaisDic != null) { AtariHaisDic.Clear(); }
             _isOya = false;
             _richiHuriten = false;
+            _huriten = false;
+            _isTempai = false;
         }
         public void Sort()
         {
@@ -219,7 +216,7 @@ namespace server
             for (int i = 0; i < _tehai.Hais.Count; i++)
             {
                 Tehai tmp = new Tehai(_tehai);
-                if (i == 0 || i != 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
+                if (i == 0 || i !> 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
                 {
                     hai = tmp.Hais[i];
                     tmp.Hais.Remove(tmp.Hais[i]);

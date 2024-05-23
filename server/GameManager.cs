@@ -39,6 +39,7 @@ namespace server
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
+        private bool _richi = false;
 
         public enum eMode
         {
@@ -71,6 +72,7 @@ namespace server
             _tsumo = false;
             _ron = false;
             _ryukyoku = false;
+            _richi = false;
             _mode = eMode.Tsumo;
 
             // 鳴きのテストのために積み込み
@@ -296,6 +298,16 @@ namespace server
                     {
                         if (player.IsCallRichi())
                         {
+                            _richi = true;
+                            //int sarashiPlayerNum = _players.Count(e => e.SarashiCount() > 0);
+                            //if (sarashiPlayerNum == 0 && 1 <= _yama.TsumoCount && _yama.TsumoCount <= 4)
+                            //{
+                            //    yakuMask(player)|= Yaku.Daburi.Mask;
+                            //}
+                            //else
+                            //{
+                            //    yakuMask(player) |= Yaku.Reach.Mask;
+                            //}
 
                             player.Richi();
                             _turn = player.Id;
