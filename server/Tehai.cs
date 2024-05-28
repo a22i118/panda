@@ -30,6 +30,8 @@ namespace server
         public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
         private bool _declareRichi = false;
         public bool DeclareRichi { get { return _declareRichi; } set { _declareRichi = value; } }
+        private bool _isIppatsu = false;
+        public bool IsIppatsu { get { return _isIppatsu; } set { _isIppatsu = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
         private static ulong s_kokushi =
             (1UL << (int)eName.Manzu1) |
@@ -81,6 +83,7 @@ namespace server
             _naki.Clear();
             _declareRichi = false;
             _nowRichi = false;
+            _isIppatsu = false;
         }
 
         public void Add(Hai hai)
@@ -136,6 +139,7 @@ namespace server
 
             x += 6;
 
+            hai.Lay = false;
             hai.ThrowChoice = false;
             hai.SetPos(x += 48, 800);
             hai.Draw(g);
@@ -166,7 +170,7 @@ namespace server
             Hai del = null;
             if (_nowRichi)
             {
-
+                _isIppatsu = false;
                 for (int i = 0; i < _hais.Count; i++)
                 {
                     if (_hais[i].IsClick(x, y) && _hais[i].ThrowChoice)

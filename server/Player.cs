@@ -29,6 +29,11 @@ namespace server
         private bool _richiHuriten = false;
         private Tehai _tehai = new Tehai();
         private Kawa _kawa = new Kawa();
+        private bool _isReach = false;
+        public bool IsReach { get { return _isReach; } set { _isReach = value; } }
+        private bool _isDabReach = false;
+        public bool IsDabReach { get { return _isDabReach; } set { _isDabReach = value; } }
+
         //private CheckTehai _checkTehai = new CheckTehai(_tehai,_isOya,);
         private TempaiCheck _tempaiCheck = null;
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
@@ -66,6 +71,8 @@ namespace server
             _richiHuriten = false;
             _huriten = false;
             _isTempai = false;
+            _isReach = false;
+            _isDabReach = false;
         }
         public void Sort()
         {
@@ -78,7 +85,22 @@ namespace server
         }
         public void Tsumo(Hai hai, ulong yakuMask)
         {
+            _huriten = false;
             _tehai.Add(hai);
+
+            yakuMask |= Yaku.Tsumo.Mask;
+            if (_isDabReach)
+            {
+                yakuMask |= Yaku.Daburi.Mask;
+            }
+            else if (_isReach)
+            {
+                yakuMask |= Yaku.Reach.Mask;
+            }
+            if (_tehai.IsIppatsu)
+            {
+                yakuMask |= Yaku.Ippatsu.Mask;
+            }
 
             _atariList = new AtariList(_tehai, _isOya, yakuMask);
 
@@ -92,7 +114,7 @@ namespace server
             {
                 _actionCommand.CanKan = true;
             }
-            if (IsRichi(yakuMask) && _tehai.NowRichi == false)
+            if (IsEnableRichi(yakuMask) && _tehai.NowRichi == false)
             {
                 _actionCommand.CanRichi = true;
             }
@@ -117,8 +139,11 @@ namespace server
 
         public bool HuritenCheck(Hai suteHai)
         {
+            if (_richiHuriten)
+            {
+                _huriten = _richiHuriten;
+            }
 
-            _huriten = _richiHuriten;
             if (_huriten)
             {
                 return true;
@@ -169,6 +194,19 @@ namespace server
 
         public void CommandValid(Hai hai, Tehai tehai, ulong yakuMask, bool isCanChi)
         {
+            if (_isDabReach)
+            {
+                yakuMask |= Yaku.Daburi.Mask;
+            }
+            else if (_isReach)
+            {
+                yakuMask |= Yaku.Reach.Mask;
+            }
+            if (_tehai.IsIppatsu)
+            {
+                yakuMask |= Yaku.Ippatsu.Mask;
+            }
+
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
 
             //ロンのコマンドを有効にする
@@ -203,20 +241,20 @@ namespace server
             }
 
             _tehai.DeclareRichi = true;
-
+            _isReach = true;
+            _tehai.IsIppatsu = true;
         }
         //リーチできるかどうか
-        public bool IsRichi(ulong yakumask)
+        public bool IsEnableRichi(ulong yakumask)
         {
             bool isRichi = false;
-            //_atariHaisList.Clear();
             AtariHaisDic.Clear();
 
             Hai hai = null;
             for (int i = 0; i < _tehai.Hais.Count; i++)
             {
                 Tehai tmp = new Tehai(_tehai);
-                if (i == 0 || i !> 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
+                if (i == 0 || i! > 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
                 {
                     hai = tmp.Hais[i];
                     tmp.Hais.Remove(tmp.Hais[i]);

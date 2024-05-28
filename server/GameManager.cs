@@ -196,10 +196,13 @@ namespace server
             {
                 if (_players[_turn].IsCanTsumo())
                 {
+
                     if (_players[_turn].Tehai.NowRichi == false)
                     {
                         _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
                     }
+                    
+
 
 
                     _mode = eMode.Tsumo;
@@ -244,6 +247,10 @@ namespace server
                     {
                         player.ActionCommand.CanPon = false;
                         player.ActionCommand.CanKan = false;
+                        foreach (var Allplayer in _players)
+                        {
+                            Allplayer.Tehai.IsIppatsu = false;
+                        }
                         if (player.Chi(_sutehai))
                         {
                             _mode = eMode.Wait;
@@ -256,12 +263,20 @@ namespace server
                     }
                     if (player.IsCallPon())
                     {
+                        foreach (var Allplayer in _players)
+                        {
+                            Allplayer.Tehai.IsIppatsu = false;
+                        }
                         player.Pon(_sutehai, _turn);
                         _mode = eMode.Wait;
                         _turn = player.Id;
                     }
                     if (player.IsCallKan())
                     {
+                        foreach (var Allplayer in _players)
+                        {
+                            Allplayer.Tehai.IsIppatsu = false;
+                        }
                         if (player.IsCanTsumo())
                         {
                             player.MinKan(_sutehai, _turn);
@@ -298,17 +313,6 @@ namespace server
                     {
                         if (player.IsCallRichi())
                         {
-                            _richi = true;
-                            //int sarashiPlayerNum = _players.Count(e => e.SarashiCount() > 0);
-                            //if (sarashiPlayerNum == 0 && 1 <= _yama.TsumoCount && _yama.TsumoCount <= 4)
-                            //{
-                            //    yakuMask(player)|= Yaku.Daburi.Mask;
-                            //}
-                            //else
-                            //{
-                            //    yakuMask(player) |= Yaku.Reach.Mask;
-                            //}
-
                             player.Richi();
                             _turn = player.Id;
                             _mode = eMode.Wait;
@@ -362,59 +366,29 @@ namespace server
                 }
                 else
                 {
+                    ulong reachiMask = 0;
                     Hai hai = _players[_turn].Throw(x, y);
 
                     //リーチ中は待ち表示を固定
                     if (_players[_turn].Tehai.DeclareRichi && _players[_turn].Tehai.NowRichi)
                     {
+                        if (_players.Count(e => e.SarashiCount() > 0) == 0 && _yama.TsumoCount <= 4)
+                        {
+                            _players[_turn].IsDabReach = true;
+                        }
+                        else
+                        {
+                            _players[_turn].IsReach = true;
+                        }
                         _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].ChoiceAtariHais);
                         _players[_turn].ChoiceAtariHais.Clear();
                         _players[_turn].Tehai.DeclareRichi = false;
                     }
 
-                    //Tehai tehai = new Tehai(_players[_turn].Tehai);
-
-                    //for (int i = 0; i < _players[_turn].Tehai.Hais.Count; i++)
-                    //{
-                    //    if (_players[_turn].Hais[i].ThrowChoice)
-                    //    {
-                    //        tehai.Hais.Remove(tehai.Hais[i]);
-                    //        break;
-                    //    }
-                    //}
-
                     if (_players[_turn].Tehai.NowRichi == false)
                     {
                         _players[_turn].ChoiceTempai();
-                        //_players[_turn].Tempai(tehai, yakuMask(_turn));
-
                     }
-
-                    //foreach (var choiceHai in _players[_turn].Tehai.Hais)
-                    //{
-                    //    if (choiceHai.ThrowChoice)
-                    //    {
-                    //        if (_players[_turn].)
-                    //        {
-
-                    //        }
-
-                    //        if (_players[_turn].AtariHaisDic(_players[_turn].Tehai.Hais[i]))
-                    //        {
-
-                    //        }
-                    //        _players[_turn].Tehai.Hais[i]
-
-                    //        break;
-                    //    }
-                    //}
-
-
-
-
-
-
-
 
                     //振聴チェック
                     _players[_turn].HuritenCheck(hai);
@@ -429,7 +403,7 @@ namespace server
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].CommandValid(hai, _players[player].Tehai, yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, _players[player].Tehai, reachiMask | yakuMask(player), shimocha == 1);
                         }
                     }
                 }

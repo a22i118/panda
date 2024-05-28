@@ -33,7 +33,7 @@ namespace server
         private List<IMentsu> _mentsus = new List<IMentsu>();
 
         private ulong _yakuMask = 0;
-        
+
         private ulong _undecidedMask = 0;
         private int _fu = 0;
         private bool _isOya;
@@ -465,6 +465,7 @@ namespace server
             {
                 return;
             }
+            _yakuMask |= Yaku.Ippatsu.Mask;
 
             // タンヤオ
             if (HaiState.IsTanyao(_state))
@@ -615,6 +616,10 @@ namespace server
 
             if (_menzen)
             {
+                //リーチ
+                _yakuMask |= (_undecidedMask & Reach.Mask);
+                //ダブルリーチ
+                _yakuMask |= (_undecidedMask & Daburi.Mask);
                 // 二盃口
                 if (Shuntsu.IsRyampeiko(_shuntsu))
                 {
@@ -625,7 +630,8 @@ namespace server
                 {
                     _yakuMask |= Ipeiko.Mask;
                 }
-
+                //ツモ
+                _yakuMask |= (_undecidedMask & Tsumo.Mask);
 
                 // 平和
                 if (_toitsu.Count == 1 && _shuntsu.Count == 4
