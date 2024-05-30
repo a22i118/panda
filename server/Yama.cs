@@ -23,9 +23,9 @@ namespace server
 
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < (int)Hai.eName.Num; j++)
+                foreach (var haiState in Hai.sHaiStates)
                 {
-                    _hais.Add(new Hai((Hai.eName)j));
+                    _hais.Add(new Hai(haiState.Type, haiState.Number));
                 }
             }
 

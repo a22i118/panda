@@ -17,9 +17,9 @@ namespace server
             Init();
             if (tehai.Hais.Count + (tehai.Chis.Count + tehai.Pons.Count + tehai.Kans.Count) * 3 == 13)
             {
-                for (int i = 0; i < (int)Hai.eName.Num; i++)
+                foreach (var haiState in Hai.sHaiStates)
                 {
-                    Hai tmp = new Hai((Hai.eName)i);
+                    Hai tmp = new Hai(haiState.Type,haiState.Number);
                     checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
                     if (check())
                     {
