@@ -197,11 +197,11 @@ namespace server
                 if (_players[_turn].IsCanTsumo())
                 {
 
-                    if (_players[_turn].Tehai.NowRichi == false)
+                    if (_players[_turn].Tehai.NowReach == false)
                     {
                         _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
                     }
-                    
+
 
 
 
@@ -309,11 +309,13 @@ namespace server
                             _ron = true;
                         }
                     }
-                    if (player.Tehai.NowRichi == false)
+                    //リーチ※暗槓の場合可能だが未実装
+                    //PlayerクラスのTsumo()も変える
+                    if (player.Tehai.NowReach == false && player.SarashiCount() == 0)
                     {
                         if (player.IsCallRichi())
                         {
-                            player.Richi();
+                            player.Reach();
                             _turn = player.Id;
                             _mode = eMode.Wait;
 
@@ -370,7 +372,7 @@ namespace server
                     Hai hai = _players[_turn].Throw(x, y);
 
                     //リーチ中は待ち表示を固定
-                    if (_players[_turn].Tehai.DeclareRichi && _players[_turn].Tehai.NowRichi)
+                    if (_players[_turn].Tehai.DeclareReach && _players[_turn].Tehai.NowReach)
                     {
                         if (_players.Count(e => e.SarashiCount() > 0) == 0 && _yama.TsumoCount <= 4)
                         {
@@ -382,10 +384,10 @@ namespace server
                         }
                         _players[_turn].RichiAtariHais = new List<Hai>(_players[_turn].ChoiceAtariHais);
                         _players[_turn].ChoiceAtariHais.Clear();
-                        _players[_turn].Tehai.DeclareRichi = false;
+                        _players[_turn].Tehai.DeclareReach = false;
                     }
 
-                    if (_players[_turn].Tehai.NowRichi == false)
+                    if (_players[_turn].Tehai.NowReach == false)
                     {
                         _players[_turn].ChoiceTempai();
                     }

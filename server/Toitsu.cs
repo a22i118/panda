@@ -48,7 +48,8 @@ namespace server
             _hais[0] = hai0;
             _hais[1] = hai1;
 
-            eState state = Hai.sHaiStates[(int)_hais[0].Name].State;
+            eState state = _hais[0].State;
+
             _state.all &= state;
             _state.any |= state;
         }

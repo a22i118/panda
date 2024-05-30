@@ -26,7 +26,7 @@ namespace server
         public virtual bool IsMenzen() { return true; }
         public virtual void IsMenzen(bool flag) { }
 
-        public bool IsAll(eState mask) { return Hai.HaiState.IsAll(_state, mask); }
+        public bool IsAll(eState mask) { return Hai.HaiInfo.IsAll(_state, mask); }
 
         // すべて三元牌（対子、刻子）
         public bool IsSangempai() { return IsAll(eState.Haku | eState.Hatu | eState.Thun); }
@@ -43,7 +43,7 @@ namespace server
         public bool IsFuampai() { return IsAll(eState.Fuampai); }
 
         // 1つでも幺九牌（１、９、字牌）がある
-        public bool IsYaochu() { return Hai.HaiState.IsOr(_state, eState.Yaochu); }
+        public bool IsYaochu() { return Hai.HaiInfo.IsOr(_state, eState.Yaochu); }
 
         public virtual (uint manzu, uint pinzu, uint souzu) ShuntsuMask()
         {

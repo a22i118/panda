@@ -107,7 +107,7 @@ namespace server
             All = uint.MaxValue
         }
 
-        public struct HaiState
+        public struct HaiInfo
         {
             private eType _type;
             private eNumber _number;
@@ -121,7 +121,7 @@ namespace server
             public eState State { get { return _state; } }
             public eName Name { get { return _name; } }
 
-            public HaiState(eType type, eNumber number, eName name, eState state)
+            public HaiInfo(eType type, eNumber number, eName name, eState state)
             {
                 this._type = type;
                 this._number = number;
@@ -174,45 +174,45 @@ namespace server
             }
         };
 
-        public static HaiState Manzu1 = new HaiState(eType.Manzu, eNumber.Num1, eName.Manzu1, eState.Yaochu | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu2 = new HaiState(eType.Manzu, eNumber.Num2, eName.Manzu2, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu3 = new HaiState(eType.Manzu, eNumber.Num3, eName.Manzu3, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu4 = new HaiState(eType.Manzu, eNumber.Num4, eName.Manzu4, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu5 = new HaiState(eType.Manzu, eNumber.Num5, eName.Manzu5, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu6 = new HaiState(eType.Manzu, eNumber.Num6, eName.Manzu6, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu7 = new HaiState(eType.Manzu, eNumber.Num7, eName.Manzu7, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu8 = new HaiState(eType.Manzu, eNumber.Num8, eName.Manzu8, eState.Chuncham | eState.Shupai | eState.Manzu);
-        public static HaiState Manzu9 = new HaiState(eType.Manzu, eNumber.Num9, eName.Manzu9, eState.Yaochu | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu1 = new HaiInfo(eType.Manzu, eNumber.Num1, eName.Manzu1, eState.Yaochu | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu2 = new HaiInfo(eType.Manzu, eNumber.Num2, eName.Manzu2, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu3 = new HaiInfo(eType.Manzu, eNumber.Num3, eName.Manzu3, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu4 = new HaiInfo(eType.Manzu, eNumber.Num4, eName.Manzu4, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu5 = new HaiInfo(eType.Manzu, eNumber.Num5, eName.Manzu5, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu6 = new HaiInfo(eType.Manzu, eNumber.Num6, eName.Manzu6, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu7 = new HaiInfo(eType.Manzu, eNumber.Num7, eName.Manzu7, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu8 = new HaiInfo(eType.Manzu, eNumber.Num8, eName.Manzu8, eState.Chuncham | eState.Shupai | eState.Manzu);
+        public static HaiInfo Manzu9 = new HaiInfo(eType.Manzu, eNumber.Num9, eName.Manzu9, eState.Yaochu | eState.Shupai | eState.Manzu);
 
-        public static HaiState Pinzu1 = new HaiState(eType.Pinzu, eNumber.Num1, eName.Pinzu1, eState.Yaochu | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu2 = new HaiState(eType.Pinzu, eNumber.Num2, eName.Pinzu2, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu3 = new HaiState(eType.Pinzu, eNumber.Num3, eName.Pinzu3, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu4 = new HaiState(eType.Pinzu, eNumber.Num4, eName.Pinzu4, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu5 = new HaiState(eType.Pinzu, eNumber.Num5, eName.Pinzu5, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu6 = new HaiState(eType.Pinzu, eNumber.Num6, eName.Pinzu6, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu7 = new HaiState(eType.Pinzu, eNumber.Num7, eName.Pinzu7, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu8 = new HaiState(eType.Pinzu, eNumber.Num8, eName.Pinzu8, eState.Chuncham | eState.Shupai | eState.Pinzu);
-        public static HaiState Pinzu9 = new HaiState(eType.Pinzu, eNumber.Num9, eName.Pinzu9, eState.Yaochu | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu1 = new HaiInfo(eType.Pinzu, eNumber.Num1, eName.Pinzu1, eState.Yaochu | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu2 = new HaiInfo(eType.Pinzu, eNumber.Num2, eName.Pinzu2, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu3 = new HaiInfo(eType.Pinzu, eNumber.Num3, eName.Pinzu3, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu4 = new HaiInfo(eType.Pinzu, eNumber.Num4, eName.Pinzu4, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu5 = new HaiInfo(eType.Pinzu, eNumber.Num5, eName.Pinzu5, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu6 = new HaiInfo(eType.Pinzu, eNumber.Num6, eName.Pinzu6, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu7 = new HaiInfo(eType.Pinzu, eNumber.Num7, eName.Pinzu7, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu8 = new HaiInfo(eType.Pinzu, eNumber.Num8, eName.Pinzu8, eState.Chuncham | eState.Shupai | eState.Pinzu);
+        public static HaiInfo Pinzu9 = new HaiInfo(eType.Pinzu, eNumber.Num9, eName.Pinzu9, eState.Yaochu | eState.Shupai | eState.Pinzu);
 
-        public static HaiState Souzu1 = new HaiState(eType.Souzu, eNumber.Num1, eName.Souzu1, eState.Yaochu | eState.Shupai | eState.Souzu);
-        public static HaiState Souzu2 = new HaiState(eType.Souzu, eNumber.Num2, eName.Souzu2, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
-        public static HaiState Souzu3 = new HaiState(eType.Souzu, eNumber.Num3, eName.Souzu3, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
-        public static HaiState Souzu4 = new HaiState(eType.Souzu, eNumber.Num4, eName.Souzu4, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
-        public static HaiState Souzu5 = new HaiState(eType.Souzu, eNumber.Num5, eName.Souzu5, eState.Chuncham | eState.Shupai | eState.Souzu);
-        public static HaiState Souzu6 = new HaiState(eType.Souzu, eNumber.Num6, eName.Souzu6, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
-        public static HaiState Souzu7 = new HaiState(eType.Souzu, eNumber.Num7, eName.Souzu7, eState.Chuncham | eState.Shupai | eState.Souzu);
-        public static HaiState Souzu8 = new HaiState(eType.Souzu, eNumber.Num8, eName.Souzu8, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
-        public static HaiState Souzu9 = new HaiState(eType.Souzu, eNumber.Num9, eName.Souzu9, eState.Yaochu | eState.Shupai | eState.Souzu);
+        public static HaiInfo Souzu1 = new HaiInfo(eType.Souzu, eNumber.Num1, eName.Souzu1, eState.Yaochu | eState.Shupai | eState.Souzu);
+        public static HaiInfo Souzu2 = new HaiInfo(eType.Souzu, eNumber.Num2, eName.Souzu2, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiInfo Souzu3 = new HaiInfo(eType.Souzu, eNumber.Num3, eName.Souzu3, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiInfo Souzu4 = new HaiInfo(eType.Souzu, eNumber.Num4, eName.Souzu4, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiInfo Souzu5 = new HaiInfo(eType.Souzu, eNumber.Num5, eName.Souzu5, eState.Chuncham | eState.Shupai | eState.Souzu);
+        public static HaiInfo Souzu6 = new HaiInfo(eType.Souzu, eNumber.Num6, eName.Souzu6, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiInfo Souzu7 = new HaiInfo(eType.Souzu, eNumber.Num7, eName.Souzu7, eState.Chuncham | eState.Shupai | eState.Souzu);
+        public static HaiInfo Souzu8 = new HaiInfo(eType.Souzu, eNumber.Num8, eName.Souzu8, eState.Chuncham | eState.Shupai | eState.Souzu | eState.Ryuiso);
+        public static HaiInfo Souzu9 = new HaiInfo(eType.Souzu, eNumber.Num9, eName.Souzu9, eState.Yaochu | eState.Shupai | eState.Souzu);
 
-        public static HaiState Ton = new HaiState(eType.Zihai, eNumber.Ton, eName.Ton, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Ton);
-        public static HaiState Nan = new HaiState(eType.Zihai, eNumber.Nan, eName.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Nan);
-        public static HaiState Sha = new HaiState(eType.Zihai, eNumber.Sha, eName.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Sha);
-        public static HaiState Pei = new HaiState(eType.Zihai, eNumber.Pei, eName.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Pei);
-        public static HaiState Haku = new HaiState(eType.Zihai, eNumber.Haku, eName.Haku, eState.Yaochu | eState.Tsupai | eState.Haku);
-        public static HaiState Hatu = new HaiState(eType.Zihai, eNumber.Hatu, eName.Hatu, eState.Yaochu | eState.Tsupai | eState.Hatu | eState.Ryuiso);
-        public static HaiState Thun = new HaiState(eType.Zihai, eNumber.Thun, eName.Thun, eState.Yaochu | eState.Tsupai | eState.Thun);
+        public static HaiInfo Ton = new HaiInfo(eType.Zihai, eNumber.Ton, eName.Ton, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Ton);
+        public static HaiInfo Nan = new HaiInfo(eType.Zihai, eNumber.Nan, eName.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Nan);
+        public static HaiInfo Sha = new HaiInfo(eType.Zihai, eNumber.Sha, eName.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Sha);
+        public static HaiInfo Pei = new HaiInfo(eType.Zihai, eNumber.Pei, eName.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Pei);
+        public static HaiInfo Haku = new HaiInfo(eType.Zihai, eNumber.Haku, eName.Haku, eState.Yaochu | eState.Tsupai | eState.Haku);
+        public static HaiInfo Hatu = new HaiInfo(eType.Zihai, eNumber.Hatu, eName.Hatu, eState.Yaochu | eState.Tsupai | eState.Hatu | eState.Ryuiso);
+        public static HaiInfo Thun = new HaiInfo(eType.Zihai, eNumber.Thun, eName.Thun, eState.Yaochu | eState.Tsupai | eState.Thun);
 
-        public static HaiState[] sHaiStates = {
+        public static HaiInfo[] sHaiStates = {
             Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9,
             Pinzu1, Pinzu2, Pinzu3, Pinzu4, Pinzu5, Pinzu6, Pinzu7, Pinzu8, Pinzu9,
             Souzu1, Souzu2, Souzu3, Souzu4, Souzu5, Souzu6, Souzu7, Souzu8, Souzu9,
@@ -224,11 +224,11 @@ namespace server
         {
             int n = (int)Number + idx;
             if (Type == eType.Zihai || n < (int)eNumber.Num1 || (int)eNumber.Num9 < n) { return eName.Null; }
-            return GetName(_type, (eNumber)n);
+            return GetName(Type, (eNumber)n);
         }
 
-        private eType _type;
-        private eNumber _num;
+        private HaiInfo _info;
+        public HaiInfo Info { get { return _info; } }
 
         private bool _nakikouho;
         public bool Nakikouho
@@ -256,7 +256,7 @@ namespace server
             set { _isRichi = value; }
         }
         private bool _richiThrowChoice;
-        public bool RichiThrowChoice
+        public bool ReachThrowChoice
         {
             get { return _richiThrowChoice; }
             set { _richiThrowChoice = value; }
@@ -292,21 +292,25 @@ namespace server
             new Point(s_height, (s_width + s_height) / 2)
         };
 
-        public Hai(eType type, eNumber num)
+        public Hai(HaiInfo haiState)
         {
-            this._type = type;
-            this._num = num;
+            this._info = haiState;
+            var type = haiState.Type;
+            var num = haiState.Number;
+
+            //this._type = type;
+            //this._num = num;
             this._nakikouho = false;
 
-            if (_type == eType.Manzu)
+            if (Type == eType.Manzu)
             {
                 _bmp = Properties.Resources.hai_manzu;
             }
-            else if (_type == eType.Pinzu)
+            else if (Type == eType.Pinzu)
             {
                 _bmp = Properties.Resources.hai_pinzu;
             }
-            else if (_type == eType.Souzu)
+            else if (Type == eType.Souzu)
             {
                 _bmp = Properties.Resources.hai_souzu;
             }
@@ -326,12 +330,12 @@ namespace server
                 int top = 0;
                 int div = 9;
 
-                if (_type == eType.Zihai)
+                if (Type == eType.Zihai)
                 {
-                    if (_num == eNumber.Ton ||
-                        _num == eNumber.Nan ||
-                        _num == eNumber.Sha ||
-                        _num == eNumber.Pei)
+                    if (Number == eNumber.Ton ||
+                        Number == eNumber.Nan ||
+                        Number == eNumber.Sha ||
+                        Number == eNumber.Pei)
                     {
                         div = 4;
                     }
@@ -352,25 +356,25 @@ namespace server
 
         public eState State
         {
-            get { return sHaiStates[(int)_type * 9 + (int)_num].State; }
+            get { return sHaiStates[(int)Type * 9 + (int)Number].State; }
         }
         public eName Name
         {
-            get { return GetName(_type, _num); }
+            get { return GetName(Type, Number); }
         }
         public static eName GetName(eType type, eNumber number)
         {
-           return Hai.sHaiStates[(int)type * 9 + (int)number].Name;
+            return Hai.sHaiStates[(int)type * 9 + (int)number].Name;
         }
 
         public eType Type
         {
-            get { return _type; }
+            get { return _info.Type; }
         }
 
         public eNumber Number
         {
-            get { return _num; }
+            get { return _info.Number; }
         }
 
         static float DegToRad(Int32 deg)

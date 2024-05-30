@@ -19,7 +19,7 @@ namespace server
             {
                 foreach (var haiState in Hai.sHaiStates)
                 {
-                    Hai tmp = new Hai(haiState.Type,haiState.Number);
+                    Hai tmp = new Hai(haiState);
                     checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
                     if (check())
                     {

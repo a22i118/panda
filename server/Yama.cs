@@ -25,7 +25,7 @@ namespace server
             {
                 foreach (var haiState in Hai.sHaiStates)
                 {
-                    _hais.Add(new Hai(haiState.Type, haiState.Number));
+                    _hais.Add(new Hai(haiState));
                 }
             }
 

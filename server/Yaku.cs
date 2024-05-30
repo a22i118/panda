@@ -70,7 +70,7 @@ namespace server
             Hoteiraoyui,    // 河底撈魚(ホウテイラオユイ) 1 飜- 鳴き１飜
                             // 局の最後の打牌（河底牌）であがると成立する役です。
 
-            Daburi,         // ダブリー 2 飜- 門前役
+            DabuRe,         // ダブリー 2 飜- 門前役
                             // 鳴きのない１巡目でテンパイしている時に「リーチ」と宣言することで成立する役です。
                             // ダブル立直（リーチ）の略称です。
 
@@ -234,7 +234,7 @@ namespace server
         // 河底撈魚(ホウテイラオユイ) 1 飜- 鳴き１飜
         public static YakuTable Hoteiraoyui = new YakuTable("河底撈魚", eYaku.Hoteiraoyui, 1, 1);
         // ダブリー 2 飜- 門前役
-        public static YakuTable Daburi = new YakuTable("ダブリー", eYaku.Daburi, 2, 0);
+        public static YakuTable DabuRe = new YakuTable("ダブリー", eYaku.DabuRe, 2, 0);
         // ダブ東 2 飜- 鳴き２飜
         public static YakuTable DabuTon = new YakuTable("ダブ東", eYaku.DabuTon, 2, 2);
         // ダブ南 2 飜- 鳴き２飜
@@ -324,7 +324,7 @@ namespace server
             Rinshankaiho,
             Haiteiraoyue,
             Hoteiraoyui,
-            Daburi,
+            DabuRe,
             DabuTon,
             DabuNan,
             DabuSha,

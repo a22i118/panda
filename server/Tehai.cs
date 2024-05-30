@@ -27,9 +27,9 @@ namespace server
 
         public List<Hai> Tempai { get { return _tempai; } }
         private bool _nowRichi = false;
-        public bool NowRichi { get { return _nowRichi; } set { _nowRichi = value; } }
+        public bool NowReach { get { return _nowRichi; } set { _nowRichi = value; } }
         private bool _declareRichi = false;
-        public bool DeclareRichi { get { return _declareRichi; } set { _declareRichi = value; } }
+        public bool DeclareReach { get { return _declareRichi; } set { _declareRichi = value; } }
         private bool _isIppatsu = false;
         public bool IsIppatsu { get { return _isIppatsu; } set { _isIppatsu = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
@@ -243,7 +243,7 @@ namespace server
             {
                 for (int j = 0; j < _hais.Count; j++)
                 {
-                    _hais[j].RichiThrowChoice = false;
+                    _hais[j].ReachThrowChoice = false;
                     _hais[j].IsRichi = false;
                 }
                 _hais.Remove(del);

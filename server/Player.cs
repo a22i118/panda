@@ -33,20 +33,16 @@ namespace server
         public bool IsReach { get { return _isReach; } set { _isReach = value; } }
         private bool _isDabReach = false;
         public bool IsDabReach { get { return _isDabReach; } set { _isDabReach = value; } }
-
-        //private CheckTehai _checkTehai = new CheckTehai(_tehai,_isOya,);
         private TempaiCheck _tempaiCheck = null;
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
         public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
         public List<Result> Results { get { return _atariList.Results; } }
-        //public ulong YakuMask { get { return YakuMask; } set { _yakuMask = value; } }
         private List<Hai> _richiAtariHais;
         private List<Hai> _choiceAtariHais;
         public List<Hai> ChoiceAtariHais { get { return _choiceAtariHais; } }
         public List<Hai> RichiAtariHais { get { return _richiAtariHais; } set { _richiAtariHais = value; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
-        //public List<List<Hai>> _atariHaisList = new List<List<Hai>>();
         private Dictionary<Hai, List<Hai>> AtariHaisDic = new Dictionary<Hai, List<Hai>>();
 
         public ActionCommand ActionCommand { get { return _actionCommand; } }
@@ -91,7 +87,7 @@ namespace server
             yakuMask |= Yaku.Tsumo.Mask;
             if (_isDabReach)
             {
-                yakuMask |= Yaku.Daburi.Mask;
+                yakuMask |= Yaku.DabuRe.Mask;
             }
             else if (_isReach)
             {
@@ -107,14 +103,13 @@ namespace server
             if (_atariList.IsAtari())
             {
                 _actionCommand.CanTsumo = true;
-                //Console.WriteLine("アタリ");
             }
 
             if (IsCanAnKan() || IsCanKaKan())
             {
                 _actionCommand.CanKan = true;
             }
-            if (IsEnableRichi(yakuMask) && _tehai.NowRichi == false)
+            if (IsEnableReach(yakuMask) && _tehai.NowReach == false && _tehai.SarashiCount() == 0)
             {
                 _actionCommand.CanRichi = true;
             }
@@ -196,7 +191,7 @@ namespace server
         {
             if (_isDabReach)
             {
-                yakuMask |= Yaku.Daburi.Mask;
+                yakuMask |= Yaku.DabuRe.Mask;
             }
             else if (_isReach)
             {
@@ -215,37 +210,37 @@ namespace server
                 _actionCommand.CanRon = true;
             }
             // チーのコマンドを有効にする
-            if (isCanChi && IsCanChi(hai) && tehai.NowRichi == false)
+            if (isCanChi && IsCanChi(hai) && tehai.NowReach == false)
             {
                 _actionCommand.CanChi = true;
             }
 
             // ポンのコマンドを有効にする
-            if (IsCanPon(hai) && tehai.NowRichi == false)
+            if (IsCanPon(hai) && tehai.NowReach == false)
             {
                 _actionCommand.CanPon = true;
             }
 
             // カンのコマンドを有効にする
-            if (IsCanMinKan(hai) && tehai.NowRichi == false)
+            if (IsCanMinKan(hai) && tehai.NowReach == false)
             {
                 _actionCommand.CanKan = true;
             }
         }
-        public void Richi()
+        public void Reach()
         {
             for (int i = 0; i < _tehai.Hais.Count; i++)
             {
                 _tehai.Hais[i].ThrowChoice = false;
-                _tehai.Hais[i].RichiThrowChoice = true;
+                _tehai.Hais[i].ReachThrowChoice = true;
             }
 
-            _tehai.DeclareRichi = true;
+            _tehai.DeclareReach = true;
             _isReach = true;
             _tehai.IsIppatsu = true;
         }
         //リーチできるかどうか
-        public bool IsEnableRichi(ulong yakumask)
+        public bool IsEnableReach(ulong yakumask)
         {
             bool isRichi = false;
             AtariHaisDic.Clear();
