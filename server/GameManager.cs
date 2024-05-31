@@ -39,7 +39,6 @@ namespace server
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
-        private bool _richi = false;
 
         public enum eMode
         {
@@ -72,7 +71,6 @@ namespace server
             _tsumo = false;
             _ron = false;
             _ryukyoku = false;
-            _richi = false;
             _mode = eMode.Tsumo;
 
             // 鳴きのテストのために積み込み
@@ -139,14 +137,22 @@ namespace server
             {
                 return;
             }
-
+ 
             if (_mode == eMode.RinshanTsumo)
             {
                 if (_players[_turn].IsCanTsumo())
                 {
+                    _players[_turn].Tehai.IsRinshan = true;
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
+                        if (_yama.Hais.Count() == 0)
+                        {
+                            //foreach (var player in _players)
+                            //{
+                            //    player.IsHaiteiHoutei = true;
+                            //}
+                        }
                         _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
@@ -181,6 +187,13 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
+                        if (_yama.Hais.Count() == 0)
+                        {
+                            //foreach (var player in _players)
+                            //{
+                            //    player.IsHaiteiHoutei = true;
+                            //}
+                        }
                         _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
@@ -404,6 +417,13 @@ namespace server
 
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
+                            if (_yama.Hais.Count() == 0)
+                            {
+                                //foreach (var allplayer in _players)
+                                //{
+                                //    allplayer.IsHaiteiHoutei = true;
+                                //}
+                            }
                             int player = (_turn + shimocha) % Player.Num;
                             _players[player].CommandValid(hai, _players[player].Tehai, reachiMask | yakuMask(player), shimocha == 1);
                         }
@@ -492,12 +512,16 @@ namespace server
             {
                 _players[i].Draw(g, i == _turn);
             }
+            Font font2 = new Font(new FontFamily("Arial"), 24, FontStyle.Bold);
+            g.DrawString("余", font2, Brushes.Black, new PointF(50, 50));
+            g.DrawString(_yama.Hais.Count().ToString(), font2, Brushes.Black, new PointF(100, 50));
+
             Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
 
             if (_tsumo || _ron)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
-                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(512, _turn * 200 + 50));
+                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(950, _turn * 200 + 50));
                 List<Result> results = _players[_turn].Results;
                 int index = 0;
                 g.FillRectangle(brush, 25, 40, 1500, 900);
@@ -510,9 +534,10 @@ namespace server
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
             }
 
+
             if (_ryukyoku)
             {
-                g.DrawString("流局", font, Brushes.White, new PointF(512, 304));
+                g.DrawString("流局", font, Brushes.Purple, new PointF(512, 304));
             }
         }
     }

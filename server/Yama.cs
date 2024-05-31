@@ -9,6 +9,7 @@ namespace server
     internal class Yama
     {
         private List<Hai> _hais = new List<Hai>();
+        public List<Hai> Hais { get { return _hais; } }
 
         // 牌の種類 * 4枚 - 配牌 * 4人 - 王牌 = 70
         private const int c_yamaMax = (9 * 3 + 7) * 4 - 13 * 4 - 14;

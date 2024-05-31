@@ -32,6 +32,8 @@ namespace server
         public bool DeclareReach { get { return _declareRichi; } set { _declareRichi = value; } }
         private bool _isIppatsu = false;
         public bool IsIppatsu { get { return _isIppatsu; } set { _isIppatsu = value; } }
+        private bool _isRinshan = false;
+        public bool IsRinshan { get { return _isRinshan; } set { _isRinshan = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
         private static ulong s_kokushi =
             (1UL << (int)eName.Manzu1) |
@@ -84,6 +86,7 @@ namespace server
             _declareRichi = false;
             _nowRichi = false;
             _isIppatsu = false;
+            _isRinshan = false;
         }
 
         public void Add(Hai hai)
@@ -168,6 +171,7 @@ namespace server
         public Hai Throw(int x, int y, Kawa kawas)
         {
             Hai del = null;
+            _isRinshan = false;
             if (_nowRichi)
             {
                 _isIppatsu = false;

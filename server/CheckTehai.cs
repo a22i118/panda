@@ -37,7 +37,6 @@ namespace server
         private ulong _undecidedMask = 0;
         private int _fu = 0;
         private bool _isOya;
-        private bool _IsIppatsu = false;
         private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
@@ -53,10 +52,6 @@ namespace server
             this._kans = new List<Kan>(tehai.Kans);
             this._hais = new List<Hai>(tehai.Hais);
             this._isOya = isoya;
-            if (tehai.IsIppatsu)
-            {
-                _IsIppatsu = true;
-            }
 
             if (add != null)
             {
