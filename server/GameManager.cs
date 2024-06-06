@@ -90,7 +90,7 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu4, Ton, Nan, Sha, Pei, Thun });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu7, Ton, Nan, Sha, Pei, Thun });
             _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
             _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
 
@@ -107,6 +107,13 @@ namespace server
                 {
                     _players[i].Deal(_yama.Tsumo());
                 }
+            }
+
+            //海底、河底テスト
+            List<Hai> testList = new List<Hai>();
+            for (int i = 0; i < 64; i++)
+            {
+                testList.Add(_yama.Tsumo());
             }
 
             // 流局のテスト
@@ -137,7 +144,13 @@ namespace server
             {
                 return;
             }
- 
+            if (_yama.Hais.Count() == 0)
+            {
+                foreach (var player in _players)
+                {
+                    player.IsHaiteiHoutei = true;
+                }
+            }
             if (_mode == eMode.RinshanTsumo)
             {
                 if (_players[_turn].IsCanTsumo())
@@ -146,13 +159,13 @@ namespace server
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
-                        if (_yama.Hais.Count() == 0)
-                        {
-                            //foreach (var player in _players)
-                            //{
-                            //    player.IsHaiteiHoutei = true;
-                            //}
-                        }
+                        //if (_yama.Hais.Count() == 0)
+                        //{
+                        //    foreach (var player in _players)
+                        //    {
+                        //        player.IsHaiteiHoutei = true;
+                        //    }
+                        //}
                         _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
@@ -187,13 +200,13 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
-                        if (_yama.Hais.Count() == 0)
-                        {
-                            //foreach (var player in _players)
-                            //{
-                            //    player.IsHaiteiHoutei = true;
-                            //}
-                        }
+                        //if (_yama.Hais.Count() == 0)
+                        //{
+                        //    foreach (var player in _players)
+                        //    {
+                        //        player.IsHaiteiHoutei = true;
+                        //    }
+                        //}
                         _players[_turn].Tsumo(hai, yakuMask(_turn));
                     }
                     else
@@ -417,13 +430,13 @@ namespace server
 
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
-                            if (_yama.Hais.Count() == 0)
-                            {
-                                //foreach (var allplayer in _players)
-                                //{
-                                //    allplayer.IsHaiteiHoutei = true;
-                                //}
-                            }
+                            //if (_yama.Hais.Count() == 0)
+                            //{
+                            //    foreach (var allplayer in _players)
+                            //    {
+                            //        allplayer.IsHaiteiHoutei = true;
+                            //    }
+                            //}
                             int player = (_turn + shimocha) % Player.Num;
                             _players[player].CommandValid(hai, _players[player].Tehai, reachiMask | yakuMask(player), shimocha == 1);
                         }

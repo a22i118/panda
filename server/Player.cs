@@ -31,7 +31,7 @@ namespace server
         private Kawa _kawa = new Kawa();
         private bool _isReach = false;
         private bool _isHaiteiHoutei = false;
-        public bool IsHaiteiHoutei { get { return _isHaiteiHoutei; } set { _isHaiteiHoutei= value; } }
+        public bool IsHaiteiHoutei { get { return _isHaiteiHoutei; } set { _isHaiteiHoutei = value; } }
         public bool IsReach { get { return _isReach; } set { _isReach = value; } }
         private bool _isDabReach = false;
         public bool IsDabReach { get { return _isDabReach; } set { _isDabReach = value; } }
@@ -104,9 +104,9 @@ namespace server
             {
                 yakuMask |= Yaku.Rinshankaiho.Mask;
             }
-            if(_isHaiteiHoutei)
+            if (_isHaiteiHoutei)
             {
-                yakuMask|=Yaku.Haiteiraoyue.Mask;
+                yakuMask |= Yaku.Haiteiraoyue.Mask;
             }
 
             _atariList = new AtariList(_tehai, _isOya, yakuMask);
@@ -214,7 +214,7 @@ namespace server
             }
             if (_isHaiteiHoutei)
             {
-                yakuMask|=Yaku.Hoteiraoyui.Mask;
+                yakuMask |= Yaku.Hoteiraoyui.Mask;
             }
 
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
