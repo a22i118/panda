@@ -20,7 +20,7 @@ namespace server
 
             foreach (var hai in _hais)
             {
-                eState state = Hai.sHaiStates[(int)hai.Name].State;
+                eState state = hai.State;
                 _state.all &= state;
                 _state.any |= state;
             }

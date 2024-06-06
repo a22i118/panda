@@ -109,12 +109,16 @@ namespace server
                 }
             }
 
+            //嶺上テスト
+            _yama.Hais[0] = new Hai(Hai.Manzu1);
+            _wanPai.Hais[0] = new Hai(Hai.Manzu2);
+
             //海底、河底テスト
-            List<Hai> testList = new List<Hai>();
-            for (int i = 0; i < 64; i++)
-            {
-                testList.Add(_yama.Tsumo());
-            }
+            //List<Hai> testList = new List<Hai>();
+            //for (int i = 0; i < 64; i++)
+            //{
+            //    testList.Add(_yama.Tsumo());
+            //}
 
             // 流局のテスト
             //{

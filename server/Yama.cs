@@ -54,7 +54,6 @@ namespace server
             // シャッフルする
             Shuffle();
         }
-
         // ツモ
         public Hai Tsumo()
         {

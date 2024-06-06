@@ -21,7 +21,7 @@ namespace server
             _hais[1] = hai1;
             _hais[2] = hai2;
 
-            eState state = Hai.sHaiStates[(int)_hais[0].Name].State;
+            eState state = hai0.State;
             _state.all &= state;
             _state.any |= state;
         }
