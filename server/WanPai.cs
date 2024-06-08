@@ -13,7 +13,6 @@ namespace server
         List<Hai> _doras = new List<Hai>();
 
         public WanPai() { }
-        public List<Hai> Hais { get { return _rinshams; } set { _rinshams = value; } }
         public void Init(Yama yama)
         {
             _rinshams.Clear();

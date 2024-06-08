@@ -13,45 +13,42 @@ namespace server
 {
     internal class Player
     {
-        public const int Num = 4;
-
-        // 表示の起点
-        private int _x;
-        private int _y;
-
         private int _id;
         private bool _isOya;
-        public bool IsOya { get { return _isOya; } set { _isOya = value; } }
         private bool _huriten = false;
-        public bool Huriten { get { return _huriten; } set { _huriten = value; } }
         private bool _isTempai = false;
-        public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
         private bool _richiHuriten = false;
-        private Tehai _tehai = new Tehai();
-        private Kawa _kawa = new Kawa();
         private bool _isReach = false;
         private bool _isHaiteiHoutei = false;
-        public bool IsHaiteiHoutei { get { return _isHaiteiHoutei; } set { _isHaiteiHoutei = value; } }
-        public bool IsReach { get { return _isReach; } set { _isReach = value; } }
         private bool _isDabReach = false;
-        public bool IsDabReach { get { return _isDabReach; } set { _isDabReach = value; } }
+        private Tehai _tehai = new Tehai();
+        private Kawa _kawa = new Kawa();
         private TempaiCheck _tempaiCheck = null;
-        private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
         private AtariList? _atariList = null;
-        public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
-        public List<Result> Results { get { return _atariList.Results; } }
         private List<Hai> _richiAtariHais;
         private List<Hai> _choiceAtariHais;
+        private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
+        private Dictionary<Hai, List<Hai>> AtariHaisDic = new Dictionary<Hai, List<Hai>>();
+
+        public const int Num = 4;
+
+        public int Id { get { return _id; } }
+        public bool IsOya { get { return _isOya; } set { _isOya = value; } }
+        public bool Huriten { get { return _huriten; } set { _huriten = value; } }
+        public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
+        public bool IsHaiteiHoutei { get { return _isHaiteiHoutei; } set { _isHaiteiHoutei = value; } }
+        public bool IsReach { get { return _isReach; } set { _isReach = value; } }
+        public bool IsDabReach { get { return _isDabReach; } set { _isDabReach = value; } }
+        public TempaiCheck TempaiCheck { get { return _tempaiCheck; } }
+        public List<Result> Results { get { return _atariList.Results; } }
+
         public List<Hai> ChoiceAtariHais { get { return _choiceAtariHais; } }
         public List<Hai> RichiAtariHais { get { return _richiAtariHais; } set { _richiAtariHais = value; } }
         public List<Hai> AtariHais { get { return _tempaiCheck == null ? null : _tempaiCheck.AtariHais; } }
-        private Dictionary<Hai, List<Hai>> AtariHaisDic = new Dictionary<Hai, List<Hai>>();
-
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
-        public int Id { get { return _id; } }
         public Tehai Tehai { get { return _tehai; } }
-        public List<Hai> Hais { get { return _tehai.Hais; } }
+        //public List<Hai> Hais { get { return _tehai.Hais; } }
         public Player(int id)
         {
             _id = id;
@@ -354,10 +351,6 @@ namespace server
         {
 
         }
-        //public ActionCommand(int x, int y,int w, int h)
-        //{
-
-        //}
         public bool IsCanAny()
         {
             return _actionCommand.IsCanAny();

@@ -472,7 +472,12 @@ namespace server
             }
             // 一発
             _yakuMask |= (_undecidedMask & Ippatsu.Mask);
-
+            //海底
+            _yakuMask |= (_undecidedMask & Haiteiraoyue.Mask);
+            //河底
+            _yakuMask |= (_undecidedMask & Hoteiraoyui.Mask);
+            //嶺上開花
+            _yakuMask |= (_undecidedMask & Rinshankaiho.Mask);
             // タンヤオ
             if (HaiInfo.IsTanyao(_state))
             {
