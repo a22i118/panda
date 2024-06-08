@@ -348,11 +348,23 @@ namespace server
 
         public bool IsChitoitsu(List<Result> results)
         {
+            //リーチ
+            _yakuMask |= (_undecidedMask & Reach.Mask);
+            //ダブルリーチ
+            _yakuMask |= (_undecidedMask & DabuRe.Mask);
             // 一発
             _yakuMask |= (_undecidedMask & Ippatsu.Mask);
             //ツモ
             _yakuMask |= (_undecidedMask & Tsumo.Mask);
-
+            //海底
+            _yakuMask |= (_undecidedMask & Haiteiraoyue.Mask);
+            //河底
+            _yakuMask |= (_undecidedMask & Hoteiraoyui.Mask);
+            // タンヤオ
+            if (HaiInfo.IsTanyao(_state))
+            {
+                _yakuMask |= Tanyao.Mask;
+            }
             // 鳴いてはいけない
             if (_hais.Count < 14) { return false; }
 
@@ -470,6 +482,10 @@ namespace server
             {
                 return;
             }
+            //リーチ
+            _yakuMask |= (_undecidedMask & Reach.Mask);
+            //ダブルリーチ
+            _yakuMask |= (_undecidedMask & DabuRe.Mask);
             // 一発
             _yakuMask |= (_undecidedMask & Ippatsu.Mask);
             //海底
@@ -478,6 +494,7 @@ namespace server
             _yakuMask |= (_undecidedMask & Hoteiraoyui.Mask);
             //嶺上開花
             _yakuMask |= (_undecidedMask & Rinshankaiho.Mask);
+
             // タンヤオ
             if (HaiInfo.IsTanyao(_state))
             {
