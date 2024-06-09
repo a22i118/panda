@@ -35,6 +35,7 @@ namespace server
         private bool _isRinshan = false;
         public bool IsRinshan { get { return _isRinshan; } set { _isRinshan = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
+        public int NakiCount() { return _chis.Count + _pons.Count + _kans.Count(e => e.IsMenzen() == false); }
         private static ulong s_kokushi =
             (1UL << (int)eName.Manzu1) |
             (1UL << (int)eName.Manzu9) |
@@ -105,7 +106,7 @@ namespace server
 
             for (int i = 0; i < _hais.Count; i++)
             {
-                _hais[i].SetPos(x += 48, players * 200 + 50);
+                _hais[i].SetPos(x += 48, players * 200 + 150);
                 _hais[i].Draw(g);
             }
 
@@ -119,7 +120,7 @@ namespace server
             for (int i = _naki.Count - 1; i >= 0; i--)
             {
                 x += 6;
-                x = _naki[i].Draw(g, x, players * 200 + 50);
+                x = _naki[i].Draw(g, x, players * 200 + 150);
             }
         }
         public void AgariDraw(Graphics g, Hai hai)

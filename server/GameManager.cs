@@ -39,7 +39,9 @@ namespace server
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
+        private bool _isReach = false;
 
+        private int _kansCount = 0;
         public enum eMode
         {
             Tsumo,
@@ -71,7 +73,9 @@ namespace server
             _tsumo = false;
             _ron = false;
             _ryukyoku = false;
+            _isReach = false;
             _mode = eMode.Tsumo;
+            _kansCount = 0;
 
             // 鳴きのテストのために積み込み
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
@@ -110,8 +114,8 @@ namespace server
             }
 
             //嶺上テスト
-            //_yama.Hais[0] = new Hai(Hai.Manzu1);
-            //_wanPai.Hais[0] = new Hai(Hai.Manzu2);
+            _yama.Hais[0] = new Hai(Hai.Manzu1);
+            _wanPai.Rinshams[0] = new Hai(Hai.Manzu2);
 
             //河底テスト
             //List<Hai> testList = new List<Hai>();
@@ -309,6 +313,7 @@ namespace server
                         }
                         if (player.IsCanTsumo())
                         {
+                            _kansCount += 1;
                             player.MinKan(_sutehai, _turn);
                             _mode = eMode.RinshanTsumo;
                             _turn = player.Id;
@@ -317,6 +322,7 @@ namespace server
                         {
                             if (player.AnKan())
                             {
+                                _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
                                 _turn = player.Id;
                             }
@@ -339,12 +345,12 @@ namespace server
                             _ron = true;
                         }
                     }
-                    //リーチ※暗槓の場合可能だが未実装
-                    //PlayerクラスのTsumo()も変える
-                    if (player.Tehai.NowReach == false && player.SarashiCount() == 0)
+                    //リーチ
+                    if (player.Tehai.NowReach == false && player.NakiCount() == 0)
                     {
                         if (player.IsCallRichi())
                         {
+                            _isReach = true;
                             player.Reach();
                             _turn = player.Id;
                             _mode = eMode.Wait;
@@ -388,6 +394,7 @@ namespace server
                             hai.Nakichoice = true;
                             if (_players[_turn].AnKan())
                             {
+                                _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
                                 //turn_ = player;
                                 Array.ForEach(_players, e => e.ResetNakikouho());
@@ -524,7 +531,7 @@ namespace server
 
         public void Draw(Graphics g)
         {
-
+            _wanPai.Draw(g, _kansCount);
             for (int i = 0; i < Player.Num; i++)
             {
                 _players[i].Draw(g, i == _turn);
@@ -545,9 +552,9 @@ namespace server
 
                 foreach (Result result in results)
                 {
-
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
+                _wanPai.AgariDraw(g,_isReach, _kansCount);
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
             }
 

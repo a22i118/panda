@@ -52,7 +52,7 @@ namespace server
         public Player(int id)
         {
             _id = id;
-            _actionCommand = new ActionCommand(300, _id * 200 + 74 + 50, 64, 32);
+            _actionCommand = new ActionCommand(300, _id * 200 + 74 + 150, 64, 32);
         }
         public void Init()
         {
@@ -117,7 +117,7 @@ namespace server
             {
                 _actionCommand.CanKan = true;
             }
-            if (IsEnableReach(yakuMask) && _tehai.NowReach == false && _tehai.SarashiCount() == 0)
+            if (IsEnableReach(yakuMask) && _tehai.NowReach == false && _tehai.NakiCount() == 0)
             {
                 _actionCommand.CanRichi = true;
             }
@@ -164,7 +164,7 @@ namespace server
                             return true;
                         }
                     }
-                    if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
+                    if (_kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                     {
                         _richiHuriten = true;
                         _huriten = true;
@@ -184,7 +184,7 @@ namespace server
                             return true;
                         }
                     }
-                    if (Kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
+                    if (_kawa.Hais.Find(hai => hai.Name == atariHai.Name) != null)
                     {
                         _huriten = true;
 
@@ -257,7 +257,7 @@ namespace server
             bool isRichi = false;
             AtariHaisDic.Clear();
 
-            Hai hai = null;
+            Hai hai;
             for (int i = 0; i < _tehai.Hais.Count; i++)
             {
                 Tehai tmp = new Tehai(_tehai);
@@ -360,17 +360,17 @@ namespace server
             _tehai.Draw(g, _id);
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
-            if (_tempaiCheck != null)
-            {
-                _tempaiCheck.Draw(g, _id);
-            }
+            //if (_tempaiCheck != null)
+            //{
+            //    _tempaiCheck.Draw(g, _id);
+            //}
             if (_richiAtariHais != null)
             {
                 int x = 300 - 48;
 
                 for (int i = 0; i < _richiAtariHais.Count; i++)
                 {
-                    _richiAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 50);
+                    _richiAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 150);
                     _richiAtariHais[i].Draw(g);
                 }
             }
@@ -380,14 +380,14 @@ namespace server
 
                 for (int i = 0; i < _choiceAtariHais.Count; i++)
                 {
-                    _choiceAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 50);
+                    _choiceAtariHais[i].SetPos(x += 48, _id * 200 + 110 + 150);
                     _choiceAtariHais[i].Draw(g);
                 }
             }
             Font font = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
             if (_huriten)
             {
-                g.DrawString("振聴", font, Brushes.Red, new PointF(150, Id * 200 + 50));
+                g.DrawString("振聴", font, Brushes.Red, new PointF(150, Id * 200 + 150));
             }
         }
         public void AgariDraw(Graphics g, Hai hai)
@@ -424,5 +424,6 @@ namespace server
         public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
+        public int NakiCount() { return _tehai.NakiCount(); }
     }
 }
