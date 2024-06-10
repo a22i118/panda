@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Numerics;
@@ -39,9 +40,13 @@ namespace server
         private bool _tsumo = false;
         private bool _ron = false;
         private bool _ryukyoku = false;
+        private bool _sufomtsurenda = false;
+        private bool _sukannagare = false;
+        private bool _suchaReach = false;
         private bool _isReach = false;
 
         private int _kansCount = 0;
+        private int _reachCount = 0;
         public enum eMode
         {
             Tsumo,
@@ -73,9 +78,13 @@ namespace server
             _tsumo = false;
             _ron = false;
             _ryukyoku = false;
+            _sufomtsurenda = false;
+            _sukannagare = false;
+            _suchaReach = false;
             _isReach = false;
             _mode = eMode.Tsumo;
             _kansCount = 0;
+            _reachCount = 0;
 
             // 鳴きのテストのために積み込み
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
@@ -84,7 +93,7 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Nan, Nan, Sha, Sha, Pei, Pei, Haku, Haku, Hatu, Hatu, Thun, Thun });   // 七対子
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu1, Souzu1, Souzu9, Souzu9 });  // 清老頭
             //_yama.Tsumikomi(0, new Hai.eName[] { Pei, Pei, Pei, Haku, Haku, Haku, Hatu, Hatu, Thun, Thun, Thun, Souzu9, Souzu9 });  // 大三元
-            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9, Manzu9, Manzu9 }); // 純正九蓮宝燈
+            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9, Manzu9, Manzu9 }); // 純正九蓮宝燈
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Thun }); // 一気通貫
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Pinzu1, Pinzu2, Pinzu3, Souzu1, Souzu2, Souzu3, Haku, Haku, Haku, Thun }); // 三色同順
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu6, Souzu7, Souzu8, Souzu9, Souzu9, Souzu9, Thun }); // 三色同刻
@@ -93,8 +102,10 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu5, Manzu6, Manzu7, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5, Souzu6 });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
-            //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu7, Ton, Nan, Sha, Pei, Thun });
+            _yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
+            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu7, Ton, Nan, Sha, Pei, Thun });
+
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Thun });
             _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
             _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
 
@@ -146,9 +157,29 @@ namespace server
         //    gameStart();
         //}
 
+        private bool SukanCheck()
+        {
+            int tmp = 0;
+            foreach (var player in _players)
+            {
+                if (player.KansCount != 4)
+                {
+                    tmp += player.KansCount;
+                }
+            }
+            if (tmp == 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
         public void Exec()
         {
-            if (_tsumo || _ron || _ryukyoku)
+            if (_tsumo || _ron || _ryukyoku||_sukannagare||_suchaReach)
             {
                 return;
             }
@@ -159,6 +190,16 @@ namespace server
                     player.IsHaiteiHoutei = true;
                 }
             }
+            if(SukanCheck())
+            {
+                _sukannagare = true;
+            }
+            if (_reachCount == 4)
+            {
+                _suchaReach = true;
+            }
+            
+            
             if (_mode == eMode.RinshanTsumo)
             {
                 if (_players[_turn].IsCanTsumo())
@@ -174,7 +215,7 @@ namespace server
                         //        player.IsHaiteiHoutei = true;
                         //    }
                         //}
-                        _players[_turn].Tsumo(hai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, yakuMask(_turn),_kansCount);
                     }
                     else
                     {
@@ -215,7 +256,7 @@ namespace server
                         //        player.IsHaiteiHoutei = true;
                         //    }
                         //}
-                        _players[_turn].Tsumo(hai, yakuMask(_turn));
+                        _players[_turn].Tsumo(hai, yakuMask(_turn),_kansCount);
                     }
                     else
                     {
@@ -411,6 +452,7 @@ namespace server
                     //リーチ中は待ち表示を固定
                     if (_players[_turn].Tehai.DeclareReach && _players[_turn].Tehai.NowReach)
                     {
+                        _reachCount += 1;
                         if (_players.Count(e => e.SarashiCount() > 0) == 0 && _yama.TsumoCount <= 4)
                         {
                             _players[_turn].IsDabReach = true;
@@ -449,7 +491,7 @@ namespace server
                             //    }
                             //}
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].CommandValid(hai, _players[player].Tehai, reachiMask | yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, _players[player].Tehai,_kansCount, reachiMask | yakuMask(player), shimocha == 1);
                         }
                     }
                 }
@@ -480,7 +522,7 @@ namespace server
                 }
             }
         }
-
+        
         // 場で決まる役
         private ulong yakuMask(int player)
         {
@@ -545,7 +587,7 @@ namespace server
             if (_tsumo || _ron)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
-                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(950, _turn * 200 + 50));
+                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                 List<Result> results = _players[_turn].Results;
                 int index = 0;
                 g.FillRectangle(brush, 25, 40, 1500, 900);
@@ -554,13 +596,26 @@ namespace server
                 {
                     result.Draw(g, new PointF(40, 64 + 32 * index++));
                 }
-                _wanPai.AgariDraw(g,_isReach, _kansCount);
+                _wanPai.AgariDraw(g, _isReach, _kansCount);
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
             }
-
+            if(_sukannagare)
+            {
+                SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
+                g.FillRectangle(brush, 25, 40, 1500, 900);
+                g.DrawString("四槓流れ", font, Brushes.Purple, new PointF(512, 304));
+            }
+            if(_suchaReach)
+            {
+                SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
+                g.FillRectangle(brush, 25, 40, 1500, 900);
+                g.DrawString("四家立直", font, Brushes.Purple, new PointF(512, 304));
+            }
 
             if (_ryukyoku)
             {
+                SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
+                g.FillRectangle(brush, 25, 40, 1500, 900);
                 g.DrawString("流局", font, Brushes.Purple, new PointF(512, 304));
             }
         }

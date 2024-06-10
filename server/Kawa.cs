@@ -22,7 +22,7 @@ namespace server
 
         public void Draw(Graphics g, int players)
         {
-            int x = 1100 - 48;
+            int x = 1100 - 48 + 300;
             int y = players * 200 + 150;
 
             for (int i = 0; i < _hais.Count; i++)

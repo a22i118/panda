@@ -33,6 +33,7 @@ namespace server
         public const int Num = 4;
 
         public int Id { get { return _id; } }
+        public int KansCount { get { return _tehai.Kans.Count; } }
         public bool IsOya { get { return _isOya; } set { _isOya = value; } }
         public bool Huriten { get { return _huriten; } set { _huriten = value; } }
         public bool IsTempai { get { return _isTempai; } set { _isTempai = value; } }
@@ -79,7 +80,7 @@ namespace server
         {
             _tehai.Add(hai);
         }
-        public void Tsumo(Hai hai, ulong yakuMask)
+        public void Tsumo(Hai hai, ulong yakuMask, int kansCount)
         {
             _huriten = false;
             _tehai.Add(hai);
@@ -113,7 +114,7 @@ namespace server
                 _actionCommand.CanTsumo = true;
             }
 
-            if (IsCanAnKan() || IsCanKaKan())
+            if (kansCount < 4 && (IsCanAnKan() || IsCanKaKan()))
             {
                 _actionCommand.CanKan = true;
             }
@@ -195,7 +196,7 @@ namespace server
             return false;
         }
 
-        public void CommandValid(Hai hai, Tehai tehai, ulong yakuMask, bool isCanChi)
+        public void CommandValid(Hai hai, Tehai tehai, int kansCount, ulong yakuMask, bool isCanChi)
         {
             if (_isDabReach)
             {
@@ -234,7 +235,7 @@ namespace server
             }
 
             // カンのコマンドを有効にする
-            if (IsCanMinKan(hai) && tehai.NowReach == false)
+            if (kansCount < 4 && IsCanMinKan(hai) && tehai.NowReach == false)
             {
                 _actionCommand.CanKan = true;
             }
