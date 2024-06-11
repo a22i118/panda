@@ -87,7 +87,7 @@ namespace server
             _reachCount = 0;
 
             // 鳴きのテストのために積み込み
-            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5 });
+            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Nan });
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  // 国士無双十三面
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Nan, Nan, Sha, Sha, Pei, Pei, Haku, Haku, Hatu, Hatu, Thun, Thun });   // 七対子
@@ -102,12 +102,12 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu5, Manzu6, Manzu7, Souzu1, Souzu2, Souzu3, Souzu4, Souzu5, Souzu6 });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
-            _yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
+            //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Pei, Pei, Pei, Thun });
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu2, Manzu2, Manzu3, Manzu3, Manzu3, Manzu7, Ton, Nan, Sha, Pei, Thun });
 
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Thun });
-            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Manzu7 });
-            _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Souzu7 });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
+            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu2, Pinzu2, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
+            _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Nan });
 
 
 
@@ -175,11 +175,11 @@ namespace server
             {
                 return false;
             }
-            
+
         }
         public void Exec()
         {
-            if (_tsumo || _ron || _ryukyoku||_sukannagare||_suchaReach)
+            if (_tsumo || _ron || _ryukyoku || _sukannagare || _suchaReach || _sufomtsurenda)
             {
                 return;
             }
@@ -190,7 +190,7 @@ namespace server
                     player.IsHaiteiHoutei = true;
                 }
             }
-            if(SukanCheck())
+            if (SukanCheck())
             {
                 _sukannagare = true;
             }
@@ -198,8 +198,31 @@ namespace server
             {
                 _suchaReach = true;
             }
-            
-            
+            if (_yama.TsumoCount == 4 &&
+                _players[3].Kawa.Hais.Count()!= 0 &&
+                _players.Count(e => e.SarashiCount() > 0) == 0)
+            {
+                Hai tmp = _players[0].Kawa.Hais[0];
+                int count = 0;
+                foreach (var player in _players)
+                {
+                    if (player.Kawa.Hais[0].State == Hai.eState.Fuampai &&
+                    player.Kawa.Hais[0].Name == tmp.Name)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (count == 4)
+                {
+                    _sufomtsurenda = true;
+
+                }
+            }
+
             if (_mode == eMode.RinshanTsumo)
             {
                 if (_players[_turn].IsCanTsumo())
@@ -215,7 +238,7 @@ namespace server
                         //        player.IsHaiteiHoutei = true;
                         //    }
                         //}
-                        _players[_turn].Tsumo(hai, yakuMask(_turn),_kansCount);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount);
                     }
                     else
                     {
@@ -256,7 +279,7 @@ namespace server
                         //        player.IsHaiteiHoutei = true;
                         //    }
                         //}
-                        _players[_turn].Tsumo(hai, yakuMask(_turn),_kansCount);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount);
                     }
                     else
                     {
@@ -491,7 +514,7 @@ namespace server
                             //    }
                             //}
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].CommandValid(hai, _players[player].Tehai,_kansCount, reachiMask | yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, _players[player].Tehai, _kansCount, reachiMask | yakuMask(player), shimocha == 1);
                         }
                     }
                 }
@@ -522,7 +545,7 @@ namespace server
                 }
             }
         }
-        
+
         // 場で決まる役
         private ulong yakuMask(int player)
         {
@@ -599,19 +622,24 @@ namespace server
                 _wanPai.AgariDraw(g, _isReach, _kansCount);
                 _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
             }
-            if(_sukannagare)
+            if (_sukannagare)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.FillRectangle(brush, 25, 40, 1500, 900);
                 g.DrawString("四槓流れ", font, Brushes.Purple, new PointF(512, 304));
             }
-            if(_suchaReach)
+            if (_suchaReach)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.FillRectangle(brush, 25, 40, 1500, 900);
                 g.DrawString("四家立直", font, Brushes.Purple, new PointF(512, 304));
             }
-
+            if (_sufomtsurenda)
+            {
+                SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
+                g.FillRectangle(brush, 25, 40, 1500, 900);
+                g.DrawString("四風子連打", font, Brushes.Purple, new PointF(512, 304));
+            }
             if (_ryukyoku)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
