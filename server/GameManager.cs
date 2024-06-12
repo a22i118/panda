@@ -198,15 +198,16 @@ namespace server
             {
                 _suchaReach = true;
             }
+#if false
             if (_yama.TsumoCount == 4 &&
-                _players[3].Kawa.Hais.Count()!= 0 &&
+                _players[3].Kawa.Hais.Count()!= 0 &&    // この条件（特に何故３番目のプレイヤーだけ判定するのか）の意味がわからない
                 _players.Count(e => e.SarashiCount() > 0) == 0)
             {
                 Hai tmp = _players[0].Kawa.Hais[0];
                 int count = 0;
                 foreach (var player in _players)
                 {
-                    if (player.Kawa.Hais[0].State == Hai.eState.Fuampai &&
+                    if (player.Kawa.Hais[0].State == Hai.eState.Fuampai &&  // Stateは複数からなるmaskなのでイコールとは限らない
                     player.Kawa.Hais[0].Name == tmp.Name)
                     {
                         count++;
@@ -222,6 +223,25 @@ namespace server
 
                 }
             }
+#else
+            if (_players.Count(e => e.Kawa.Hais.Count() == 1) == 4 &&   // 河が全員１
+                _players.Count(e => e.SarashiCount() > 0) == 0)         // 全員鳴いていない
+            {
+                (Hai.eState all, Hai.eState any) state = (Hai.eState.All, 0);
+
+                foreach (var player in _players)
+                {
+                    state.all &= player.Kawa.Hais[0].State;
+                    state.any |= player.Kawa.Hais[0].State;
+                }
+
+                _sufomtsurenda =
+                    Hai.HaiInfo.IsAll(state, Hai.eState.Ton) ||
+                    Hai.HaiInfo.IsAll(state, Hai.eState.Nan) ||
+                    Hai.HaiInfo.IsAll(state, Hai.eState.Sha) ||
+                    Hai.HaiInfo.IsAll(state, Hai.eState.Pei);
+            }
+#endif
 
             if (_mode == eMode.RinshanTsumo)
             {
