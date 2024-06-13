@@ -28,7 +28,7 @@ namespace server
         private List<Hai> _richiAtariHais;
         private List<Hai> _choiceAtariHais;
         private ActionCommand _actionCommand = new ActionCommand(0, 0, 0, 0);
-        private Dictionary<Hai, List<Hai>> AtariHaisDic = new Dictionary<Hai, List<Hai>>();
+        private Dictionary<Hai, List<Hai>> _atariHaisDic = new Dictionary<Hai, List<Hai>>();
 
         public const int Num = 4;
 
@@ -49,6 +49,7 @@ namespace server
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public Tehai Tehai { get { return _tehai; } }
+        public Dictionary<Hai,List<Hai>> AtariHaisDic { get {  return _atariHaisDic; } set { _atariHaisDic = value; } }
         //public List<Hai> Hais { get { return _tehai.Hais; } }
         public Player(int id)
         {
@@ -62,7 +63,7 @@ namespace server
             if (_tempaiCheck != null) { _tempaiCheck.Init(); }
             if (_richiAtariHais != null) { _richiAtariHais.Clear(); }
             if (_choiceAtariHais != null) { _choiceAtariHais.Clear(); }
-            if (AtariHaisDic != null) { AtariHaisDic.Clear(); }
+            if (_atariHaisDic != null) { _atariHaisDic.Clear(); }
             _isOya = false;
             _richiHuriten = false;
             _huriten = false;
@@ -133,9 +134,9 @@ namespace server
         {
             foreach (Hai choiceHai in _tehai.Hais)
             {
-                if (AtariHaisDic != null && choiceHai.ThrowChoice && AtariHaisDic.ContainsKey(choiceHai))
+                if (_atariHaisDic != null && choiceHai.ThrowChoice && _atariHaisDic.ContainsKey(choiceHai))
                 {
-                    _choiceAtariHais = AtariHaisDic[choiceHai];
+                    _choiceAtariHais = _atariHaisDic[choiceHai];
                 }
             }
         }
@@ -256,7 +257,7 @@ namespace server
         public bool IsEnableReach(ulong yakumask)
         {
             bool isRichi = false;
-            AtariHaisDic.Clear();
+            _atariHaisDic.Clear();
 
             Hai hai;
             for (int i = 0; i < _tehai.Hais.Count; i++)
@@ -268,13 +269,13 @@ namespace server
                     tmp.Hais.Remove(tmp.Hais[i]);
                     Tempai(tmp, yakumask);
                     List<Hai> list = new List<Hai>(AtariHais);
-                    AtariHaisDic.Add(hai, list);
+                    _atariHaisDic.Add(hai, list);
                 }
                 else
                 {
                     hai = tmp.Hais[i];
                     List<Hai> list = new List<Hai>(AtariHais);
-                    AtariHaisDic.Add(hai, list);
+                    _atariHaisDic.Add(hai, list);
                 }
 
                 if (AtariHais.Count != 0)
@@ -293,6 +294,31 @@ namespace server
             }
 
             return false;
+        }
+        public void IsNakiTempaiCheck(ulong yakumask)
+        {
+            _atariHaisDic.Clear();
+
+            Hai hai;
+            for (int i = 0; i < _tehai.Hais.Count; i++)
+            {
+                Tehai tmp = new Tehai(_tehai);
+                if (i == 0 || i! > 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
+                {
+                    hai = tmp.Hais[i];
+                    tmp.Hais.Remove(tmp.Hais[i]);
+                    Tempai(tmp, yakumask);
+                    List<Hai> list = new List<Hai>(AtariHais);
+                    _atariHaisDic.Add(hai, list);
+                }
+                else
+                {
+                    hai = tmp.Hais[i];
+                    List<Hai> list = new List<Hai>(AtariHais);
+                    _atariHaisDic.Add(hai, list);
+                }
+            }
+            AtariHais.Clear();
         }
 
         public bool Chi(Hai _sutehai)
