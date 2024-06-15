@@ -346,7 +346,7 @@ namespace server
                         {
                             if (player.AnKan())
                             {
-                                Hai hai = player.Tehai.Kans[player.Tehai.Kans.Count() - 1].Hais[0];
+                                Hai anKanHai = player.Tehai.Kans[player.Tehai.Kans.Count() - 1].Hais[0];
                                 _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
                                 _turn = player.Id;
@@ -419,7 +419,7 @@ namespace server
                             hai.Nakichoice = true;
                             if (_players[_turn].AnKan())
                             {
-                                Hai ankanhai = _players[_turn].Tehai.Kans[_players[_turn].Tehai.Kans.Count() - 1].Hais[0];
+                                Hai anKanHai = _players[_turn].Tehai.Kans[_players[_turn].Tehai.Kans.Count() - 1].Hais[0];
 
                                 _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
