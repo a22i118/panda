@@ -10,6 +10,7 @@ namespace server
     internal class Kan : INaki
     {
         private Hai[] _hais = new Hai[4];
+        public Hai[] Hais { get { return _hais; } }
 
         public override int Fu(ulong undecidedMask) { return IsYaochu() ? (_from == 0 ? 32 : 16) : (_from == 0 ? 16 : 8); }
         public Kan(Hai hai0, Hai hai1, Hai hai2, Hai hai3, int from)

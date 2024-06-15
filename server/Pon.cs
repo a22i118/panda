@@ -11,6 +11,7 @@ namespace server
     internal class Pon : INaki
     {
         private Hai[] _hais = new Hai[3];
+        public Hai[] Hais { get { return _hais; } }
         public override int Fu(ulong undecidedMask) { return IsYaochu() ? 4 : 2; }
 
 

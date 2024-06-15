@@ -295,32 +295,6 @@ namespace server
 
             return false;
         }
-        public void IsNakiTempaiCheck(ulong yakumask)
-        {
-            _atariHaisDic.Clear();
-
-            Hai hai;
-            for (int i = 0; i < _tehai.Hais.Count; i++)
-            {
-                Tehai tmp = new Tehai(_tehai);
-                if (i == 0 || i! > 0 && !(tmp.Hais[i - 1].Name == tmp.Hais[i].Name))
-                {
-                    hai = tmp.Hais[i];
-                    tmp.Hais.Remove(tmp.Hais[i]);
-                    Tempai(tmp, yakumask);
-                    List<Hai> list = new List<Hai>(AtariHais);
-                    _atariHaisDic.Add(hai, list);
-                }
-                else
-                {
-                    hai = tmp.Hais[i];
-                    List<Hai> list = new List<Hai>(AtariHais);
-                    _atariHaisDic.Add(hai, list);
-                }
-            }
-            AtariHais.Clear();
-        }
-
         public bool Chi(Hai _sutehai)
         {
             return _tehai.Chi(_sutehai);
