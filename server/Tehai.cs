@@ -17,25 +17,23 @@ namespace server
         private List<Pon> _pons = new List<Pon>();
         private List<Kan> _kans = new List<Kan>();
         private List<INaki> _naki = new List<INaki>();
-
+        private List<Hai> _tempai = new List<Hai>();
+        private bool _nowRichi = false;
+        private bool _declareRichi = false;
+        private bool _isIppatsu = false;
+        private bool _isRinshan = false;
         public List<Hai> Hais { get { return _hais; } }
         public List<Chi> Chis { get { return _chis; } }
         public List<Pon> Pons { get { return _pons; } }
         public List<Kan> Kans { get { return _kans; } }
-
-        private List<Hai> _tempai = new List<Hai>();
-
         public List<Hai> Tempai { get { return _tempai; } }
-        private bool _nowRichi = false;
-        public bool NowReach { get { return _nowRichi; } set { _nowRichi = value; } }
-        private bool _declareRichi = false;
-        public bool DeclareReach { get { return _declareRichi; } set { _declareRichi = value; } }
-        private bool _isIppatsu = false;
-        public bool IsIppatsu { get { return _isIppatsu; } set { _isIppatsu = value; } }
-        private bool _isRinshan = false;
-        public bool IsRinshan { get { return _isRinshan; } set { _isRinshan = value; } }
         public int SarashiCount() { return _chis.Count + _pons.Count + _kans.Count; }
         public int NakiCount() { return _chis.Count + _pons.Count + _kans.Count(e => e.IsMenzen() == false); }
+        public bool NowReach { get { return _nowRichi; } set { _nowRichi = value; } }
+        public bool DeclareReach { get { return _declareRichi; } set { _declareRichi = value; } }
+        public bool IsIppatsu { get { return _isIppatsu; } set { _isIppatsu = value; } }
+        public bool IsRinshan { get { return _isRinshan; } set { _isRinshan = value; } }
+
         private static ulong s_kokushi =
             (1UL << (int)eName.Manzu1) |
             (1UL << (int)eName.Manzu9) |

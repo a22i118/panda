@@ -34,7 +34,7 @@ namespace server
             new Player(3)
         };
 
-        int _turn = 0;
+        private int _turn = 0;
 
         private Hai? _sutehai = null;
         private bool _tsumo = false;
