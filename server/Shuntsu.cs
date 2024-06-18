@@ -93,51 +93,5 @@ namespace server
                 return (0, 0, 1u << (int)_hais[0].Number);
             }
         }
-        //static public bool IsIkkitsukan(List<Shuntsu> list)
-        //{
-        //    for (int i = 0; i < list.Count - 1; i++)
-        //    {
-        //        for (int j = i + 1; j < list.Count; j++)
-        //        {
-        //            if (list[i]._hais[0].Type == list[j]._hais[0].Type &&
-        //                list[i]._hais[0].Number == Hai.eNumber.Num1 &&
-        //                list[j]._hais[0].Number == Hai.eNumber.Num4)
-        //            {
-        //                for (int k = j + 1; k < list.Count; k++)
-        //                {
-        //                    if (list[j]._hais[0].Type == list[k]._hais[0].Type &&
-        //                       list[k]._hais[0].Number == Hai.eNumber.Num7)
-        //                    {
-        //                        return true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
-        //static public bool IsSanshokudojun(List<Shuntsu> list)
-        //{
-        //    for (int i = 0; i < list.Count - 1; i++)
-        //    {
-        //        for (int j = i + 1; j < list.Count; j++)
-        //        {
-        //            if (list[i]._hais[0].Number == list[j]._hais[0].Number &&
-        //                list[i]._hais[0].Type != list[j]._hais[0].Type)
-        //            {
-        //                for (int k = j + 1; k < list.Count; k++)
-        //                {
-        //                    if (list[j]._hais[0].Number == list[k]._hais[0].Number &&
-        //                        list[i]._hais[0].Type != list[k]._hais[0].Type &&
-        //                        list[j]._hais[0].Type != list[k]._hais[0].Type)
-        //                    {
-        //                        return true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
     }
 }

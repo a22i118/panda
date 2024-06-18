@@ -50,7 +50,6 @@ namespace server
         public Kawa Kawa { get { return _kawa; } }
         public Tehai Tehai { get { return _tehai; } }
         public Dictionary<Hai,List<Hai>> AtariHaisDic { get {  return _atariHaisDic; } set { _atariHaisDic = value; } }
-        //public List<Hai> Hais { get { return _tehai.Hais; } }
         public Player(int id)
         {
             _id = id;
@@ -385,7 +384,7 @@ namespace server
                     _choiceAtariHais[i].Draw(g);
                 }
             }
-            Font font = new Font(new FontFamily("Arial"), 20, FontStyle.Bold);
+            Font font = new Font(new FontFamily("HGS行書体"), 20, FontStyle.Bold);
             if (_huriten)
             {
                 g.DrawString("振聴", font, Brushes.Red, new PointF(150, Id * 200 + 150));

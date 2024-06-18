@@ -28,8 +28,17 @@ namespace server
         };
 
         private static string[] s_string = new string[] { "チー", "ポン", "カン","ロン", "ツモ", "リーチ", "キャンセル" };
-        //private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "ツモ",  "キャンセル" };
 
+        private bool[] _can = new bool[(int)eCommand.Num];
+        private bool[] _call = new bool[(int)eCommand.Num];
+        private void pushCancel()
+        {
+            for (int i = 0; i < _can.Length; i++)
+            {
+                _can[i] = false;
+            }
+
+        }
         public ActionCommand(int x, int y, int w, int h)
         {
             _x = x;
@@ -44,18 +53,10 @@ namespace server
             Array.Fill(_call, false);
         }
 
-        private bool[] _can = new bool[(int)eCommand.Num];
-        private bool[] _call = new bool[(int)eCommand.Num];
+
 
         public bool IsCanAny() { return _can.Any(value => value); }
-        private void pushCancel()
-        {
-            for (int i = 0; i < _can.Length; i++)
-            {
-                _can[i] = false;
-            }
-
-        }
+        
         public bool CanChi { set { _can[(int)eCommand.Chi] = value; } }
         public bool CanPon { set { _can[(int)eCommand.Pon] = value; } }
         public bool CanKan { set { _can[(int)eCommand.Kan] = value; } }
@@ -97,7 +98,7 @@ namespace server
 
         public void Draw(Graphics g, bool teban)
         {
-            Font font = new Font(new FontFamily("Arial"), 16, FontStyle.Bold);
+            Font font = new Font(new FontFamily("HGS行書体"), 16, FontStyle.Bold);
             SolidBrush whiteBrush = new SolidBrush(Color.White);
 
             if (teban)

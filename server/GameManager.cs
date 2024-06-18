@@ -156,15 +156,9 @@ namespace server
                 _players[i].Sort();
             }
         }
-
-        //async Task Restart(int sec)
-        //{
-        //    await Task.Delay(TimeSpan.FromSeconds(sec));
-        //    gameStart();
-        //}
         public void Exec()
         {
-            if (_tsumo || _ron || _ryukyoku || _sukannagare || _suchaReach || _sufomtsurenda)
+            if (_tsumo || _ron || _ryukyoku || _sukannagare || _suchaReach || _sufomtsurenda || _kyushukyuhai)
             {
                 return;
             }
@@ -251,13 +245,8 @@ namespace server
                     {
                         _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
                     }
-
-
-
-
                     _mode = eMode.Tsumo;
                 }
-                //tehais[turn_].Click(x, y);
             }
         }
 
@@ -270,25 +259,8 @@ namespace server
 
                 return;
             }
-            //foreach (var player in _players)
-            //{
-            //    bool init;
-            //    if (player.CommandUpdate(_sutehai, x, y, ref _mode, ref _turn, ref _ron, ref _tsumo, out init))
-            //    {
-            //        // コマンドを初期化
-            //        if (init)
-            //        {
-            //            Array.ForEach(_players, e => e.ResetNakikouho());
-            //        }
-
-            //        return;
-            //    }
-            //}
-            //for (int i = 0; i < _actionCommand.Length; i++)
             foreach (var player in _players)
             {
-
-                //var cmd = _actionCommand[i];
                 // コマンドが選択された
                 if (player.CommandUpdate(x, y))
                 {
@@ -357,9 +329,6 @@ namespace server
                             }
                         }
                     }
-                    //振聴チェック
-                    //player.Idではなくコマンドを押したplayer
-
                     //ロン
                     if (player.Huriten == false)
                     {
@@ -423,7 +392,6 @@ namespace server
 
                                 _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
-                                //turn_ = player;
                                 Array.ForEach(_players, e => e.ResetNakikouho());
                             }
                             hai.Nakichoice = true;
@@ -600,11 +568,11 @@ namespace server
             {
                 _players[i].Draw(g, i == _turn);
             }
-            Font font2 = new Font(new FontFamily("Arial"), 24, FontStyle.Bold);
-            g.DrawString("余", font2, Brushes.Black, new PointF(50, 50));
-            g.DrawString(_yama.Hais.Count().ToString(), font2, Brushes.Black, new PointF(100, 50));
+            Font font2 = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
+            g.DrawString("余", font2, Brushes.White, new PointF(50, 50));
+            g.DrawString(_yama.Hais.Count().ToString(), font2, Brushes.White, new PointF(100, 50));
 
-            Font font = new Font(new FontFamily("Arial"), 48, FontStyle.Bold);
+            Font font = new Font(new FontFamily("HGS行書体"), 48, FontStyle.Bold);
 
             if (_tsumo || _ron || _suchaReach || _sufomtsurenda || _sukannagare || _ryukyoku)
             {
@@ -644,11 +612,6 @@ namespace server
                     g.DrawString("流局", font, Brushes.Purple, new PointF(512, 304));
                 }
             }
-
-
-
-
-
         }
     }
 }

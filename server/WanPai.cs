@@ -45,7 +45,7 @@ namespace server
         
         public void Draw(Graphics g, int kansCount)
         {
-            Font font = new Font(new FontFamily("Arial"), 24, FontStyle.Bold);
+            Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
             g.DrawString("ドラ", font, Brushes.Black, new PointF(300, 50));
             int x = 400 - 48;
             for (int i = 0; i < 5; i++)
@@ -63,7 +63,7 @@ namespace server
         }
         public void AgariDraw(Graphics g, bool isReach, int kansCount)
         {
-            Font font = new Font(new FontFamily("Arial"), 24, FontStyle.Bold);
+            Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
             g.DrawString("ドラ", font, Brushes.Red, new PointF(300, 670));
             g.DrawString("裏ドラ", font, Brushes.Red, new PointF(650, 670));
             int x = 370 - 48;

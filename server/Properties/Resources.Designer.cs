@@ -63,6 +63,16 @@ namespace server.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap hai {
+            get {
+                object obj = ResourceManager.GetObject("hai", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap hai_aka {
             get {
                 object obj = ResourceManager.GetObject("hai_aka", resourceCulture);
@@ -126,6 +136,16 @@ namespace server.Properties {
         internal static System.Drawing.Bitmap hai_sufon {
             get {
                 object obj = ResourceManager.GetObject("hai_sufon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap hai_zihai {
+            get {
+                object obj = ResourceManager.GetObject("hai_zihai", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

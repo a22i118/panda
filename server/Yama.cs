@@ -9,11 +9,9 @@ namespace server
     internal class Yama
     {
         private List<Hai> _hais = new List<Hai>();
-        public List<Hai> Hais { get { return _hais; } }
-
         // 牌の種類 * 4枚 - 配牌 * 4人 - 王牌 = 70
         private const int c_yamaMax = (9 * 3 + 7) * 4 - 13 * 4 - 14;
-
+        public List<Hai> Hais { get { return _hais; } }
         public int TsumoCount { get { return c_yamaMax - _hais.Count; } }
 
         public Yama() { }
@@ -29,28 +27,6 @@ namespace server
                     _hais.Add(new Hai(haiState));
                 }
             }
-
-            //for (int k = 0; k < 4; k++)
-            //{
-            //    for (int i = 0; i < 4; i++)
-            //    {
-            //        if (i < 3)
-            //        {
-            //            for (int j = 0; j < 9; j++)
-            //            {
-            //                _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
-            //            }
-            //        }
-            //        else
-            //        {
-            //            for (int j = 0; j < 7; j++)
-            //            {
-            //                _hais.Add(new Hai((Hai.eType)i, (Hai.eNumber)j));
-            //            }
-            //        }
-            //    }
-            //}
-
             // シャッフルする
             Shuffle();
         }

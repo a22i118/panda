@@ -11,7 +11,6 @@ namespace server
     internal class Kotsu : IMentsu
     {
         private bool _isMenzen = true;
-        //public bool IsMenzen { set { _isMenzen = value; } }
         public override bool IsMenzen() { return _isMenzen; }
         public override void IsMenzen(bool flag) { _isMenzen = flag; }
 
@@ -29,7 +28,6 @@ namespace server
             _state.all &= state;
             _state.any |= state;
         }
-
         public override eMachi Machi(Hai hai) { return hai.Name == _hais[0].Name ? eMachi.Shampon : eMachi.None; }
 
         public override (uint manzu, uint pinzu, uint souzu) KotsuMask()
@@ -47,28 +45,5 @@ namespace server
                 return (0, 0, 1u << (int)_hais[0].Number);
             }
         }
-        //static public bool IsSanshokudoko(List<Kotsu> list)
-        //{
-        //    for (int i = 0; i < list.Count - 1; i++)
-        //    {
-        //        for (int j = i + 1; j < list.Count; j++)
-        //        {
-        //            if (list[i]._hais[0].Number == list[j]._hais[0].Number &&
-        //                list[i]._hais[0].Type != list[j]._hais[0].Type)
-        //            {
-        //                for (int k = j + 1; k < list.Count; k++)
-        //                {
-        //                    if (list[j]._hais[0].Number == list[k]._hais[0].Number &&
-        //                        list[i]._hais[0].Type != list[k]._hais[0].Type &&
-        //                        list[j]._hais[0].Type != list[k]._hais[0].Type)
-        //                    {
-        //                        return true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
     }
 }

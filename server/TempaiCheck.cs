@@ -49,21 +49,16 @@ namespace server
             if (checkTehai.IsKokushimuso(_results))
             {
                 return true;
-                //_atariHais.Add(_tmp);
-                //checktehais.Add(checkTehai);
             }
             else if (checkTehai.IsChurempoto(_results))
             {
                 return true;
-                //_atariHais.Add(_tmp);
-                //checktehais.Add(checkTehai);
             }
             else
             {
                 if (checkTehai.IsChitoitsu(_results))
                 {
                     return true;
-                    //checktehais.Add(checkTehai);
                 }
 
                 return checkRecursive(this.checkTehai, false);
@@ -77,7 +72,6 @@ namespace server
                 if (tmp != null && checkRecursive(tmp, true))
                 {
                     return true;
-                    //checkRecursive(tmp, true);
                 }
             }
             {
@@ -100,9 +94,6 @@ namespace server
             if (checkTehai.IsAgari())
             {
                 return true;
-                //checkTehai.Yakuhantei(_results);
-                //_atariHais.Add(_tmp);
-                //checktehais.Add(checkTehai);
             }
             return false;
         }

@@ -12,6 +12,41 @@ namespace server
 {
     internal class Hai
     {
+        private bool _nakikouho;
+        private bool _nakichoice;
+        private bool _throwChoice;
+        private bool _isRichi;
+        private bool _richiThrowChoice;
+        private bool _lay;
+        private HaiInfo _info;
+        private Int32 _rot = 0;
+
+        private Bitmap _bmp;
+        private Rectangle _bmpRect;
+
+        private static Bitmap s_bmpUra = Properties.Resources.hai_back;
+        private static Rectangle s_bmpUraRect = new Rectangle(0, 0, s_bmpUra.Width, s_bmpUra.Height);
+
+        private Point[] _points = {
+            new Point(      0,        0),
+            new Point(s_width,        0),
+            new Point(      0, s_height)
+        };
+
+        private Point[] _points_yoko = {
+            new Point(       0, (s_width + s_height) / 2),
+            new Point(       0, (s_width + s_height) / 2 - s_width),
+            new Point(s_height, (s_width + s_height) / 2)
+        };
+        static Int32 s_width = 48;
+        static Int32 s_height = 64;
+        public bool Nakikouho { get { return _nakikouho; } set { _nakikouho = value; } }
+        public bool Nakichoice { get { return _nakichoice; } set { _nakichoice = value; } }
+        public bool ThrowChoice { get { return _throwChoice; } set { _throwChoice = value; } }
+        public bool IsRichi { get { return _isRichi; } set { _isRichi = value; } }
+        public bool ReachThrowChoice { get { return _richiThrowChoice; } set { _richiThrowChoice = value; } }
+        public bool Lay { get { return _lay; } set { _lay = value; } }
+        public HaiInfo Info { get { return _info; } }
         public enum eType
         {
             Manzu,
@@ -219,78 +254,13 @@ namespace server
             Ton, Nan, Sha, Pei,
             Haku, Hatu, Thun
         };
-
         public eName Next(int idx)
         {
             int n = (int)Number + idx;
             if (Type == eType.Zihai || n < (int)eNumber.Num1 || (int)eNumber.Num9 < n) { return eName.Null; }
             return GetName(Type, (eNumber)n);
         }
-
-        private HaiInfo _info;
-        public HaiInfo Info { get { return _info; } }
-
-        private bool _nakikouho;
-        public bool Nakikouho
-        {
-            get { return _nakikouho; }
-            set { _nakikouho = value; }
-        }
-
-        private bool _nakichoice;
-        public bool Nakichoice
-        {
-            get { return _nakichoice; }
-            set { _nakichoice = value; }
-        }
-        private bool _throwChoice;
-        public bool ThrowChoice
-        {
-            get { return _throwChoice; }
-            set { _throwChoice = value; }
-        }
-        private bool _isRichi;
-        public bool IsRichi
-        {
-            get { return _isRichi; }
-            set { _isRichi = value; }
-        }
-        private bool _richiThrowChoice;
-        public bool ReachThrowChoice
-        {
-            get { return _richiThrowChoice; }
-            set { _richiThrowChoice = value; }
-        }
-        public void ResetNakikouho()
-        {
-            _nakikouho = false;
-            _nakichoice = false;
-        }
-        private bool _lay;
-        public bool Lay { get { return _lay; } set { _lay = value; } }
-
-        static Int32 s_width = 48;
-        static Int32 s_height = 64;
-
-        private Int32 _rot = 0;
-
-        private Bitmap _bmp;
-        private Rectangle _bmpRect;
-
-        private static Bitmap s_bmpUra = Properties.Resources.hai_back;
-        private static Rectangle s_bmpUraRect = new Rectangle(0, 0, s_bmpUra.Width, s_bmpUra.Height);
-
-        private Point[] _points = {
-            new Point(      0,        0),
-            new Point(s_width,        0),
-            new Point(      0, s_height)
-        };
-
-        private Point[] _points_yoko = {
-            new Point(       0, (s_width + s_height) / 2),
-            new Point(       0, (s_width + s_height) / 2 - s_width),
-            new Point(s_height, (s_width + s_height) / 2)
-        };
+        public void ResetNakikouho() { _nakikouho = false; _nakichoice = false; }
 
         public Hai(HaiInfo haiState)
         {
@@ -298,8 +268,7 @@ namespace server
             var type = haiState.Type;
             var num = haiState.Number;
 
-            //this._type = type;
-            //this._num = num;
+
             this._nakikouho = false;
 
             if (Type == eType.Manzu)
@@ -314,38 +283,14 @@ namespace server
             {
                 _bmp = Properties.Resources.hai_souzu;
             }
-            else if (num == eNumber.Ton ||
-                num == eNumber.Nan ||
-                num == eNumber.Sha ||
-                num == eNumber.Pei)
-            {
-                _bmp = Properties.Resources.hai_sufon;
-            }
             else
             {
-                _bmp = Properties.Resources.hai_sangen;
+                _bmp = Properties.Resources.hai_zihai;
             }
 
             {
                 int top = 0;
-                int div = 9;
-
-                if (Type == eType.Zihai)
-                {
-                    if (Number == eNumber.Ton ||
-                        Number == eNumber.Nan ||
-                        Number == eNumber.Sha ||
-                        Number == eNumber.Pei)
-                    {
-                        div = 4;
-                    }
-                    else
-                    {
-                        top = 4;
-                        div = 3;
-                    }
-
-                }
+                int div = 10;
 
                 int w = _bmp.Width / div;
                 int h = _bmp.Height;
@@ -488,8 +433,6 @@ namespace server
             }
 
             return (xmin < x && x < xmax) && (ymin < y && y < ymax);
-
-            //            return false;
         }
     }
 }
