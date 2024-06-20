@@ -108,11 +108,11 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu3, Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
             _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu2, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Haku, Haku, Haku });
 
-
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Pei, Pei, Hatu, Thun });
+            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
 
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
-            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu1, Pinzu1, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
+            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu1, Pinzu2, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
             _yama.Tsumikomi(3, new Hai.eName[] { Manzu3, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Nan });
 
 
@@ -177,9 +177,17 @@ namespace server
             {
                 _suchaReach = true;
             }
-            if (SufomtsuCheck())
+            if (_players.Count(e => e.SarashiCount() > 0) == 0) //全員鳴いていない
             {
-                _sufomtsurenda = true;
+                if (SufomtsuCheck())
+                {
+                    _sufomtsurenda = true;
+                }
+                if (_players[_turn].Tehai.KyushuCheck())
+                {
+
+                    //_kyushukyuhai = true;
+                }
             }
 
 
@@ -204,6 +212,7 @@ namespace server
             }
             else if (_mode == eMode.Tsumo)
             {
+
                 // コマンド入力を待っている間はツモらない
                 foreach (var player in _players)
                 {
@@ -214,6 +223,7 @@ namespace server
                 }
 
                 _turn = (_turn + 1) % 4;
+
                 //リーチ後のフリテンチェック
                 foreach (var player in _players)
                 {
@@ -539,8 +549,7 @@ namespace server
 
         private bool SufomtsuCheck()
         {
-            if (_players.Count(e => e.Kawa.Hais.Count() == 1) == 4 &&   // 河が全員１
-                _players.Count(e => e.SarashiCount() > 0) == 0)         // 全員鳴いていない
+            if (_players.Count(e => e.Kawa.Hais.Count() == 1) == 4) // 河が全員１
             {
                 (Hai.eState all, Hai.eState any) state = (Hai.eState.All, 0);
 
@@ -574,7 +583,7 @@ namespace server
 
             Font font = new Font(new FontFamily("HGS行書体"), 48, FontStyle.Bold);
 
-            if (_tsumo || _ron || _suchaReach || _sufomtsurenda || _sukannagare || _ryukyoku)
+            if (_tsumo || _ron || _suchaReach || _sufomtsurenda || _sukannagare || _ryukyoku || _kyushukyuhai)
             {
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.FillRectangle(brush, 25, 40, 1500, 900);

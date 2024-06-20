@@ -65,8 +65,8 @@ namespace server
         {
             Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
             g.DrawString("ドラ", font, Brushes.Red, new PointF(300, 670));
-            g.DrawString("裏ドラ", font, Brushes.Red, new PointF(650, 670));
-            int x = 370 - 48;
+            g.DrawString("裏ドラ", font, Brushes.Red, new PointF(750, 670));
+            int x = 430 - 48;
             for (int i = 0; i < 5; i++)
             {
                 _doras[i].SetPos(x += 48, 650);
@@ -79,7 +79,7 @@ namespace server
                     _doras[i].Draw(g, false, true);
                 }
             }
-            x += 150;
+            x += 268;
             for (int i = 5; i < 10; i++)
             {
                 _doras[i].SetPos(x += 48, 650);

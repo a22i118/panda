@@ -60,8 +60,26 @@ namespace server
         //    }
         //    mask &= s_kokushi;
         //    if(BitOperations.PopCount(mask)>=12)
-
         //}
+        public bool KyushuCheck()
+        {
+            ulong mask = 0;
+            foreach (Hai hai in _hais)
+            {
+                mask |= 1UL << (int)hai.Name;
+            }
+            mask &= s_kokushi;
+            if (BitOperations.PopCount(mask) >= 9)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
 
 
 
