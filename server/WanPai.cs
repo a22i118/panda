@@ -9,14 +9,17 @@ namespace server
 {
     internal class WanPai
     {
-        List<Hai> _rinshams = new List<Hai>();
-        List<Hai> _doras = new List<Hai>();
+        private List<Hai> _rinshams = new List<Hai>();
+        private List<Hai> _doras = new List<Hai>();
+        private List<Hai.eName> _doraNames = new List<Hai.eName>();
         public List<Hai> Rinshams { get { return _rinshams; } set { _rinshams = value; } }
+        public List<Hai.eName> DoraNames { get { return _doraNames; } }
         public WanPai() { }
         public void Init(Yama yama)
         {
             _rinshams.Clear();
             _doras.Clear();
+            _doraNames.Clear();
 
             if (yama != null)
             {
@@ -29,6 +32,7 @@ namespace server
                     _doras.Add(yama.RinshanTsumo());
                 }
             }
+            _doraNames.Add(_doras[0].DoraNext());
         }
 
         public void Add(Hai hai) { _doras.Add(hai); }
@@ -42,7 +46,16 @@ namespace server
             _rinshams.Remove(tsumo);
             return tsumo;
         }
-        
+        public void Dora(int kansCount)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (i <= kansCount)
+                {
+                    _doraNames.Add(_doras[i].DoraNext());
+                }
+            }
+        }
         public void Draw(Graphics g, int kansCount)
         {
             Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
@@ -73,13 +86,14 @@ namespace server
                 if (i <= kansCount)
                 {
                     _doras[i].Draw(g);
+
                 }
                 else
                 {
                     _doras[i].Draw(g, false, true);
                 }
             }
-            x += 268;
+            x += 250;
             for (int i = 5; i < 10; i++)
             {
                 _doras[i].SetPos(x += 48, 650);

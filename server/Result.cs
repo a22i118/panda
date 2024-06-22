@@ -20,7 +20,7 @@ namespace server
 
 
         public int Fu { get { return _fu; } }
-        public int Han { get { return _han; } }
+        public int Han { get { return _han; } set { _han = value; } }
         public int Ten { get { return _ten; } }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace server
                     _han += isMenzen ? yaku.Han : yaku.NakiHan;
                 }
             }
-            TenCalc(_fu, _han, isoya);
+            TenCalc(isoya);
         }
         /// <summary>
         /// 役名を配列で返す
@@ -75,20 +75,20 @@ namespace server
         {
             return _ten.ToString();
         }
-        private void TenCalc(int fu, int han, bool isoya)
+        private void TenCalc(bool isoya)
         {
             //親の点数 = 符 * 4 * 2の翻数乗 * 1.5
             //子の点数 = 符 * 4 * 2の翻数乗
             //下二桁は切り上げ
             int tmp;
-            if (han >= 13) { tmp = 32000; }
-            else if (han == 11 || han == 12) { tmp = 24000; }
-            else if (han == 8 || han == 9 || han == 10) { tmp = 16000; }
-            else if (han == 6 || han == 7) { tmp = 12000; }
-            else if (han == 5) { tmp = 8000; }
+            if (_han >= 13) { tmp = 32000; }
+            else if (_han == 11 || _han == 12) { tmp = 24000; }
+            else if (_han == 8 || _han == 9 || _han == 10) { tmp = 16000; }
+            else if (_han == 6 || _han == 7) { tmp = 12000; }
+            else if (_han == 5) { tmp = 8000; }
             else
             {
-                tmp = fu * 4 * (int)Math.Pow(2, han + bazoro);
+                tmp = _fu * 4 * (int)Math.Pow(2, _han + bazoro);
                 if (tmp > 7700)
                 {
                     tmp = 8000;

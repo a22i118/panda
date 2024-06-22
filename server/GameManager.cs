@@ -106,9 +106,10 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Souzu3, Souzu7, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu3, Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
-            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu2, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Haku, Haku, Haku });
+            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu2, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Haku, Haku, Haku });
+            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Pinzu4, Pinzu5, Pinzu6, Souzu7, Souzu7, Haku, Haku });
 
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Pei, Pei, Hatu, Thun });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Pei, Pei, Souzu7, Thun });
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
 
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
@@ -120,7 +121,21 @@ namespace server
 
             //王牌
             _wanPai.Init(_yama);
-
+            //ドラ
+            foreach (var hai in _yama.Hais)
+            {
+                if (hai.Name == _wanPai.DoraNames.Last())
+                {
+                    hai.Dora += 1;
+                }
+            }
+            foreach (var hai in _wanPai.Rinshams)
+            {
+                if (hai.Name == _wanPai.DoraNames.Last())
+                {
+                    hai.Dora += 1;
+                }
+            }
             //四人に配る
             for (int i = 0; i < Player.Num; i++)
             {
@@ -155,6 +170,7 @@ namespace server
             {
                 _players[i].Sort();
             }
+            //Dora();
         }
         public void Exec()
         {
@@ -309,17 +325,15 @@ namespace server
                     }
                     if (player.IsCallKan())
                     {
-                        foreach (var Allplayer in _players)
-                        {
-                            Allplayer.Tehai.IsIppatsu = false;
-                        }
+                        _kansCount += 1;
+                        Dora();
+
                         if (player.IsCanKaKan())
                         {
                             Hai hai = player.Tehai.Pons[player.Tehai.Pons.Count() - 1].Hais[0];
                         }
                         if (player.IsCanTsumo())
                         {
-                            _kansCount += 1;
                             player.MinKan(_sutehai, _turn);
                             _mode = eMode.RinshanTsumo;
                             _turn = player.Id;
@@ -329,7 +343,6 @@ namespace server
                             if (player.AnKan())
                             {
                                 Hai anKanHai = player.Tehai.Kans[player.Tehai.Kans.Count() - 1].Hais[0];
-                                _kansCount += 1;
                                 _mode = eMode.RinshanTsumo;
                                 _turn = player.Id;
                             }
@@ -401,6 +414,7 @@ namespace server
                                 Hai anKanHai = _players[_turn].Tehai.Kans[_players[_turn].Tehai.Kans.Count() - 1].Hais[0];
 
                                 _kansCount += 1;
+                                Dora();
                                 _mode = eMode.RinshanTsumo;
                                 Array.ForEach(_players, e => e.ResetNakikouho());
                             }
@@ -570,6 +584,41 @@ namespace server
                 return false;
             }
         }
+        private void Dora()
+        {
+            foreach (var hai in _yama.Hais)
+            {
+                if (hai.Name == _wanPai.DoraNames.Last())
+                {
+                    hai.Dora += 1;
+                }
+            }
+            foreach (var hai in _wanPai.Rinshams)
+            {
+                if (hai.Name == _wanPai.DoraNames.Last())
+                {
+                    hai.Dora += 1;
+                }
+            }
+            foreach (var player in _players)
+            {
+                player.Tehai.IsIppatsu = false;
+                foreach (var hai in player.Tehai.Hais)
+                {
+                    if (hai.Name == _wanPai.DoraNames.Last())
+                    {
+                        hai.Dora += 1;
+                    }
+                }
+                foreach (var hai in player.Kawa.Hais)
+                {
+                    if (hai.Name == _wanPai.DoraNames.Last())
+                    {
+                        hai.Dora += 1;
+                    }
+                }
+            }
+        }
         public void Draw(Graphics g)
         {
             _wanPai.Draw(g, _kansCount);
@@ -593,10 +642,11 @@ namespace server
                     g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                     List<Result> results = _players[_turn].Results;
                     int index = 0;
-                    foreach (Result result in results)
-                    {
-                        result.Draw(g, new PointF(40, 64 + 32 * index++));
-                    }
+                    //foreach (Result result in results)
+                    //{
+                    //    result.Draw(g, new PointF(40, 64 + 32 * index++));
+                    //}
+                    results[0].Draw(g, new PointF(40, 64 + 32 * index++));
                     _wanPai.AgariDraw(g, _isReach, _kansCount);
                     _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);
                 }

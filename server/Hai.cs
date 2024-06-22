@@ -18,6 +18,7 @@ namespace server
         private bool _isRichi;
         private bool _richiThrowChoice;
         private bool _lay;
+        private int _dora = 0;
         private HaiInfo _info;
         private Int32 _rot = 0;
 
@@ -46,6 +47,7 @@ namespace server
         public bool IsRichi { get { return _isRichi; } set { _isRichi = value; } }
         public bool ReachThrowChoice { get { return _richiThrowChoice; } set { _richiThrowChoice = value; } }
         public bool Lay { get { return _lay; } set { _lay = value; } }
+        public int Dora { get { return _dora; } set { _dora = value; } }
         public HaiInfo Info { get { return _info; } }
         public enum eType
         {
@@ -127,6 +129,7 @@ namespace server
             Tsupai = 1 << 2,    // 字牌
             Shupai = 1 << 3,    // 数牌
             Fuampai = 1 << 4,   // 風牌
+            Sangenpai = 1 << 5,
             Ryuiso = 1 << 6,    // 緑一色
             Manzu = 1 << 7,     // 萬子
             Pinzu = 1 << 8,     // 筒子
@@ -243,9 +246,9 @@ namespace server
         public static HaiInfo Nan = new HaiInfo(eType.Zihai, eNumber.Nan, eName.Nan, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Nan);
         public static HaiInfo Sha = new HaiInfo(eType.Zihai, eNumber.Sha, eName.Sha, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Sha);
         public static HaiInfo Pei = new HaiInfo(eType.Zihai, eNumber.Pei, eName.Pei, eState.Yaochu | eState.Tsupai | eState.Fuampai | eState.Pei);
-        public static HaiInfo Haku = new HaiInfo(eType.Zihai, eNumber.Haku, eName.Haku, eState.Yaochu | eState.Tsupai | eState.Haku);
-        public static HaiInfo Hatu = new HaiInfo(eType.Zihai, eNumber.Hatu, eName.Hatu, eState.Yaochu | eState.Tsupai | eState.Hatu | eState.Ryuiso);
-        public static HaiInfo Thun = new HaiInfo(eType.Zihai, eNumber.Thun, eName.Thun, eState.Yaochu | eState.Tsupai | eState.Thun);
+        public static HaiInfo Haku = new HaiInfo(eType.Zihai, eNumber.Haku, eName.Haku, eState.Yaochu | eState.Tsupai | eState.Sangenpai | eState.Haku);
+        public static HaiInfo Hatu = new HaiInfo(eType.Zihai, eNumber.Hatu, eName.Hatu, eState.Yaochu | eState.Tsupai | eState.Sangenpai | eState.Hatu | eState.Ryuiso);
+        public static HaiInfo Thun = new HaiInfo(eType.Zihai, eNumber.Thun, eName.Thun, eState.Yaochu | eState.Tsupai | eState.Sangenpai | eState.Thun);
 
         public static HaiInfo[] sHaiStates = {
             Manzu1, Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Manzu9,
@@ -260,6 +263,15 @@ namespace server
             if (Type == eType.Zihai || n < (int)eNumber.Num1 || (int)eNumber.Num9 < n) { return eName.Null; }
             return GetName(Type, (eNumber)n);
         }
+        public eName DoraNext()
+        {
+            var n = (int)Number + 1;
+            if (Name == eName.Thun) { return GetName(Type, (eNumber)n - 3); }
+            else if (Name == eName.Pei) { return GetName(Type, (eNumber)n - 4); }
+            else if (n > (int)eNumber.Num9) { return GetName(Type, (eNumber)n - 9); }
+            else { return GetName(Type, (eNumber)n); }
+        }
+
         public void ResetNakikouho() { _nakikouho = false; _nakichoice = false; }
 
         public Hai(HaiInfo haiState)
