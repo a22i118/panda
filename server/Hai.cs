@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -380,6 +381,7 @@ namespace server
 
         public int Draw(Graphics g, bool isYoko = false, bool isUra = false)
         {
+
             if (isUra)
             {
                 g.DrawImage(s_bmpUra, _points, s_bmpUraRect, GraphicsUnit.Pixel);
@@ -422,9 +424,15 @@ namespace server
                 g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
                 return s_width;
             }
+
             else
             {
                 g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
+                if (_dora != 0)
+                {
+                    SolidBrush brush = new SolidBrush(Color.FromArgb(100, 200, 200, 0));
+                    g.FillRectangle(brush, _points[0].X, _points[0].Y, s_width, s_height);
+                }
                 return s_width;
             }
         }

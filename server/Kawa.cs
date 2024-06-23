@@ -33,7 +33,7 @@ namespace server
                 }
                 if (i == 6 || i == 12)
                 {
-                    x = 1100 - 48;
+                    x = 1100 - 48 + 300;
                     y += 64;
                 }
                 if (_richiSet)

@@ -326,7 +326,7 @@ namespace server
                     if (player.IsCallKan())
                     {
                         _kansCount += 1;
-                        Dora();
+                        DoraEffect();
 
                         if (player.IsCanKaKan())
                         {
@@ -414,7 +414,7 @@ namespace server
                                 Hai anKanHai = _players[_turn].Tehai.Kans[_players[_turn].Tehai.Kans.Count() - 1].Hais[0];
 
                                 _kansCount += 1;
-                                Dora();
+                                DoraEffect();
                                 _mode = eMode.RinshanTsumo;
                                 Array.ForEach(_players, e => e.ResetNakikouho());
                             }
@@ -584,8 +584,9 @@ namespace server
                 return false;
             }
         }
-        private void Dora()
+        private void DoraEffect()
         {
+            _wanPai.Dora(_kansCount);
             foreach (var hai in _yama.Hais)
             {
                 if (hai.Name == _wanPai.DoraNames.Last())

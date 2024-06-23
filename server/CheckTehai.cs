@@ -36,6 +36,7 @@ namespace server
 
         private ulong _undecidedMask = 0;
         private int _fu = 0;
+        private int _han;
         private bool _isOya;
         private (eState all, eState any) _state = (eState.All, 0);
 
@@ -43,6 +44,11 @@ namespace server
 
         public CheckTehai(Tehai tehai, bool isoya, ulong undecidedMask, Hai? add = null)
         {
+            //_han = 0;
+            foreach (var hai in tehai.Hais)
+            {
+                this._han += hai.Dora;
+            }
             this._toitsu = new List<Toitsu>();
             this._kotsu = new List<Kotsu>();
             this._shuntsu = new List<Shuntsu>();
@@ -212,7 +218,7 @@ namespace server
 
                             // 天和、地和、人和
                             _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                            results.Add(new Result(0, _yakuMask, _menzen, _isOya));
+                            results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
                             _yakuMask = 0;
                             return true;
                         }
@@ -245,7 +251,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask, _menzen, _isOya));
+                        results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
                         _yakuMask = 0;
                         return true;
                     }
@@ -264,7 +270,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _yakuMask, _menzen, _isOya));
+                        results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
                         _yakuMask = 0;
 
                         return true;
@@ -385,7 +391,7 @@ namespace server
                 if (HaiInfo.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
-                    results.Add(new Result(0, _yakuMask, _menzen, _isOya));
+                    results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
                     _yakuMask = 0;
                     return true;
                 }
@@ -412,7 +418,7 @@ namespace server
 
                 // 天和、地和、人和
                 _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                results.Add(new Result(25, _yakuMask, _menzen, _isOya));
+                results.Add(new Result(25, _han, _yakuMask, _menzen, _isOya));
                 _yakuMask = 0;
                 return true;
             }
@@ -423,6 +429,7 @@ namespace server
         public void Yakuhantei(List<Result> results)
         {
             init();
+
 
             // 待ち毎に役を判定する
             foreach (var mentsu in _mentsus)
@@ -467,7 +474,7 @@ namespace server
 
                     _fu = (_fu + 9) / 10 * 10;
 
-                    results.Add(new Result(_fu, _yakuMask, _menzen, _isOya));
+                    results.Add(new Result(_fu, _han, _yakuMask, _menzen, _isOya));
 
 
                     mentsu.IsMenzen(true);

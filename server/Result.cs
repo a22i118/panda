@@ -30,11 +30,11 @@ namespace server
         /// <param name="yakumask"></param>
         /// <param name="isMenzen"></param>
         /// <param name="isoya"></param>
-        public Result(int fu, ulong yakumask, bool isMenzen, bool isoya)
+        public Result(int fu, int han, ulong yakumask, bool isMenzen, bool isoya)
         {
             _yakuMask = yakumask;
             _fu = fu;
-
+            _han = han;
 
             foreach (var yaku in sYakuTables)
             {
