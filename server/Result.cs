@@ -10,6 +10,8 @@ namespace server
 {
     internal class Result
     {
+        private int _dora = 0;
+        private int _doraUra = 0;
         private int _fu = 0;
         private int _han = 0;
         private int _ten = 0;
@@ -30,12 +32,17 @@ namespace server
         /// <param name="yakumask"></param>
         /// <param name="isMenzen"></param>
         /// <param name="isoya"></param>
-        public Result(int fu, int han, ulong yakumask, bool isMenzen, bool isoya)
+        public Result(int fu, int doraNum, int doraUraNum, ulong yakumask, bool isMenzen, bool isoya)
         {
             _yakuMask = yakumask;
             _fu = fu;
-            _han = han;
-
+            _dora = doraNum;
+            _doraUra = doraUraNum;
+            ulong tmp = yakumask;
+            //if ((tmp & Reach.Mask) != Reach.Mask || (tmp & DabuRe.Mask) != DabuRe.Mask)
+            //{
+            //    _doraUra = 0;
+            //}
             foreach (var yaku in sYakuTables)
             {
                 if ((yaku.Mask & _yakuMask) != 0)
@@ -43,6 +50,7 @@ namespace server
                     _han += isMenzen ? yaku.Han : yaku.NakiHan;
                 }
             }
+            _han += _dora + _doraUra;
             TenCalc(isoya);
         }
         /// <summary>
@@ -227,6 +235,11 @@ namespace server
 
             if (yakuman == 0)
             {
+                str += " ドラ ";
+                str += _dora.ToString();
+                str += " 裏ドラ ";
+                str += _doraUra.ToString();
+                str += " ";
                 str += _fu.ToString();
                 str += " 符 ";
                 str += _han.ToString();

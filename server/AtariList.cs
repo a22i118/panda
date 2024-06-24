@@ -13,16 +13,16 @@ namespace server
         private List<Result> _results = new List<Result>();
         private List<CheckTehai> checktehais = new List<CheckTehai>();
         public List<Result> Results { get { return _results; } }
-        public AtariList(Tehai tehai, bool isoya, ulong yakuMask)
+        public AtariList(Tehai tehai, bool isoya, ulong yakuMask, List<Hai.eName> doraUraNames)
         {
-            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask);
+            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask,doraUraNames);
             check();
             _results.Sort((a, b) => b.Ten == a.Ten ? b.Han - a.Han : b.Ten - a.Ten);
         }
 
-        public AtariList(Tehai tehai, bool isoya, ulong yakuMask, Hai hai)
+        public AtariList(Tehai tehai, bool isoya, ulong yakuMask, Hai hai, List<Hai.eName> doraUraNames)
         {
-            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask, hai);
+            this.checkTehai = new CheckTehai(tehai, isoya, yakuMask, doraUraNames, hai);
             check();
             _results.Sort((a, b) => b.Ten == a.Ten ? b.Han - a.Han : b.Ten - a.Ten);
         }
@@ -32,7 +32,7 @@ namespace server
             return checktehais.Count > 0;
         }
 
-        
+
         private void check()
         {
             if (checkTehai.IsKokushimuso(_results))

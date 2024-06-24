@@ -10,7 +10,7 @@ namespace server
     internal class Chi : INaki
     {
         private Hai[] _hais = new Hai[3];
-
+        public Hai[]Hais { get { return _hais; } }
         public Chi(Hai hai0, Hai hai1, Hai hai2, int from)
         {
             _from = from;

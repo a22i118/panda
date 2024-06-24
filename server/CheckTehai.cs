@@ -31,24 +31,62 @@ namespace server
         private bool _menzen = true;
 
         private List<IMentsu> _mentsus = new List<IMentsu>();
-
+        private List<eName> _doraUraNames;
         private ulong _yakuMask = 0;
 
         private ulong _undecidedMask = 0;
         private int _fu = 0;
-        private int _han;
+        private int _doraNum = 0;
+        private int _doraUraNum = 0;
         private bool _isOya;
         private (eState all, eState any) _state = (eState.All, 0);
 
         public bool IsAgari() { return _hais.Count == 0; }
 
-        public CheckTehai(Tehai tehai, bool isoya, ulong undecidedMask, Hai? add = null)
+        public CheckTehai(Tehai tehai, bool isoya, ulong undecidedMask, List<Hai.eName> doraUraNames, Hai? add = null)
         {
-            //_han = 0;
             foreach (var hai in tehai.Hais)
             {
-                this._han += hai.Dora;
+                this._doraNum += hai.Dora;
             }
+            //if (tehai.Chis != null)
+            //{
+            foreach (var chi in tehai.Chis)
+            {
+                foreach (var hai in chi.Hais)
+                {
+                    this._doraNum += hai.Dora;
+                }
+            }
+            //}
+            foreach(var pon in tehai.Pons)
+            {
+                if (pon.Hais[0].Dora != 0)
+                {
+                    this._doraNum += pon.Hais[0].Dora * 3;
+                }
+            }
+            foreach (var pon in tehai.Kans)
+            {
+                if (pon.Hais[0].Dora != 0)
+                {
+                    this._doraNum += pon.Hais[0].Dora * 4;
+                }
+            }
+            if (doraUraNames != null)
+            {
+                foreach (var doraUra in doraUraNames)
+                {
+                    foreach (var hai in tehai.Hais)
+                    {
+                        if (hai.Name == doraUra)
+                        {
+                            this._doraUraNum += 1;
+                        }
+                    }
+                }
+            }
+
             this._toitsu = new List<Toitsu>();
             this._kotsu = new List<Kotsu>();
             this._shuntsu = new List<Shuntsu>();
@@ -85,6 +123,13 @@ namespace server
 
         public CheckTehai(CheckTehai checkTehai)
         {
+            this._doraNum = checkTehai._doraNum;
+            this._doraUraNum = checkTehai._doraUraNum;
+            if (_doraUraNames != null)
+            {
+                this._doraUraNames = new List<eName>(checkTehai._doraUraNames);
+            }
+
             this._toitsu = new List<Toitsu>(checkTehai._toitsu);
             this._kotsu = new List<Kotsu>(checkTehai._kotsu);
             this._shuntsu = new List<Shuntsu>(checkTehai._shuntsu);
@@ -107,7 +152,6 @@ namespace server
             _mentsus.Clear();
             _state.all = eState.All;
             _state.any = 0;
-            //_IsIppatsu = false;
 
             _mentsus.AddRange(this._toitsu);
             _mentsus.AddRange(this._kotsu);
@@ -218,7 +262,7 @@ namespace server
 
                             // 天和、地和、人和
                             _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                            results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
+                            results.Add(new Result(0, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
                             _yakuMask = 0;
                             return true;
                         }
@@ -251,7 +295,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
+                        results.Add(new Result(0, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
                         _yakuMask = 0;
                         return true;
                     }
@@ -270,7 +314,7 @@ namespace server
 
                         // 天和、地和、人和
                         _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                        results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
+                        results.Add(new Result(0, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
                         _yakuMask = 0;
 
                         return true;
@@ -391,7 +435,7 @@ namespace server
                 if (HaiInfo.IsTsuiso(_state))
                 {
                     _yakuMask |= Tsuiso.Mask;
-                    results.Add(new Result(0, _han, _yakuMask, _menzen, _isOya));
+                    results.Add(new Result(0, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
                     _yakuMask = 0;
                     return true;
                 }
@@ -418,7 +462,7 @@ namespace server
 
                 // 天和、地和、人和
                 _yakuMask |= _undecidedMask & (Yaku.Tenho.Mask | Yaku.Chiho.Mask | Yaku.Renho.Mask);
-                results.Add(new Result(25, _han, _yakuMask, _menzen, _isOya));
+                results.Add(new Result(25, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
                 _yakuMask = 0;
                 return true;
             }
@@ -474,7 +518,7 @@ namespace server
 
                     _fu = (_fu + 9) / 10 * 10;
 
-                    results.Add(new Result(_fu, _han, _yakuMask, _menzen, _isOya));
+                    results.Add(new Result(_fu, _doraNum, _doraUraNum, _yakuMask, _menzen, _isOya));
 
 
                     mentsu.IsMenzen(true);

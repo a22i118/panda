@@ -12,8 +12,10 @@ namespace server
         private List<Hai> _rinshams = new List<Hai>();
         private List<Hai> _doras = new List<Hai>();
         private List<Hai.eName> _doraNames = new List<Hai.eName>();
+        private List<Hai.eName> _doraUraNames = new List<Hai.eName>();
         public List<Hai> Rinshams { get { return _rinshams; } set { _rinshams = value; } }
         public List<Hai.eName> DoraNames { get { return _doraNames; } }
+        public List<Hai.eName > DoraUraNames { get { return _doraUraNames; } }
         public WanPai() { }
         public void Init(Yama yama)
         {
@@ -53,6 +55,13 @@ namespace server
                 if (i <= kansCount)
                 {
                     _doraNames.Add(_doras[i].DoraNext());
+                }
+            }
+            for (int i = 5; i < 10; i++)
+            {
+                if (i <= kansCount + 5)
+                {
+                    _doraUraNames.Add(_doras[i].DoraNext());
                 }
             }
         }

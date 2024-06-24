@@ -215,7 +215,7 @@ namespace server
                     Hai hai = _wanPai.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount, _wanPai.DoraUraNames);
                     }
                     else
                     {
@@ -251,7 +251,7 @@ namespace server
                     Hai hai = _yama.Tsumo();
                     if (hai != null)
                     {
-                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount);
+                        _players[_turn].Tsumo(hai, yakuMask(_turn), _kansCount, _wanPai.DoraUraNames);
                     }
                     else
                     {
@@ -462,7 +462,7 @@ namespace server
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
                         {
                             int player = (_turn + shimocha) % Player.Num;
-                            _players[player].CommandValid(hai, _players[player].Tehai, _kansCount, reachiMask | yakuMask(player), shimocha == 1);
+                            _players[player].CommandValid(hai, _players[player].Tehai, _kansCount, reachiMask | yakuMask(player), shimocha == 1, _wanPai.DoraUraNames);
                         }
                     }
                 }

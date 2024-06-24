@@ -153,14 +153,37 @@ namespace server
             for (int i = 0; i < haisCcount; i++)
             {
                 _hais[i].ThrowChoice = false;
+                _hais[i].Dora = 0;
                 _hais[i].SetPos(x += 48, 800);
                 _hais[i].Draw(g);
+            }
+            foreach (var chi in _chis)
+            {
+                foreach (var hais in chi.Hais)
+                {
+                    hais.Dora = 0;
+                }
+            }
+            foreach (var pon in _pons)
+            {
+                foreach (var hais in pon.Hais)
+                {
+                    hais.Dora = 0;
+                }
+            }
+            foreach (var kan in _kans)
+            {
+                foreach (var hais in kan.Hais)
+                {
+                    hais.Dora = 0;
+                }
             }
 
             x += 6;
 
             hai.Lay = false;
             hai.ThrowChoice = false;
+            hai.Dora = 0;
             hai.SetPos(x += 48, 800);
             hai.Draw(g);
 

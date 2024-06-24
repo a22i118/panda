@@ -49,7 +49,7 @@ namespace server
         public ActionCommand ActionCommand { get { return _actionCommand; } }
         public Kawa Kawa { get { return _kawa; } }
         public Tehai Tehai { get { return _tehai; } }
-        public Dictionary<Hai,List<Hai>> AtariHaisDic { get {  return _atariHaisDic; } set { _atariHaisDic = value; } }
+        public Dictionary<Hai, List<Hai>> AtariHaisDic { get { return _atariHaisDic; } set { _atariHaisDic = value; } }
         public Player(int id)
         {
             _id = id;
@@ -80,7 +80,7 @@ namespace server
         {
             _tehai.Add(hai);
         }
-        public void Tsumo(Hai hai, ulong yakuMask, int kansCount)
+        public void Tsumo(Hai hai, ulong yakuMask, int kansCount, List<Hai.eName> doraUraNames)
         {
             _huriten = false;
             _tehai.Add(hai);
@@ -107,7 +107,7 @@ namespace server
                 yakuMask |= Yaku.Haiteiraoyue.Mask;
             }
 
-            _atariList = new AtariList(_tehai, _isOya, yakuMask);
+            _atariList = new AtariList(_tehai, _isOya, yakuMask, doraUraNames);
 
             if (_atariList.IsAtari())
             {
@@ -196,7 +196,7 @@ namespace server
             return false;
         }
 
-        public void CommandValid(Hai hai, Tehai tehai, int kansCount, ulong yakuMask, bool isCanChi)
+        public void CommandValid(Hai hai, Tehai tehai, int kansCount, ulong yakuMask, bool isCanChi, List<Hai.eName> doraUraNames)
         {
             if (_isDabReach)
             {
@@ -215,7 +215,7 @@ namespace server
                 yakuMask |= Yaku.Hoteiraoyui.Mask;
             }
 
-            _atariList = new AtariList(_tehai, _isOya, yakuMask, hai);
+            _atariList = new AtariList(_tehai, _isOya, yakuMask, hai, doraUraNames);
 
             //ロンのコマンドを有効にする
             if (_huriten == false && _atariList.IsAtari())

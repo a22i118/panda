@@ -20,7 +20,7 @@ namespace server
                 foreach (var haiState in Hai.sHaiStates)
                 {
                     Hai tmp = new Hai(haiState);
-                    checkTehai = new CheckTehai(tehai, isOya, yakumask, tmp);
+                    checkTehai = new CheckTehai(tehai, isOya, yakumask, null, tmp);
                     if (check())
                     {
                         _atariHais.Add(tmp);
