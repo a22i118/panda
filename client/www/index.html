@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="jp">
+
+<head>
+    <title>474</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap');
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            touch-action: none;
+        }
+
+        #canvas {
+            position: relative;
+            left: 50%;
+            top: 50%;
+            /* canvas の width/2 */
+            margin-left: -400px;
+            /* canvas の height/2 */
+            margin-top: -800px;
+            touch-action: none;
+            z-index: 1;
+        }
+
+        input {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .m-plus-rounded-1c-bold {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width=800 height=1600
+        style="position: relative; left: 50%; margin-left: -400px; top: 50%; margin-top: -800px;"> </canvas>
+    <script type="text/javascript" src="js/education.js"></script>
+    <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <!-- <input id="input" type='text' name='send' size="16" onsubmit="return true;"
+        style="position: absolute ; left: 16px; margin-left: 0px; top: 16px; margin-top: 0px;"> -->
+</body>
+
+</html>
