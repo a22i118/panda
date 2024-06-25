@@ -49,8 +49,6 @@ namespace server
             {
                 this._doraNum += hai.Dora;
             }
-            //if (tehai.Chis != null)
-            //{
             foreach (var chi in tehai.Chis)
             {
                 foreach (var hai in chi.Hais)
@@ -58,7 +56,6 @@ namespace server
                     this._doraNum += hai.Dora;
                 }
             }
-            //}
             foreach(var pon in tehai.Pons)
             {
                 if (pon.Hais[0].Dora != 0)

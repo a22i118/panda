@@ -10,25 +10,24 @@ namespace server
 {
     internal class Result
     {
+        private const int bazoro = 2;
         private int _dora = 0;
         private int _doraUra = 0;
         private int _fu = 0;
         private int _han = 0;
         private int _ten = 0;
         private string _str = "";
-        const int bazoro = 2;
         private ulong _yakuMask = 0;
         public ulong YakuMask { get { return _yakuMask; } set { _yakuMask = value; } }
-
-
         public int Fu { get { return _fu; } }
         public int Han { get { return _han; } set { _han = value; } }
         public int Ten { get { return _ten; } }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="fu">符</param>
+        /// <param name="fu"></param>
+        /// <param name="doraNum"></param>
+        /// <param name="doraUraNum"></param>
         /// <param name="yakumask"></param>
         /// <param name="isMenzen"></param>
         /// <param name="isoya"></param>
@@ -39,10 +38,10 @@ namespace server
             _dora = doraNum;
             _doraUra = doraUraNum;
             ulong tmp = yakumask;
-            //if ((tmp & Reach.Mask) != Reach.Mask || (tmp & DabuRe.Mask) != DabuRe.Mask)
-            //{
-            //    _doraUra = 0;
-            //}
+            if ((tmp & Reach.Mask) != Reach.Mask || (tmp & DabuRe.Mask) != DabuRe.Mask)
+            {
+                _doraUra = 0;
+            }
             foreach (var yaku in sYakuTables)
             {
                 if ((yaku.Mask & _yakuMask) != 0)
