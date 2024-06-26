@@ -15,14 +15,14 @@ namespace server
         private List<Hai.eName> _doraUraNames = new List<Hai.eName>();
         public List<Hai> Rinshams { get { return _rinshams; } set { _rinshams = value; } }
         public List<Hai.eName> DoraNames { get { return _doraNames; } }
-        public List<Hai.eName > DoraUraNames { get { return _doraUraNames; } }
+        public List<Hai.eName> DoraUraNames { get { return _doraUraNames; } }
         public WanPai() { }
         public void Init(Yama yama)
         {
             _rinshams.Clear();
             _doras.Clear();
             _doraNames.Clear();
-
+            _doraUraNames.Clear();
             if (yama != null)
             {
                 for (int i = 0; i < 4; i++)
@@ -34,13 +34,15 @@ namespace server
                     _doras.Add(yama.RinshanTsumo());
                 }
             }
-            _doras[5] = new Hai(Hai.Manzu9);
+            _doras[0] = new Hai(Hai.Manzu9);
             _doraNames.Add(_doras[0].DoraNext());
             _doraUraNames.Add(_doras[5].DoraNext());
         }
 
-        public void Add(Hai hai) { _doras.Add(hai); }
-
+        /// <summary>
+        /// ツモ牌を返す
+        /// </summary>
+        /// <returns></returns>
         public Hai Tsumo()
         {
             if (_rinshams.Count <= 0)
@@ -52,25 +54,13 @@ namespace server
         }
         public void Dora(int kansCount)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                if (i <= kansCount)
-                {
-                    _doraNames.Add(_doras[i].DoraNext());
-                }
-            }
-            for (int i = 5; i < 10; i++)
-            {
-                if (i <= kansCount + 5)
-                {
-                    _doraUraNames.Add(_doras[i].DoraNext());
-                }
-            }
+            _doraNames.Add(_doras[kansCount].DoraNext());
+            _doraUraNames.Add(_doras[kansCount + 5].DoraNext());
         }
         public void Draw(Graphics g, int kansCount)
         {
             Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);
-            g.DrawString("ドラ", font, Brushes.Black, new PointF(300, 50));
+            g.DrawString("ドラ", font, Brushes.Black, new PointF(280, 50));
             int x = 400 - 48;
             for (int i = 0; i < 5; i++)
             {
@@ -85,6 +75,12 @@ namespace server
                 }
             }
         }
+        /// <summary>
+        /// 上がり時にドラ、裏ドラを表示する
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="isReach"></param>
+        /// <param name="kansCount"></param>
         public void AgariDraw(Graphics g, bool isReach, int kansCount)
         {
             Font font = new Font(new FontFamily("HGS行書体"), 24, FontStyle.Bold);

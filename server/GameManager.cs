@@ -20,13 +20,6 @@ namespace server
         private WanPai _wanPai = new WanPai();
         private Ba _ba = new Ba();
 
-
-        // これらをPlayerクラスに移行すること
-        //private Tehai[] tehais = new Tehai[Player.Num] { new Tehai(), new Tehai(), new Tehai(), new Tehai() };
-        //private Kawa[] kawas = new Kawa[Player.Num] { new Kawa(), new Kawa(), new Kawa(), new Kawa() };
-        //private ActionCommand[] _actionCommand = new ActionCommand[Player.Num];
-        //private AtariList[] _atariList = new AtariList[Player.Num];
-
         private Player[] _players = new Player[Player.Num] {
             new Player(0),
             new Player(1),
@@ -61,7 +54,9 @@ namespace server
         {
             gameStart();
         }
-
+        /// <summary>
+        /// ゲーム開始時に行う処理
+        /// </summary>
         private void gameStart()
         {
             _yama.Init();
@@ -71,7 +66,7 @@ namespace server
                 _players[i].Init();
             }
 
-            _turn = 0;  // TODO:親を入れる
+            _turn = 0;
             _players[_turn].IsOya = true;
             _turn = (_turn - 1 + 4) % 4;    // ツモで進めるので１戻しておく
 
@@ -114,7 +109,7 @@ namespace server
 
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
             _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu1, Pinzu2, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
-            _yama.Tsumikomi(3, new Hai.eName[] { Manzu3, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Souzu4, Souzu4, Souzu5, Souzu5, Souzu6, Souzu6, Nan });
+            _yama.Tsumikomi(3, new Hai.eName[] { Manzu3, Souzu1, Souzu2, Souzu2, Souzu3, Souzu4, Souzu4, Souzu4, Souzu4, Souzu6, Souzu6, Souzu6, Souzu6 });
 
 
 
@@ -170,8 +165,10 @@ namespace server
             {
                 _players[i].Sort();
             }
-            //Dora();
         }
+        /// <summary>
+        /// 常に更新
+        /// </summary>
         public void Exec()
         {
             if (_tsumo || _ron || _ryukyoku || _sukannagare || _suchaReach || _sufomtsurenda || _kyushukyuhai)
@@ -276,7 +273,11 @@ namespace server
             }
         }
 
-
+        /// <summary>
+        /// クリック時のイベント
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void ClickCheck(int x, int y)
         {
             if (_tsumo || _ron || _ryukyoku)
@@ -325,9 +326,6 @@ namespace server
                     }
                     if (player.IsCallKan())
                     {
-                        _kansCount += 1;
-                        DoraEffect();
-
                         if (player.IsCanKaKan())
                         {
                             Hai hai = player.Tehai.Pons[player.Tehai.Pons.Count() - 1].Hais[0];
@@ -335,6 +333,8 @@ namespace server
                         if (player.IsCanTsumo())
                         {
                             player.MinKan(_sutehai, _turn);
+                            _kansCount += 1;
+                            DoraEffect();
                             _mode = eMode.RinshanTsumo;
                             _turn = player.Id;
                         }
@@ -343,6 +343,8 @@ namespace server
                             if (player.AnKan())
                             {
                                 Hai anKanHai = player.Tehai.Kans[player.Tehai.Kans.Count() - 1].Hais[0];
+                                _kansCount += 1;
+                                DoraEffect();
                                 _mode = eMode.RinshanTsumo;
                                 _turn = player.Id;
                             }
@@ -395,8 +397,6 @@ namespace server
             }
             if (!_players[_turn].IsCanTsumo())
             {
-
-
                 if (_players[_turn].IsCallKan())
                 {
                     Hai hai = _players[_turn].Click(x, y);
@@ -455,8 +455,6 @@ namespace server
                     if (hai != null)
                     {
                         _sutehai = hai;
-                        // コマンドを初期化
-
                         _players[_turn].Sort();
 
                         for (int shimocha = 1; shimocha < Player.Num; shimocha++)
@@ -494,7 +492,11 @@ namespace server
             }
         }
 
-        // 場で決まる役
+        /// <summary>
+        /// 場で決まる役
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         private ulong yakuMask(int player)
         {
             ulong yakuMask = 0;
@@ -541,6 +543,11 @@ namespace server
 
             return yakuMask;
         }
+
+        /// <summary>
+        /// 四槓流れの判定
+        /// </summary>
+        /// <returns></returns>
         private bool SukanCheck()
         {
             int tmp = 0;
@@ -560,7 +567,10 @@ namespace server
                 return false;
             }
         }
-
+        /// <summary>
+        /// 四風連打の判定
+        /// </summary>
+        /// <returns></returns>
         private bool SufomtsuCheck()
         {
             if (_players.Count(e => e.Kawa.Hais.Count() == 1) == 4) // 河が全員１
@@ -584,6 +594,10 @@ namespace server
                 return false;
             }
         }
+
+        /// <summary>
+        /// ドラの牌に黄色い効果を付ける
+        /// </summary>
         private void DoraEffect()
         {
             _wanPai.Dora(_kansCount);
@@ -635,18 +649,15 @@ namespace server
 
             if (_tsumo || _ron || _suchaReach || _sufomtsurenda || _sukannagare || _ryukyoku || _kyushukyuhai)
             {
+                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.FillRectangle(brush, 25, 40, 1500, 900);
 
                 if (_tsumo || _ron)
                 {
-                    g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
+
                     List<Result> results = _players[_turn].Results;
                     int index = 0;
-                    //foreach (Result result in results)
-                    //{
-                    //    result.Draw(g, new PointF(40, 64 + 32 * index++));
-                    //}
                     results[0].Draw(g, new PointF(40, 64 + 32 * index++));
                     _wanPai.AgariDraw(g, _isReach, _kansCount);
                     _players[_turn].AgariDraw(g, _tsumo ? null : _sutehai);

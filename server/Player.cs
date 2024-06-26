@@ -218,7 +218,7 @@ namespace server
             _atariList = new AtariList(_tehai, _isOya, yakuMask, hai, doraUraNames);
 
             //ロンのコマンドを有効にする
-            if (_huriten == false && _atariList.IsAtari())
+            if (_huriten == false && _atariList.IsAtari() && Results[0].Han != 0)
             {
                 _actionCommand.CanRon = true;
             }

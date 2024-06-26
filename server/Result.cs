@@ -38,10 +38,11 @@ namespace server
             _dora = doraNum;
             _doraUra = doraUraNum;
             ulong tmp = yakumask;
-            if ((tmp & Reach.Mask) != Reach.Mask || (tmp & DabuRe.Mask) != DabuRe.Mask)
+            if ((tmp & (Reach.Mask | DabuRe.Mask)) == 0)
             {
                 _doraUra = 0;
             }
+
             foreach (var yaku in sYakuTables)
             {
                 if ((yaku.Mask & _yakuMask) != 0)
@@ -249,7 +250,6 @@ namespace server
             }
             else
             {
-
                 yakumanstr += (_ten * yakuman).ToString();
                 yakumanstr += " ";
                 _str = "";

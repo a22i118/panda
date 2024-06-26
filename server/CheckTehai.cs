@@ -43,7 +43,7 @@ namespace server
 
         public bool IsAgari() { return _hais.Count == 0; }
 
-        public CheckTehai(Tehai tehai, bool isoya, ulong undecidedMask, List<Hai.eName> doraUraNames, Hai? add = null)
+        public CheckTehai(Tehai tehai, bool isoya, ulong undecidedMask, List<eName> doraUraNames, Hai? add = null)
         {
             foreach (var hai in tehai.Hais)
             {
@@ -56,7 +56,7 @@ namespace server
                     this._doraNum += hai.Dora;
                 }
             }
-            foreach(var pon in tehai.Pons)
+            foreach (var pon in tehai.Pons)
             {
                 if (pon.Hais[0].Dora != 0)
                 {
@@ -79,6 +79,30 @@ namespace server
                         if (hai.Name == doraUra)
                         {
                             this._doraUraNum += 1;
+                        }
+                    }
+                    foreach (var chi in tehai.Chis)
+                    {
+                        foreach (var hai in chi.Hais)
+                        {
+                            if (hai.Name == doraUra)
+                            {
+                                this._doraUraNum += 1;
+                            }
+                        }
+                    }
+                    foreach (var pon in tehai.Pons)
+                    {
+                        if (pon.Hais[0].Name == doraUra)
+                        {
+                            this._doraUraNum += 3;
+                        }
+                    }
+                    foreach (var pon in tehai.Kans)
+                    {
+                        if (pon.Hais[0].Name == doraUra)
+                        {
+                            this._doraUraNum += 4;
                         }
                     }
                 }

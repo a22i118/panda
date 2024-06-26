@@ -381,60 +381,66 @@ namespace server
 
         public int Draw(Graphics g, bool isYoko = false, bool isUra = false)
         {
+            int width = s_width;
+            int height = s_height;
+            Point[] tmp;
 
             if (isUra)
             {
                 g.DrawImage(s_bmpUra, _points, s_bmpUraRect, GraphicsUnit.Pixel);
-                return s_width;
+                return width;
+            }
+            else if (isYoko || _lay)
+            {
+                tmp = _points_yoko;
+                height = s_width;
+                width = s_height;
             }
             else if (_nakikouho)
             {
                 int ofs = _nakichoice ? -s_height / 2 : -s_height / 4;
-                Point[] tmp = getOffsetPos(ofs);
-                g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-                return s_width;
+                tmp = getOffsetPos(ofs);
             }
-            else if (isYoko || _lay)
-            {
-                g.DrawImage(_bmp, _points_yoko, _bmpRect, GraphicsUnit.Pixel);
-                return s_height;
-            }
+
             else if (_throwChoice)
             {
                 if (_richiThrowChoice)
                 {
                     int ofs = -s_height / 2;
-                    Point[] tmp = getOffsetPos(ofs);
-                    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-                    return s_width;
+                    tmp = getOffsetPos(ofs);
                 }
                 else
                 {
                     int ofs = -s_height / 4;
-                    Point[] tmp = getOffsetPos(ofs);
-                    g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-                    return s_width;
+                    tmp = getOffsetPos(ofs);
                 }
-
             }
             else if (_isRichi && _richiThrowChoice)
             {
                 int ofs = -s_height / 4;
-                Point[] tmp = getOffsetPos(ofs);
-                g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
-                return s_width;
+                tmp = getOffsetPos(ofs);
             }
-
             else
             {
-                g.DrawImage(_bmp, _points, _bmpRect, GraphicsUnit.Pixel);
-                if (_dora != 0)
+                tmp = _points;
+            }
+            g.DrawImage(_bmp, tmp, _bmpRect, GraphicsUnit.Pixel);
+            if (_dora != 0)
+            {
+                if (isYoko || _lay)
                 {
                     SolidBrush brush = new SolidBrush(Color.FromArgb(100, 200, 200, 0));
-                    g.FillRectangle(brush, _points[0].X, _points[0].Y, s_width, s_height);
+                    g.FillRectangle(brush, tmp[1].X, tmp[1].Y, width, height);
                 }
-                return s_width;
+                else
+                {
+                    SolidBrush brush = new SolidBrush(Color.FromArgb(100, 200, 200, 0));
+                    g.FillRectangle(brush, tmp[0].X, tmp[0].Y, width, height);
+                }
+                
             }
+            return width;
+
         }
 
         public bool IsClick(int x, int y)
