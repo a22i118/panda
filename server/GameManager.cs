@@ -102,18 +102,14 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu2, Manzu3, Manzu4, Manzu5, Manzu6, Manzu7, Souzu2, Souzu3, Souzu4, Manzu5, Ton, Ton, Ton });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu3, Ton, Ton, Ton, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu2, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Haku, Haku, Haku });
-            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Pinzu4, Pinzu5, Pinzu6, Souzu7, Souzu7, Haku, Haku });
+            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Pinzu4, Pinzu5, Pinzu6, Souzu7, Souzu7, Haku, Haku });
 
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Souzu3, Pei, Pei, Souzu7, Thun });
-            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
+            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Souzu3, Pei, Pei, Souzu7, Thun });
+            ////_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
+            ////_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
 
-            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
-            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu1, Pinzu2, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
-            _yama.Tsumikomi(3, new Hai.eName[] { Manzu3, Souzu1, Souzu2, Souzu2, Souzu3, Souzu4, Souzu4, Souzu4, Souzu4, Souzu6, Souzu6, Souzu6, Souzu6 });
-
-
-
-
+            //_yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu1, Pinzu2, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Nan });
+            //_yama.Tsumikomi(3, new Hai.eName[] { Manzu3, Souzu1, Souzu2, Souzu2, Souzu3, Souzu4, Souzu4, Souzu4, Souzu4, Souzu6, Souzu6, Souzu6, Souzu6 });
             //王牌
             _wanPai.Init(_yama);
             //ドラ
