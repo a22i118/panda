@@ -14,7 +14,6 @@ namespace server
         private int _y;
         private int _w;
         private int _h;
-
         private enum eCommand : int
         {
             Chi,
@@ -23,12 +22,12 @@ namespace server
             Ron,
             Tsumo,
             Richi,
+            //KyusyuKyuHai,
             Cancel,
             Num = Cancel
         };
 
-        private static string[] s_string = new string[] { "チー", "ポン", "カン","ロン", "ツモ", "リーチ", "キャンセル" };
-
+        private static string[] s_string = new string[] { "チー", "ポン", "カン", "ロン", "ツモ", "立直", "キャンセル" };
         private bool[] _can = new bool[(int)eCommand.Num];
         private bool[] _call = new bool[(int)eCommand.Num];
         private void pushCancel()
@@ -37,7 +36,6 @@ namespace server
             {
                 _can[i] = false;
             }
-
         }
         public ActionCommand(int x, int y, int w, int h)
         {
@@ -52,26 +50,23 @@ namespace server
             Array.Fill(_can, false);
             Array.Fill(_call, false);
         }
-
-
-
         public bool IsCanAny() { return _can.Any(value => value); }
-        
+
         public bool CanChi { set { _can[(int)eCommand.Chi] = value; } }
         public bool CanPon { set { _can[(int)eCommand.Pon] = value; } }
         public bool CanKan { set { _can[(int)eCommand.Kan] = value; } }
         public bool CanRon { set { _can[(int)eCommand.Ron] = value; } }
         public bool CanTsumo { set { _can[(int)eCommand.Tsumo] = value; } }
         public bool CanRichi { set { _can[(int)eCommand.Richi] = value; } }
-
+        //public bool CanKyusyuKyuHai { set { _can[(int)eCommand.KyusyuKyuHai] = value; } }
 
         public bool IsCallChi() { return _call[(int)eCommand.Chi]; }
         public bool IsCallPon() { return _call[(int)eCommand.Pon]; }
         public bool IsCallKan() { return _call[(int)eCommand.Kan]; }
         public bool IsCallRon() { return _call[(int)eCommand.Ron]; }
         public bool IsCallTsumo() { return _call[(int)eCommand.Tsumo]; }
-
         public bool IsCallRichi() { return _call[(int)(eCommand.Richi)]; }
+        //public bool IsCallKyusyuKyuHai() { return _call[(int)(eCommand.KyusyuKyuHai)]; }
         public bool Click(int x, int y)
         {
             if (_y <= y && y <= _y + _h)

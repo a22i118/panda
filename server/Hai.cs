@@ -377,8 +377,6 @@ namespace server
             this._rot = rot;
             SetPos(_points[0].X, _points[0].Y);
         }
-
-
         public int Draw(Graphics g, bool isYoko = false, bool isUra = false)
         {
             int width = s_width;

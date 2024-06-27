@@ -63,6 +63,7 @@ namespace server
         //}
         public bool KyushuCheck()
         {
+
             ulong mask = 0;
             foreach (Hai hai in _hais)
             {

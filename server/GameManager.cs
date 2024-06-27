@@ -104,7 +104,7 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu2, Manzu4, Manzu5, Manzu6, Manzu7, Manzu8, Haku, Haku, Haku });
             _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Pinzu4, Pinzu5, Pinzu6, Souzu7, Souzu7, Haku, Haku });
 
-            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu2, Souzu2, Souzu3, Souzu3, Pei, Pei, Souzu7, Thun });
+            _yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Souzu3, Pei, Pei, Souzu7, Thun });
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
 
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Manzu4, Manzu5, Manzu5, Manzu6, Manzu6, Manzu7, Manzu8, Manzu9, Nan });
@@ -198,8 +198,7 @@ namespace server
                 }
                 if (_players[_turn].Tehai.KyushuCheck())
                 {
-
-                    //_kyushukyuhai = true;
+                    //_players[_turn].ActionCommand.CanKyusyuKyuHai = true;
                 }
             }
 
@@ -263,7 +262,6 @@ namespace server
             {
                 if (_players[_turn].IsCanTsumo())
                 {
-
                     if (_players[_turn].Tehai.NowReach == false)
                     {
                         _players[_turn].Tempai(_players[_turn].Tehai, yakuMask(_turn));
@@ -376,16 +374,20 @@ namespace server
 
                         }
                     }
-
-
-
+                    //ツモ（上がり）
                     if (player.IsCallTsumo())
                     {
                         _turn = player.Id;
                         _mode = eMode.Wait;
                         _tsumo = true;
                     }
-
+                    //九種九牌
+                    //if (player.IsCallKyusyuKyuHai())
+                    //{
+                    //    _turn = player.Id;
+                    //    _mode = eMode.Wait;
+                    //    _kyushukyuhai = true;
+                    //}
                     // コマンドを初期化
                     if (init)
                     {
@@ -649,13 +651,12 @@ namespace server
 
             if (_tsumo || _ron || _suchaReach || _sufomtsurenda || _sukannagare || _ryukyoku || _kyushukyuhai)
             {
-                g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                 SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0, 0, 0));
                 g.FillRectangle(brush, 25, 40, 1500, 900);
 
                 if (_tsumo || _ron)
                 {
-
+                    g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                     List<Result> results = _players[_turn].Results;
                     int index = 0;
                     results[0].Draw(g, new PointF(40, 64 + 32 * index++));

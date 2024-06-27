@@ -34,7 +34,7 @@ namespace server
                     _doras.Add(yama.RinshanTsumo());
                 }
             }
-            _doras[0] = new Hai(Hai.Manzu9);
+            _doras[0] = new Hai(Hai.Pinzu3);
             _doraNames.Add(_doras[0].DoraNext());
             _doraUraNames.Add(_doras[5].DoraNext());
         }

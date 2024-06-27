@@ -53,7 +53,7 @@ namespace server
         public Player(int id)
         {
             _id = id;
-            _actionCommand = new ActionCommand(300, _id * 200 + 74 + 150, 64, 32);
+            _actionCommand = new ActionCommand(300, _id * 200 + 74 + 150, 80, 32);
         }
         public void Init()
         {
@@ -422,6 +422,8 @@ namespace server
         public bool IsCallChi() { return _actionCommand.IsCallChi(); }
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
         public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
+        //public bool IsCallKyusyuKyuHai() { return _actionCommand.IsCallKyusyuKyuHai(); }
+
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
         public int NakiCount() { return _tehai.NakiCount(); }
