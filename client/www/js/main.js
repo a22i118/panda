@@ -2,6 +2,28 @@
 
 import { Hai } from "./hai.js";
 
+const wsUri = "ws://localhost:443";
+
+let websocket;
+
+if ("WebSocket" in window) {
+    websocket = new WebSocket(wsUri);
+} else if ("MozWebSocket" in window) {
+    websocket = new MozWebSocket(wsUri);
+}
+
+websocket.addEventListener("open", (event) => {
+    // websocket.send("Hello Server!");
+});
+
+websocket.addEventListener("message", (event) => {
+    console.log(event.data);
+});
+
+function doSend(message) {
+    websocket.send(message);
+}
+
 function loadHai() {
     Hai.LoadImage(main,
         [
@@ -95,6 +117,7 @@ canvas.addEventListener('pointerdown', e => {
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / (rect.width / canvas.width);
     const y = (e.clientY - rect.top) / (rect.height / canvas.height);
+    doSend(`(x, y) = (${parseInt(x)}, ${parseInt(y)})`);
 });
 
 addEventListener('pointermove', e => {
