@@ -1,4 +1,4 @@
-namespace reversi
+namespace server
 {
     internal static class Program
     {

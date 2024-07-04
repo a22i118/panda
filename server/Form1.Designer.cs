@@ -1,4 +1,4 @@
-﻿namespace reversi
+﻿namespace server
 {
     partial class Form1
     {

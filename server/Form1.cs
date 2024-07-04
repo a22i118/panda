@@ -2,11 +2,16 @@ using server;
 using System.Drawing.Drawing2D;
 using static server.Hai;
 
-namespace reversi
+namespace server
 {
     public partial class Form1 : Form
     {
-        GameManager gameManager = new GameManager();
+        private GameManager _gameManager = new GameManager();
+
+#if false   // Socket通信のテスト
+        private Socket _socket = new Socket();
+#endif
+
         public Form1()
         {
             InitializeComponent();
@@ -20,7 +25,7 @@ namespace reversi
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
-            gameManager.Draw(g);
+            _gameManager.Draw(g);
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -28,7 +33,7 @@ namespace reversi
             PictureBox pb = (PictureBox)sender;
 
             pb.Invalidate();
-            gameManager.ClickCheck(e.X, e.Y);
+            _gameManager.ClickCheck(e.X, e.Y);
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -38,7 +43,7 @@ namespace reversi
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            gameManager.Exec();
+            _gameManager.Exec();
             pictureBox1.Invalidate();
         }
 
