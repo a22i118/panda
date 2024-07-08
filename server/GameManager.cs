@@ -28,7 +28,6 @@ namespace server
         };
 
         private int _turn = 0;
-
         private Hai? _sutehai = null;
         private bool _tsumo = false;
         private bool _ron = false;
@@ -38,8 +37,6 @@ namespace server
         private bool _suchaReach = false;
         private bool _kyushukyuhai = false;
         private bool _isReach = false;
-
-
         private int _kansCount = 0;
         private int _reachCount = 0;
         public enum eMode
@@ -87,7 +84,7 @@ namespace server
             // 鳴きのテストのために積み込み
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu2, Manzu3, Manzu4, Pinzu1, Pinzu2, Pinzu3, Pinzu4, Souzu1, Souzu2, Souzu3, Souzu4, Nan });
             //_yama.Tsumikomi(0, new Hai.eName[] { Ton, Ton, Ton, Nan, Nan, Nan, Nan, Sha, Sha, Sha, Sha, Pei, Pei });
-            _yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  // 国士無双十三面
+            //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Sha, Pei, Haku, Hatu, Thun });  // 国士無双十三面
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Nan, Nan, Sha, Sha, Pei, Pei, Haku, Haku, Hatu, Hatu, Thun, Thun });   // 七対子
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu9, Manzu9, Manzu9, Pinzu9, Pinzu9, Pinzu9, Souzu1, Souzu1, Souzu9, Souzu9 });  // 清老頭
             //_yama.Tsumikomi(0, new Hai.eName[] { Pei, Pei, Pei, Haku, Haku, Haku, Hatu, Hatu, Thun, Thun, Thun, Souzu9, Souzu9 });  // 大三元
@@ -105,11 +102,11 @@ namespace server
             //_yama.Tsumikomi(0, new Hai.eName[] { Manzu1, Manzu1, Manzu1, Manzu2, Manzu3, Manzu4, Pinzu4, Pinzu5, Pinzu6, Souzu7, Souzu7, Haku, Haku });
 
             //_yama.Tsumikomi(1, new Hai.eName[] { Manzu1, Manzu9, Pinzu1, Pinzu9, Souzu1, Souzu9, Ton, Nan, Souzu3, Pei, Pei, Souzu7, Thun });
-            ////_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
-            _yama.Tsumikomi(1, new Hai.eName[] { Pinzu7,Pinzu8,Pinzu3, Pinzu2, Pinzu2, Pinzu2, Pinzu2, Souzu6, Souzu6, Souzu6, Souzu6, Pinzu1, Ton });
+            //_yama.Tsumikomi(1, new Hai.eName[] { Manzu3, Manzu3, Manzu3, Manzu6, Manzu7, Manzu8, Manzu8, Pinzu2, Ton, Nan, Pei, Pei, Thun });
+            //_yama.Tsumikomi(1, new Hai.eName[] { Pinzu7,Pinzu8,Pinzu3, Pinzu2, Pinzu2, Pinzu2, Pinzu2, Souzu6, Souzu6, Souzu6, Souzu6, Pinzu1, Ton });
 
-            _yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Souzu5 });
-            _yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu4, Souzu4, Souzu5, Souzu4, Souzu8, Souzu8, Souzu8, Souzu3 });
+            //_yama.Tsumikomi(2, new Hai.eName[] { Pinzu1, Pinzu1, Pinzu3, Pinzu3, Pinzu3, Pinzu3, Pinzu4, Pinzu4, Pinzu5, Pinzu5, Pinzu6, Pinzu6, Souzu5 });
+            //_yama.Tsumikomi(3, new Hai.eName[] { Souzu1, Souzu1, Souzu2, Souzu2, Souzu3, Souzu4, Souzu4, Souzu5, Souzu4, Souzu8, Souzu8, Souzu8, Souzu3 });
             //王牌
             _wanPai.Init(_yama);
             //ドラ
@@ -652,14 +649,6 @@ namespace server
 
                 if (_tsumo || _ron)
                 {
-                    Dictionary<string, string> nishizu = new Dictionary<string, string>();
-                    nishizu.Add("氏名", "西津裕貴");
-                    nishizu.Add("講義名", "プロジェクト科目Ⅰ");
-                    nishizu.Add("評価", "S");
-
-                    Console.WriteLine("氏名:" + nishizu["氏名"]);
-                    Console.WriteLine("講義名:" + nishizu["講義名"]);
-                    Console.WriteLine("評価:" + nishizu["評価"]);
                     g.DrawString(_tsumo ? "ツモ" : "ロン", font, Brushes.Red, new PointF(1050, _turn * 200 + 150));
                     List<Result> results = _players[_turn].Results;
                     int index = 0;

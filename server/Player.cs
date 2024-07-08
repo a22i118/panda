@@ -360,10 +360,6 @@ namespace server
             _tehai.Draw(g, _id);
             _kawa.Draw(g, _id);
             _actionCommand.Draw(g, teban);
-            //if (_tempaiCheck != null)
-            //{
-            //    _tempaiCheck.Draw(g, _id);
-            //}
             if (_richiAtariHais != null)
             {
                 int x = 300 - 48;
@@ -423,7 +419,6 @@ namespace server
         public bool IsCallPon() { return _actionCommand.IsCallPon(); }
         public bool IsCallRichi() { return _actionCommand.IsCallRichi(); }
         //public bool IsCallKyusyuKyuHai() { return _actionCommand.IsCallKyusyuKyuHai(); }
-
 
         public int SarashiCount() { return _tehai.SarashiCount(); }
         public int NakiCount() { return _tehai.NakiCount(); }

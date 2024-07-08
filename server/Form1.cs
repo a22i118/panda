@@ -8,9 +8,9 @@ namespace server
     {
         private GameManager _gameManager = new GameManager();
 
-#if false   // Socket通信のテスト
-        private Socket _socket = new Socket();
-#endif
+        // Socket通信のテスト
+        //private Socket _socket = new Socket();
+
 
         public Form1()
         {
